@@ -1,0 +1,26 @@
+{
+	"day": {
+		"times": ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"],
+		"day_cycling": [70, 20, 47, 35, 43, 65, 45, 35, 50],
+		"day_walking": [16, 32, 18, 27, 42, 33, 44, 10, 5]
+	},
+	"graf": {
+		"january": 15,
+		"february": 20,
+		"march": 18,
+		"april": 22
+
+	},
+	"daily_goals": {
+		"done": 3,
+		"not_done": 1
+	},
+	"remaining_steps": {
+		"done": 3000,
+		"not_done": 333
+	},
+	"remaining_minutes": {
+		"done": 15,
+		"not_done": 20
+	}
+}
