@@ -48,7 +48,7 @@ function waitAndDo(times/*,totalSteps*/) {
         });
 
         let id=1;
-        let steps=Math.floor(Math.random() * Math.floor(0));
+        let steps=Math.floor(Math.random() * Math.floor(5));
         console.log(steps);
         con.connect((err)=>{
             if (err) throw err;      
