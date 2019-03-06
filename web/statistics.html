@@ -39,7 +39,9 @@
                 <a class="nav-link" href="about.html">About us</a>
             </li>
         </ul>
-        <a class="nav-link" href="#">Logout</a>
+        <div class="navbar-brand" id="logName">Name</div>
+
+        <a class="nav-link" href="#" onclick="logout()" >Logout</a>
     </div>
 </nav>
 
@@ -52,23 +54,222 @@
     <div class="content">
         <div class="animated fadeIn">
             <div class="row">
-                <div class="col-lg-12">
-                    <!--bootstrap card - karta; Remaining steps -->
+                <div class="col-lg-8">
+                    <!--bootstrap card - karta; today steps high score -->
                     <div class="card">
+                        <div class="card-header">
+                            Today steps high score
+                        </div>
                         <div class="card-body">
-                            <h4 class="mb-3">Under construction</h4>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Steps</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Mark</td>
+                                    <td>11111</td>
+                                </tr>
+                                <tr>
+                                    <td>Jacob</td>
+                                    <td>123</td>
+                                </tr>
+                                <tr>
+                                    <td>Larry</td>
+                                    <td>2</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!--bootstrap card - karta; My today steps -->
+                    <div class="card">
+                        <div class="card-header">
+                            My today steps
+                        </div>
+                        <div class="card-body">
+                            5
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+
+                <div class="col-lg-8">
+                    <!--bootstrap card - karta; today move minutes high score -->
+                    <div class="card">
+                        <div class="card-header">
+                            Today move minutes high score
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Minutes</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Mark</td>
+                                    <td>123</td>
+                                </tr>
+                                <tr>
+                                    <td>Jacob</td>
+                                    <td>21</td>
+                                </tr>
+                                <tr>
+                                    <td>Larry</td>
+                                    <td>2</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!--bootstrap card - karta; My today move minutes -->
+                    <div class="card">
+                        <div class="card-header">
+                            My move minutes
+                        </div>
+                        <div class="card-body">
+                            5
                         </div>
                     </div>
                 </div>
 
-
             </div>
 
+            <div class="row mt-4">
+                <div class="col-lg-8">
+                    <!--bootstrap card - karta; today steps high score -->
+                    <div class="card">
+                        <div class="card-header">
+                            Overall steps high score
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Steps</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Mark</td>
+                                    <td>311111</td>
+                                </tr>
+                                <tr>
+                                    <td>Jacob</td>
+                                    <td>3123</td>
+                                </tr>
+                                <tr>
+                                    <td>Larry</td>
+                                    <td>32</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!--bootstrap card - karta; My today steps -->
+                    <div class="card">
+                        <div class="card-header">
+                            Overall today steps
+                        </div>
+                        <div class="card-body">
+                            5
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+
+                <div class="col-lg-8">
+                    <!--bootstrap card - karta; today move minutes high score -->
+                    <div class="card">
+                        <div class="card-header">
+                            Overall move minutes high score
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Minutes</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Mark</td>
+                                    <td>543</td>
+                                </tr>
+                                <tr>
+                                    <td>Jacob</td>
+                                    <td>123</td>
+                                </tr>
+                                <tr>
+                                    <td>Larry</td>
+                                    <td>22</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!--bootstrap card - karta; My today move minutes -->
+                    <div class="card">
+                        <div class="card-header">
+                            My overall move minutes
+                        </div>
+                        <div class="card-body">
+                            5
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div><!-- .animated -->
     </div>
     <!-- /.content -->
 </main>
+<script type="text/javascript">
+    window.onload = function() {
+        if (!localStorage.getItem('user')) {
+            window.location.replace("login.html");
+        } else {
+            let user = JSON.parse(localStorage.getItem('user'));
+            document.getElementById('logName').innerHTML = user.username;
+            console.log(user);
 
+
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('user');
+        // let req = "http://itsovy.sk:1201/logout";
+        // var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        // xhttp.open("POST", encodeURI(req), "/json-handler");
+        // // xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        // xhttp.send();
+        window.location.replace("login.html");
+
+    }
+
+
+
+</script>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

@@ -39,7 +39,9 @@
                 <a class="nav-link" href="about.html">About us</a>
             </li>
         </ul>
-        <a class="nav-link" href="#">Logout</a>
+        <div class="navbar-brand" id="logName">Name</div>
+
+        <a class="nav-link" href="#" onclick="logout()" >Logout</a>
     </div>
 </nav>
 
@@ -104,7 +106,33 @@
     </div>
     <!-- /.content -->
 </main>
+<script type="text/javascript">
+    window.onload = function() {
+        if (!localStorage.getItem('user')) {
+            window.location.replace("login.html");
+        } else {
+            let user = JSON.parse(localStorage.getItem('user'));
+            document.getElementById('logName').innerHTML = user.username;
+            console.log(user);
 
+
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('user');
+        // let req = "http://itsovy.sk:1201/logout";
+        // var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        // xhttp.open("POST", encodeURI(req), "/json-handler");
+        // // xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        // xhttp.send();
+        window.location.replace("login.html");
+
+    }
+
+
+
+</script>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
