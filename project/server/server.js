@@ -217,12 +217,12 @@ if(date<10){
   con.connect((err)=>{
     if (err) throw err;
       let sql="select time,thisSessionSteps,totalSteps from data "+
-      "INNER JOIN tokens on data.id=tokens.id "+ 
-      "INNER JOIN users on data.id=users.id "+
+      "INNER JOIN users "+ 
+      "INNER JOIN tokens on data.id=users.id=tokens.id "+
       "where users.username like '"+name+"' and "+
       "tokens.token like '"+token+"' and "+
-      "time between '2019-03-"+date+"' and '2019-03-"+date+1+"';";
-
+      "time >= '2019-03-"+date+"%';";
+      console.log(sql);
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
         let data=res;
@@ -264,10 +264,10 @@ if(date<10){
 }
 
   con.connect((err)=>{
-    if (err) throw err;
-      let sql="select username,sum(thisSessionSteps) from data "+
+    if (err) console.log(err);
+      let sql="select username,sum(thisSessionSteps) as todaysteps from data "+
       "INNER JOIN users on data.id=users.id "+
-      "where time between '2019-03-"+date+"' and '2019-03-"+(++date)+"' group by users.username;";
+      "where time >= '2019-03-"+date+"%' group by username;";
 
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
@@ -302,9 +302,9 @@ if(date<10){
 }
 
   con.connect((err)=>{
-    if (err) throw err;
+    if (err) console.log(err);
       let sql="select sum(thisSessionSteps) as sumary from data "+
-      "where time between '2019-03-"+date+"' and '2019-03-"+(++date)+"';";
+      "where time >= '2019-03-"+date+"%';";
 
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
@@ -318,7 +318,7 @@ if(date<10){
 
 //neposielame nič , naspäť príde JSON všetkych userov čo niečo niekedy prešli a ich celkovy počet krokov
 
-app.post('/alltimeusersteps',(req,res)=>{
+app.post('/alltimeuserssteps',(req,res)=>{
   
   callback=function(status,value){
     res.status(status).send(value);
@@ -340,7 +340,7 @@ if(date<10){
 }
 
   con.connect((err)=>{
-    if (err) throw err;
+    if (err) console.log(err);
       let sql="select users.username,sum(thisSessionSteps) as sum from data "+
       "INNER JOIN users on data.id=users.id group by users.username;";
 
@@ -358,7 +358,7 @@ if(date<10){
 //neposielame nič , naspäť príde JSON s počtom minút koľko dnes nachodili všetci useri
 
 app.post('/gettodayminutes',(req,res)=>{
-  
+  let pocet=0;
   callback=function(status,value){
     res.status(status).send(value);
   };
@@ -379,21 +379,174 @@ if(date<10){
 }
 
   con.connect((err)=>{
-    if (err) throw err;
-      let sql="select users.username,thisSessionSteps as sum from data "+
-      "INNER JOIN users on data.id=users.id where time between '2019-03-"+date+"' and '2019-03-"+(++date)+"';";
-      let pocet=0;
+    if (err) console.log(err);
+      let sql="select * from data where time >='2019-03-"+date+"%';";
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
-        let data=res;
-        for(let i=0;i<data.length;i++){
-          if(data[i].thisSessionSteps>0){
+        if(res.length==0){  
+        callback(403,"No one has been doing steps today");
+        }
+        else{
+        for(let i=0;i<res.length;i++){
+          if(res[i].thisSessionSteps>0){
             pocet++;
           }
         }
         let obj=new Object();
-        obj[0].minutes=pocet;
+        obj.minutes=pocet*5;
         callback(200,JSON.stringify(obj));  
+      }
+    });
+    con.end();
+  });
+});
+
+//posielame JSON obsahujuci username a token vracia JSON počtu minut jedneho usera za jeden den
+
+app.post('/getusertodayminutes',(req,res)=>{
+  let pocet=0;
+  callback=function(status,value){
+    res.status(status).send(value);
+  };
+
+  const con=mysql.createConnection({
+    host: "localhost",
+    user: "pedometer",
+    password: "160518",
+    database: "pedometer",
+    port: "3307"
+});
+
+var date = new Date().getDate();
+console.log(date);
+if(date<10){
+  date="0"+date;
+  console.log(date);
+}
+  let name=req.body.username;
+  let token=req.body.token;
+  con.connect((err)=>{
+    if (err) console.log(err);
+      let sql="select thisSessionSteps from data "+ 
+      "INNER JOIN users "+
+      "INNER JOIN tokens on data.id=users.id=tokens.id "+
+      "where users.username like '"+name+"' and "+
+      "tokens.token like '"+token+"' and "+
+      "time >='2019-03-"+date+"%';";
+      con.query(sql,(err,res)=>{
+        if (err) console.log(err);
+
+        if(res.length==0){
+          callback(403,"No one has been doing steps today"); 
+        }
+        else{
+          for(let i=0;i<res.length;i++){
+            if(res[i].thisSessionSteps>0){
+              pocet++;
+            }
+          }
+          let obj=new Object();
+          obj.minutes=pocet*5;
+          callback(200,JSON.stringify(obj)); 
+        }
+      });
+      con.end();
+  });
+});
+
+//returnne JSON celkoveho počtu minut ktory všetci spolu nachodili
+
+app.post('/getalltimeminutes',(req,res)=>{
+  let pocet=0;
+  callback=function(status,value){
+    res.status(status).send(value);
+  };
+
+  const con=mysql.createConnection({
+    host: "localhost",
+    user: "pedometer",
+    password: "160518",
+    database: "pedometer",
+    port: "3307"
+});
+
+var date = new Date().getDate();
+console.log(date);
+if(date<10){
+  date="0"+date;
+  console.log(date);
+}
+
+  con.connect((err)=>{
+    if (err) console.log(err);
+      let sql="select * from data;"
+      con.query(sql,(err,res)=>{
+        if (err) console.log(err);
+        if(res.length==0){
+          callback(403,"No one has been doing steps today");
+        }
+        else{
+          for(let i=0;i<res.length;i++){
+            if(res[i].thisSessionSteps>0){
+              pocet++;
+            }
+          }
+          let obj=new Object();
+          obj.minutes=pocet*5;
+          callback(200,JSON.stringify(obj));  
+        }
+      });
+      con.end();
+  });
+});
+
+//returnne JSON celkoveho počtu minut ktore user nachodil
+
+app.post('/getuseralltimeminutes',(req,res)=>{
+  let name=req.body.username;
+  let token=req.body.token;
+  let pocet=0;
+  callback=function(status,value){
+    res.status(status).send(value);
+  };
+
+  const con=mysql.createConnection({
+    host: "localhost",
+    user: "pedometer",
+    password: "160518",
+    database: "pedometer",
+    port: "3307"
+});
+
+var date = new Date().getDate();
+console.log(date);
+if(date<10){
+  date="0"+date;
+  console.log(date);
+}
+
+  con.connect((err)=>{
+    if (err) console.log(err);
+      let sql="select * from data "+ 
+      "INNER JOIN users "+
+      "INNER JOIN tokens on data.id=users.id=tokens.id "+
+      "where users.username like '"+name+"' and "+
+      "tokens.token like '"+token+"';";
+      con.query(sql,(err,res)=>{
+        if (err) console.log(err);
+        if(res.length==0){
+          callback(403,"Some error occured!");
+        }
+        else{
+          for(let i=0;i<res.length;i++){
+            if(res[i].thisSessionSteps>0){
+              pocet++;
+            }
+          }
+          let obj=new Object();
+          obj.minutes=pocet*5;
+          callback(200,JSON.stringify(obj)); 
+        } 
       });
       con.end();
   });
@@ -416,10 +569,10 @@ let arduinoid=req.arduinoid;
 let sessionSteps=req.sessionSteps;
 
   con.connect((err)=>{
-    if (err) throw err;
+    if (err) console.log(err);
     let sql="select id from users where arduinoid like '"+arduinoid+"';";
     con.query(sql,(err,res)=>{
-      if(err) throw err;
+      if(err) console.log(err);
       if(res.length==0){
         console.log("user with this arduinoid doesnt exists");
       }
@@ -428,7 +581,7 @@ let sessionSteps=req.sessionSteps;
         let insertSQL="INSERT INTO data(id,thisSessionSteps,totalSteps)"+
         " VALUES("+id+","+sessionSteps+",@steps);";
         con.query(insertSQL,(err)=>{
-          if(err) throw err;
+          if(err) console.log(err);
           console.log("I have inserted data to database!");
         });
       }
