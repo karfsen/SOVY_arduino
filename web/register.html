@@ -21,48 +21,66 @@
 <body>
 
 <div class="modal-dialog modal-login">
-    <div class="modal-content">
-        <div class="modal-header">
-            <!--<div class="avatar">-->
-            <!--<img src="images/avatar.png" alt="Avatar">-->
-            <!--</div>-->
-            <h4 class="modal-title">Registration</h4>
-            <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-        </div>
-        <div class="modal-body">
-            <div id="error"></div>
+    <div class="modal-content bas">
+        <div class="cnt">
+            <div class="modal-header">
+                <!--<div class="avatar">-->
+                <!--<img src="images/avatar.png" alt="Avatar">-->
+                <!--</div>-->
+                <h4 class="modal-title">Registration</h4>
+                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+            </div>
+            <div class="modal-body">
+                <div id="error"></div>
 
-            <!-- <form action="/examples/actions/confirmation.php" method="post"> -->
-            Username
-            <div class="form-group">
-                <input type="text" class="form-control" name="username" placeholder="Username" required="required"
-                       id="name">
+                <!-- <form action="/examples/actions/confirmation.php" method="post"> -->
+                Username
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username" required="required"
+                           id="name">
+                </div>
+                Password
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Password"
+                           required="required"
+                           id="password">
+                </div>
+                Repeat password
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password2" placeholder="Repeat password"
+                           required="required" id="password2">
+                </div>
+                Age
+                <div class="form-group">
+                    <input type="text" class="form-control" name="arduino" placeholder="Age" required="required"
+                           id="age">
+                </div>
+                Weigh
+                <div class="form-group">
+                    <input type="text" class="form-control" name="arduino" placeholder="Weight" required="required"
+                           id="weight">
+                </div>
+                Height
+                <div class="form-group">
+                    <input type="text" class="form-control" name="arduino" placeholder="Height" required="required"
+                           id="height">
+                </div>
+                Arduino id
+                <div class="form-group">
+                    <input type="text" class="form-control" name="arduino" placeholder="Arduino id" required="required"
+                           id="arduinoid">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block login-btn" onclick="check()">Register
+                    </button>
+                </div>
+                <!-- </form> -->
             </div>
-            Password
-            <div class="form-group">
-                <input type="password" class="form-control" name="password" placeholder="Password" required="required"
-                       id="password">
+            <div class="modal-footer">
+                <a href="login.html">Already member? Click here!</a>
             </div>
-            Repeat password
-            <div class="form-group">
-                <input type="password" class="form-control" name="password2" placeholder="Repeat password"
-                       required="required" id="password2">
-            </div>
-            Arduino id
-            <div class="form-group">
-                <input type="text" class="form-control" name="arduino" placeholder="Arduino id" required="required"
-                       id="arduinoid">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-lg btn-block login-btn" onclick="check()">Register
-                </button>
-            </div>
-            <!-- </form> -->
-        </div>
-        <div class="modal-footer">
-            <a href="login.html">Already member? Click here!</a>
-        </div>
 
+        </div>
     </div>
 </div>
 
@@ -112,11 +130,8 @@
 
                     xhttp.open("POST", encodeURI(req), "/json-handler");
                     xhttp.setRequestHeader("Content-Type", "application/json");
-                    // console.log(JSON.stringify({
-                    //     "username": name,
-                    //     "password": password,
-                    //     "arduinoid": arduinoid
-                    // }));
+
+                    //posielanie informacii z registracie na server
                     xhttp.send(JSON.stringify({
                         "username": name,
                         "password": password,

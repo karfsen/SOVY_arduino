@@ -13,7 +13,9 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/fa/css/all.css">
+
 </head>
 <body>
 
@@ -26,22 +28,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item ">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html"> <span class="fa fa-home">&nbsp;Home</span><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="dailygoals.html"><span class="fa fa-check">&nbsp;Daily goals</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="dailygoals.html">Daily goals</a>
+                <a class="nav-link" href="me.html"><span class="fa fa-user">&nbsp;Me</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="statistics.html">Statistics</a>
+                <a class="nav-link" href="statistics.html"><span class="fa fa-chart-line">&nbsp;Statistics</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="about.html">About us</a>
+                <a class="nav-link" href="about.html"><span class="fa fa-users">&nbsp;About us</span></a>
             </li>
         </ul>
         <div class="navbar-brand" id="logName">Name</div>
 
-        <a class="nav-link" href="#" onclick="logout()" >Logout</a>
+        <a class="nav-link" href="#" onclick="logout()"><span class="fa fa-sign-out-alt">&nbsp;Logout</span></a>
+
     </div>
 </nav>
 
@@ -56,9 +62,9 @@
             <div class="row">
 
                 <!--mensi stlpec-->
-                <div class="col-lg-6 mt-4">
+                <div class="col-lg-6">
                     <!--bootstrap card - karta; Daily goals completed  -->
-                    <div class="card">
+                    <div class="card m-5 rounded shadow-lg">
                         <div class="card-body">
                             <h4 class="mb-3">Daily goals </h4>
                             Here you can see how many goals you need to complete and you can set up new.
@@ -69,18 +75,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mt-4">
+                <div class="col-lg-6">
                     <!--bootstrap card - karta; Daily goals completed  -->
-                    <div class="card">
+                    <div class="card m-5 rounded shadow-lg">
                         <div class="card-body">
                             <canvas id="doughutGoals"></canvas>
                             <h4 class="mb-3">Daily goals completed </h4>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mt-4">
+                <div class="col-lg-6">
                     <!--bootstrap card - karta; Remaining steps -->
-                    <div class="card">
+                    <div class="card m-5 rounded shadow-lg">
                         <div class="card-body">
                             <!--cavas s id pre grafy chart js-->
                             <canvas id="doughutSteps"></canvas>
@@ -89,9 +95,9 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 mt-4">
+                <div class="col-lg-6">
                     <!--bootstrap card - karta; Remaining steps -->
-                    <div class="card">
+                    <div class="card m-5 rounded shadow-lg">
                         <div class="card-body">
                             <canvas id="doughutMinutes"></canvas>
                             <h4 class="mb-3">Remaining minutes </h4>
@@ -107,7 +113,9 @@
     <!-- /.content -->
 </main>
 <script type="text/javascript">
-    window.onload = function() {
+    //pri nacitani okna skontrolujeme ci je user prihlaseny
+
+    window.onload = function () {
         if (!localStorage.getItem('user')) {
             window.location.replace("login.html");
         } else {
@@ -117,7 +125,7 @@
 
 
         }
-    }
+    };
 
     function logout() {
         localStorage.removeItem('user');
@@ -129,7 +137,6 @@
         window.location.replace("login.html");
 
     }
-
 
 
 </script>

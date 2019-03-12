@@ -2,117 +2,276 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Steps login</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style type="text/css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Steps login</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--<script src="js/bootstrap.min.js"></script>-->
+    <style type="text/css">
 
-  </style>
-  <link href="css/login.css" rel="stylesheet">
+    </style>
+    <link href="css/login.css" rel="stylesheet">
+    <link href="css/test.css" rel="stylesheet">
 
 </head>
 
 <body>
-  <!--<div class="text-center">-->
-  <!--&lt;!&ndash; Button HTML (to Trigger Modal) &ndash;&gt;-->
-  <!--<a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a>-->
-  <!--</div>-->
 
-  <!-- Modal HTML -->
-  <!--<div id="myModal" class="">-->
-  <div class="modal-dialog modal-login">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="avatar">
-          <img src="images/avatar.png" alt="Avatar">
-        </div>
-        <h4 class="modal-title">Member Login</h4>
+<!--<main role="main" class="container">-->
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+<!--&lt;!&ndash;obsah stranky&ndash;&gt;-->
+<!--<div class="content">-->
+<!--&lt;!&ndash; Rotating card &ndash;&gt;-->
+<!--<div class="row">-->
+<!--<div class="col-sm-6 col-lg-4">-->
+<!--<div class="flip-card">-->
+<!--<div class="flip-card-inner">-->
+<!--<div class="flip-card-front">-->
+<!--<div class="modal-dialog modal-login">-->
+<!--<div class="modal-content">-->
+<!--<div class="modal-header">-->
+<!--<div class="avatar">-->
+<!--<img src="images/avatar.png" alt="Avatar">-->
+<!--</div>-->
+<!--<h4 class="modal-title">Member Login</h4>-->
 
 
-        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-      </div>
-      <div class="modal-body">
-        <div id="error"></div>
+<!--&lt;!&ndash;<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>&ndash;&gt;-->
+<!--</div>-->
+<!--<div class="modal-body">-->
+<!--<div id="error"></div>-->
 
-        <!-- <form method="post"> -->
-        <div class="form-group">
-          <input type="text" class="form-control" name="username" placeholder="Username" required="required" id="name">
+<!--&lt;!&ndash; <form method="post"> &ndash;&gt;-->
+<!--<div class="form-group">-->
+<!--<input type="text" class="form-control" name="username"-->
+<!--placeholder="Username" required="required"-->
+<!--id="name">-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<input type="password" class="form-control" name="password"-->
+<!--placeholder="Password" required="required"-->
+<!--id="password">-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<button type="submit" onclick="check()"-->
+<!--class="btn btn-primary btn-lg btn-block login-btn">Login-->
+<!--</button>-->
+<!--</div>-->
+<!--&lt;!&ndash; </form> &ndash;&gt;-->
+<!--</div>-->
+<!--<div class="modal-footer">-->
+<!--<a href="register.html">Not registered yet? Click here!</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash;<img src="img_avatar.png" alt="Avatar" style="width:300px;height:300px;">&ndash;&gt;-->
+<!--</div>-->
+<!--<div class="flip-card-back">-->
+<!--<div class="modal-dialog modal-login">-->
+<!--<div class="modal-content">-->
+<!--<div class="modal-header">-->
+<!--&lt;!&ndash;<div class="avatar">&ndash;&gt;-->
+<!--&lt;!&ndash;<img src="images/avatar.png" alt="Avatar">&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<h4 class="modal-title">Registration</h4>-->
+<!--&lt;!&ndash;<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>&ndash;&gt;-->
+<!--</div>-->
+<!--<div class="modal-body">-->
+<!--<div id="error"></div>-->
+
+<!--&lt;!&ndash; <form action="/examples/actions/confirmation.php" method="post"> &ndash;&gt;-->
+<!--Username-->
+<!--<div class="form-group">-->
+<!--<input type="text" class="form-control" name="username"-->
+<!--placeholder="Username" required="required"-->
+<!--id="name">-->
+<!--</div>-->
+<!--Password-->
+<!--<div class="form-group">-->
+<!--<input type="password" class="form-control" name="password"-->
+<!--placeholder="Password" required="required"-->
+<!--id="password">-->
+<!--</div>-->
+<!--Repeat password-->
+<!--<div class="form-group">-->
+<!--<input type="password" class="form-control" name="password2"-->
+<!--placeholder="Repeat password"-->
+<!--required="required" id="password2">-->
+<!--</div>-->
+<!--Arduino id-->
+<!--<div class="form-group">-->
+<!--<input type="text" class="form-control" name="arduino"-->
+<!--placeholder="Arduino id" required="required"-->
+<!--id="arduinoid">-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<button type="submit" class="btn btn-primary btn-lg btn-block login-btn"-->
+<!--onclick="check()">Register-->
+<!--</button>-->
+<!--</div>-->
+<!--&lt;!&ndash; </form> &ndash;&gt;-->
+<!--</div>-->
+<!--<div class="modal-footer">-->
+<!--<a href="login.html">Already member? Click here!</a>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash; End Card Flip &ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash; /.content &ndash;&gt;-->
+<!--</main>-->
+<!--<div class="text-center">-->
+<!--&lt;!&ndash; Button HTML (to Trigger Modal) &ndash;&gt;-->
+<!--<a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a>-->
+<!--</div>-->
+
+<!-- Modal HTML -->
+<!--<div id="myModal" class="">-->
+<div class="container-fluid">
+
+    <div class="content">
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <div class="card m-5">
+                            <div class="card-body">
+                                <!--cavas s id pre grafy chart js-->
+                                <canvas id="doughutSteps"></canvas>
+                                <h4 class="mb-3 text-whiter neon">
+                                    Use our application and we will help you to achieve good helth via water intake
+                                    calculation
+                                    and calculation of distance you should walk, for healthy body and mind.
+                                </h4>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="modal-dialog modal-login">
+                    <div class="modal-content bas">
+                        <div class="cnt">
+                            <div class="modal-header">
+                                <div class="avatar">
+                                    <img src="images/avatar.png" alt="Avatar">
+                                </div>
+                                <h4 class="modal-title">Member Login</h4>
+
+
+                                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                            </div>
+                            <div class="modal-body">
+                                <div id="error"></div>
+
+                                <!-- <form method="post"> -->
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="username" placeholder="Username"
+                                           required="required"
+                                           id="name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name="password" placeholder="Password"
+                                           required="required"
+                                           id="password">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" onclick="check()"
+                                            class="btn btn-primary btn-lg btn-block login-btn">
+                                        Login
+                                    </button>
+                                </div>
+                                <!-- </form> -->
+                            </div>
+                            <div class="modal-footer">
+                                <a href="register.html">Not registered yet? Click here!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+            </div>
         </div>
-        <div class="form-group">
-          <input type="password" class="form-control" name="password" placeholder="Password" required="required" id="password">
-        </div>
-        <div class="form-group">
-          <button type="submit" onclick="check()" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
-        </div>
-        <!-- </form> -->
-      </div>
-      <div class="modal-footer">
-        <a href="register.html">Not registered yet? Click here!</a>
-      </div>
     </div>
-  </div>
-  <script type="text/javascript">
-    document.onload = chceckIfLogged(); // ked niekto prihlaseny naraz to prehodi na stranku index
+</div>
+
+<script type="text/javascript">
+    // document.onload = chceckIfLogged(); // ked niekto prihlaseny naraz to prehodi na stranku index
 
     function check() { // kontrola mena a hesla ich hodnota
-      let name = document.getElementById("name").value;
-      let password = document.getElementById('password').value;
-      let errorDiv = document.getElementById('error');
-      errorDiv.innerHTML = " ";
-      errorDiv.style.display = "none";
+        let name = document.getElementById("name").value;
+        let password = document.getElementById('password').value;
+        let errorDiv = document.getElementById('error');
+        errorDiv.innerHTML = " ";
+        errorDiv.style.display = "none";
 
-      if (password.length <= 0) {
-        errorDiv.style.display = "block";
-        errorDiv.innerHTML = "Enter your password!"
-      } else {
-
-        if (name.length <= 0) {
-          errorDiv.style.display = "block";
-          errorDiv.innerHTML = "Enter your name!"
+        if (password.length <= 0) {
+            errorDiv.style.display = "block";
+            errorDiv.innerHTML = "Enter your password!"
         } else {
 
-
-          let req = "http://itsovy.sk:1203/login"; // ked ano tak posle to na server a odpoved sa ulozi sa do local storage ako user  ; 1 na konci vymenime na 3 aby sa pripojit na Martina server
-          var xhttp = new XMLHttpRequest(); // new HttpRequest instance
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              let obj = JSON.parse(this.responseText);
-              console.log(obj);
-              errorDiv.innerHTML = " ";
-              errorDiv.style.display = "none";
-              localStorage.setItem('user', JSON.stringify(obj));
-              window.location.replace("index.html");
+            if (name.length <= 0) {
+                errorDiv.style.display = "block";
+                errorDiv.innerHTML = "Enter your name!"
             } else {
-              errorDiv.style.display = "block";
-              errorDiv.innerHTML = "Name or password not correct!"
-            }
 
-          }
-          xhttp.open("POST", encodeURI(req), "/json-handler");
-          xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-          xhttp.send(JSON.stringify({
-            "username": name, // login => username
-            "password": password
-          }));
+
+                let req = "http://itsovy.sk:1203/login"; // ked ano tak posle to na server a odpoved sa ulozi sa do local storage ako user  ; 1 na konci vymenime na 3 aby sa pripojit na Martina server
+                var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let obj = JSON.parse(this.responseText);
+                        console.log(obj);
+                        errorDiv.innerHTML = " ";
+                        errorDiv.style.display = "none";
+                        //ked prisla odpoved z api tak ukladam do localstorage
+                        localStorage.setItem('user', JSON.stringify(obj));
+                        window.location.replace("index.html");
+                    } else {
+                        errorDiv.style.display = "block";
+                        errorDiv.innerHTML = "Name or password not correct!"
+                    }
+
+                }
+                xhttp.open("POST", encodeURI(req), "/json-handler");
+                xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                //posielanie zadaneho mene a hesla na api
+                xhttp.send(JSON.stringify({
+                    "username": name, // login => username
+                    "password": password
+                }));
+            }
         }
-      }
-      console.log(name, password);
+        console.log(name, password);
     }
 
     function chceckIfLogged() {
-      if (localStorage.getItem('user')) {
-        window.location.replace("index.html");
-      }
+        if (localStorage.getItem('user')) {
+            window.location.replace("index.html");
+        }
     }
-  </script>
+</script>
 
-  <!--</div>-->
+<!--</div>-->
 </body>
 
 </html>

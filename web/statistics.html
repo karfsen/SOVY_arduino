@@ -12,8 +12,9 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/fa/css/all.css">
+
 </head>
 <body>
 
@@ -26,22 +27,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html"> <span class="fa fa-home">&nbsp;Home</span><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dailygoals.html"><span class="fa fa-check">&nbsp;Daily goals</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="me.html"><span class="fa fa-user">&nbsp;Me</span></a>
+            </li>
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="statistics.html"><span class="fa fa-chart-line">&nbsp;Statistics</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="dailygoals.html">Daily goals</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="statistics.html">Statistics</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="about.html">About us</a>
+                <a class="nav-link" href="about.html"><span class="fa fa-users">&nbsp;About us</span></a>
             </li>
         </ul>
         <div class="navbar-brand" id="logName">Name</div>
 
-        <a class="nav-link" href="#" onclick="logout()" >Logout</a>
+        <a class="nav-link" href="#" onclick="logout()"><span class="fa fa-sign-out-alt">&nbsp;Logout</span></a>
+
     </div>
 </nav>
 
@@ -54,9 +59,12 @@
     <div class="content">
         <div class="animated fadeIn">
             <div class="row">
+                <div id="error"></div>
+            </div>
+            <div class="row">
                 <div class="col-lg-8">
                     <!--bootstrap card - karta; today steps high score -->
-                    <div class="card">
+                    <div class="card m-5 rounded shadow-lg">
                         <div class="card-header">
                             Today steps high score
                         </div>
@@ -85,24 +93,8 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <!--bootstrap card - karta; My today steps -->
-                    <div class="card">
-                        <div class="card-header">
-                            My today steps
-                        </div>
-                        <div class="card-body">
-                            5
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-
-                <div class="col-lg-8">
                     <!--bootstrap card - karta; today move minutes high score -->
-                    <div class="card">
+                    <div class="card  m-5 rounded shadow-lg">
                         <div class="card-header">
                             Today move minutes high score
                         </div>
@@ -131,25 +123,8 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <!--bootstrap card - karta; My today move minutes -->
-                    <div class="card">
-                        <div class="card-header">
-                            My move minutes
-                        </div>
-                        <div class="card-body">
-                            5
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-lg-8">
                     <!--bootstrap card - karta; today steps high score -->
-                    <div class="card">
+                    <div class="card   m-5 rounded shadow-lg">
                         <div class="card-header">
                             Overall steps high score
                         </div>
@@ -178,25 +153,8 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <!--bootstrap card - karta; My today steps -->
-                    <div class="card">
-                        <div class="card-header">
-                            Overall today steps
-                        </div>
-                        <div class="card-body">
-                            5
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4">
-
-                <div class="col-lg-8">
                     <!--bootstrap card - karta; today move minutes high score -->
-                    <div class="card">
+                    <div class="card  m-5 rounded shadow-lg">
                         <div class="card-header">
                             Overall move minutes high score
                         </div>
@@ -227,24 +185,83 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
+                    <!--bootstrap card - karta; My today steps -->
+                    <div class="card  m-5 rounded shadow-lg">
+                        <div class="card-header">
+                            My today steps
+                        </div>
+                        <div class="card-body" id="my_today_steps">
+
+                        </div>
+                    </div>
+                    <!--bootstrap card - karta; All today steps -->
+                    <div class="card  m-5 rounded shadow-lg">
+                        <div class="card-header">
+                            All today steps
+                        </div>
+                        <div class="card-body" id="all_today_steps">
+
+                        </div>
+                    </div>
+                    <div class="card  m-5 rounded shadow-lg">
+                        <div class="card-header">
+                            Overall today steps
+                        </div>
+                        <div class="card-body">
+
+                        </div>
+                    </div>
                     <!--bootstrap card - karta; My today move minutes -->
-                    <div class="card">
+
+                    <div class="card  m-5 rounded shadow-lg">
+                        <div class="card-header">
+                            My move minutes
+                        </div>
+                        <div class="card-body" id="my_today_minutes">
+                        </div>
+                    </div>
+                    <!--bootstrap card - karta; My today steps -->
+
+                    <div class="card  m-5 rounded shadow-lg">
+                        <div class="card-header">
+                            Overall today move minutes
+                        </div>
+                        <div class="card-body" id="overall_today_move_minutes">
+
+                        </div>
+                    </div>
+                    <!--bootstrap card - karta; My overall move minutes -->
+                    <div class="card  m-5 rounded shadow-lg">
                         <div class="card-header">
                             My overall move minutes
                         </div>
-                        <div class="card-body">
-                            5
+                        <div class="card-body" id="user_overall_move_minutes">
+
+                        </div>
+                    </div>
+                    <!--bootstrap card - karta; My overall move minutes -->
+                    <div class="card  m-5 rounded shadow-lg">
+                        <div class="card-header">
+                            All users overall move minutes
+                        </div>
+                        <div class="card-body" id="all_users_overall_move_minutes">
+
                         </div>
                     </div>
                 </div>
 
+
             </div>
-        </div><!-- .animated -->
-    </div>
+        </div>
+    </div><!-- .animated -->
     <!-- /.content -->
 </main>
 <script type="text/javascript">
-    window.onload = function() {
+    //pri nacitani okna skontrolujeme ci je user prihlaseny. este nastavime today steps pre usera,
+    // today minutes pre usera, today minutes pre vsetkych, celkove minuty pre vsetkych, celkove minuty pre usera
+    //za zvyskom cakame na api
+
+    window.onload = function () {
         if (!localStorage.getItem('user')) {
             window.location.replace("login.html");
         } else {
@@ -254,7 +271,13 @@
 
 
         }
-    }
+        getTodaySteps();
+        // getAllUsersTodaSteps();
+        getTodayMinutes();
+        getUserTodayMinutes();
+        getAllUsersOverallMoveMinutes();
+        getUsersOverallMoveMinutes();
+    };
 
     function logout() {
         localStorage.removeItem('user');
@@ -265,6 +288,163 @@
         // xhttp.send();
         window.location.replace("login.html");
 
+    }
+    //ziskanie dnesnych krokov usera
+    function getTodaySteps() {
+        let data = document.getElementById("my_today_steps");
+
+
+        let req = "http://itsovy.sk:1203/todaysteps";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    jsonData += obj2.thisSessionSteps;
+                    // console.log(obj2.thisSessionSteps);
+                }
+                data.innerHTML = jsonData;
+
+            } else {
+                //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                data.innerHTML = this.responseText.split("/")[0];
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting today steps!";
+                }
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send(localStorage.getItem('user'));
+    }
+
+    //ziskanie krokov pre vsetkych userov za cely cas
+    function getAllUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
+        let data = document.getElementById("all_users_overall_move_minutes");
+
+
+        let req = "http://itsovy.sk:1203/getalltimeminutes";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                // console.log(obj);
+                data.innerHTML = obj.minutes;
+
+            } else {
+                data.innerHTML = this.responseText;
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting all users overall minutes!";
+                }
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send(localStorage.getItem('user'));
+    }
+
+
+    //ziskanie krokov pre usera za cely cas
+    function getUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
+        let data = document.getElementById("user_overall_move_minutes");
+
+
+        let req = "http://itsovy.sk:1203/getuseralltimeminutes";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            // console.log("in");
+            // console.log("status: " + this.status);
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                // console.log(obj);
+                data.innerHTML = obj.minutes;
+
+            } else {
+                // console.log("errr");
+                let obj = JSON.parse(this.responseText);
+                // console.log(obj);
+                if (obj) {
+                    data.innerHTML = obj.minutes;
+                } else {
+                    data.innerHTML = this.responseText;
+                }
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting all users overall minutes!";
+                }
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send(localStorage.getItem('user'));
+    }
+
+    //ziskanie krokov pre usera za dnes
+    function getUserTodayMinutes() { // kontrola mena a hesla ich hodnota
+        let data = document.getElementById("my_today_minutes");
+
+
+        let req = "http://itsovy.sk:1203/getusertodayminutes";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            console.log("in");
+            console.log("status: " + this.status);
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                // console.log(obj);
+                let jsonData = 0;
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    jsonData += obj2.thisSessionSteps;
+                    // console.log(obj2.thisSessionSteps);
+                }
+                data.innerHTML = jsonData;
+
+            } else {
+                // console.log("errr");
+                console.log(this.responseText);
+                data.innerHTML = this.responseText;
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting today minutes!";
+                }
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send(localStorage.getItem('user'));
+    }
+
+    //ziskanie krokov pre vsetkych userov za cely cas
+    function getTodayMinutes() {
+        let data = document.getElementById("overall_today_move_minutes");
+
+        let req = "http://itsovy.sk:1203/gettodayminutes";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                console.log(obj);
+                data.innerHTML = obj.minutes;
+
+            } else {
+                data.innerHTML = this.responseText;
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //poslanie poziadavky na api
+        xhttp.send();
     }
 
 

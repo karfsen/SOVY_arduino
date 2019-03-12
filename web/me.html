@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Project walk</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/fa/css/all.css">
+
+</head>
+<body>
+
+<!--bootstrap navigacny panel-->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Project walk</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html"> <span class="fa fa-home">&nbsp;Home</span><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dailygoals.html"><span class="fa fa-check">&nbsp;Daily goals</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="me.html"><span class="fa fa-user">&nbsp;Me</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="statistics.html"><span class="fa fa-chart-line">&nbsp;Statistics</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="about.html"><span class="fa fa-users">&nbsp;About us</span></a>
+            </li>
+        </ul>
+        <div class="navbar-brand" id="logName">Name</div>
+
+        <a class="nav-link" href="#" onclick="logout()"><span class="fa fa-sign-out-alt">&nbsp;Logout</span></a>
+
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--obsah stranky-->
+    <div class="content">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card m-5 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Weight </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <h1 class="" id="weight"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card m-5 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Height </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <h1 class="" id="height"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card m-5 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Age </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <h1 class="" id="age"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4"></div>
+            </div>
+            <div class="row">
+
+                <!--mensi stlpec-->
+                <div class="col-lg-6 mt-4">
+                    <!--bootstrap card - karta; Daily goals completed  -->
+                    <div class="card m-5 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">BMI </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    Your BMI index is
+                                </div>
+                                <div class="col-auto">
+                                    <h1 class="" id="bmi"></h1>
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 15%"
+                                     aria-valuenow="15"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-secondary" role="progressbar" style="width: 15%"
+                                     aria-valuenow="15"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 15%"
+                                     aria-valuenow="15"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 15%"
+                                     aria-valuenow="15"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-dark" role="progressbar" style="width: 25%"
+                                     aria-valuenow="15"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-4">
+                    <!--bootstrap card - karta; Daily goals completed  -->
+                    <div class="card m-5 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Water intake </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    Your have already drinked
+                                </div>
+                                <div class="col-auto">
+                                    <h1 class="" id="drinked"></h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    Your have should drink
+                                </div>
+                                <div class="col-auto">
+                                    <h1 class="" id="shouldDrink"></h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    Remail to drink
+                                </div>
+                                <div class="col-auto">
+                                    <h1 class="" id="remainToDrink"></h1>
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0"
+                                     aria-valuemin="0" aria-valuemax="100" id="waterProgress"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div><!-- .animated -->
+    </div>
+    <!-- /.content -->
+</main>
+<script type="text/javascript">
+    //pri nacitani okna skontrolujeme ci je user prihlaseny. este nastavime bmi water intake, weight, height, age
+
+    window.onload = function () {
+        if (!localStorage.getItem('user')) {
+            window.location.replace("login.html");
+        } else {
+            let user = JSON.parse(localStorage.getItem('user'));
+            document.getElementById('logName').innerHTML = user.username;
+            console.log(user);
+
+
+        }
+        //zatial su tu cisla rucne napisane, cakam na api
+        setBMI(100, 180);
+        setWaterIntake(91, 250);
+        setWeight(89);
+        setHeight(180);
+        setAge(21);
+    };
+
+    //funkcia na vypocet BMI z vahy a vysky
+    function calculateBMI(weight, height) {
+        let BMI = weight / ((height / 100) * (height / 100));
+        console.log(height * height);
+        return BMI;
+    }
+
+    //nastavenie BMI do stranky
+    function setBMI(height, weight) {
+        let data = document.getElementById("bmi");
+        let bmi = calculateBMI(height, weight);
+        data.innerHTML = bmi.toFixed(2);
+        //nastavenie farby cisla pre BMI podla hodnoty BMI
+        if (bmi < 18.5) {
+            data.classList.add('text-primary');
+        }
+        if (bmi >= 18.5 && bmi < 25) {
+            data.classList.add('text-success');
+        }
+        if (bmi >= 25 && bmi < 30) {
+            data.classList.add('text-secondary');
+        }
+        if (bmi >= 30 && bmi < 35) {
+            data.classList.add('text-warning');
+        }
+        if (bmi >= 35 && bmi < 40) {
+            data.classList.add('text-danger');
+        }
+        if (bmi >= 40) {
+            data.classList.add('text-dark');
+        }
+
+
+    }
+
+    //nastavenie water intake hodnot do stranky
+    function setWaterIntake(weight, alreadyDrinked) {
+        let drinked = document.getElementById("drinked");
+        let remain = document.getElementById("remainToDrink");
+        let should = document.getElementById("shouldDrink");
+        let progress = document.getElementById("waterProgress");
+        //vypocitanie kolko treba vypit vody; na 10kg 300ml vody
+        let n = weight / 10;
+        n *= 300;
+
+        //nastavenie kolko uz bolo vypite
+        drinked.innerHTML = alreadyDrinked + "ml";
+        //nastavenie kolko treba vypit
+        should.innerHTML = n + "ml";
+        //nastavenie kolko este treba vypit
+        remain.innerHTML = n - alreadyDrinked + "ml";
+        let r = alreadyDrinked / (n / 100);
+        progress.style.width = r.toFixed(2) + "%";
+    }
+
+    //nastavenie hmotnosti do stranky
+    function setWeight(weight) {
+        let field = document.getElementById("weight");
+        field.innerHTML = weight;
+    }
+
+    //nastavenie vysky do stranky
+    function setHeight(height) {
+        let field = document.getElementById("height");
+        field.innerHTML = height;
+    }
+
+    //nastavenie veku do stranky
+    function setAge(age) {
+        let field = document.getElementById("age");
+        field.innerHTML = age;
+    }
+
+
+    function logout() {
+        localStorage.removeItem('user');
+        // let req = "http://itsovy.sk:1201/logout";
+        // var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        // xhttp.open("POST", encodeURI(req), "/json-handler");
+        // // xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        // xhttp.send();
+        window.location.replace("login.html");
+
+    }
+
+
+</script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/Chart.bundle.min.js"></script>
+<script src="js/charts_daily.js"></script>
+
+</body>
+
+
+</html>

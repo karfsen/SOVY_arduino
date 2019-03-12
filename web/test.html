@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Project walk</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/test.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!--bootstrap navigacny panel-->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Project walk</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dailygoals.html">Daily goals</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="statistics.html">Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="about.html">About us</a>
+            </li>
+        </ul>
+        <div class="navbar-brand" id="logName">Name</div>
+
+        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--obsah stranky-->
+    <div class="content">
+        <!-- Rotating card -->
+        <div class="row">
+            <div class="col-sm-6 col-lg-4">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="img_avatar.png" alt="Avatar" style="width:300px;height:300px;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h1>John Doe</h1>
+                            <p>Architect & Engineer</p>
+                            <p>We love that guy</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Card Flip -->
+            </div>
+        </div>
+    </div>
+    <!-- /.content -->
+</main>
+<script type="text/javascript">
+    window.onload = function () {
+        if (!localStorage.getItem('user')) {
+            window.location.replace("login.html");
+        } else {
+            let user = JSON.parse(localStorage.getItem('user'));
+            document.getElementById('logName').innerHTML = user.username;
+            console.log(user);
+
+
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('user');
+        // let req = "http://itsovy.sk:1201/logout";
+        // var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        // xhttp.open("POST", encodeURI(req), "/json-handler");
+        // // xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        // xhttp.send();
+        window.location.replace("login.html");
+
+    }
+
+
+</script>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/Chart.bundle.min.js"></script>
+<script src="js/charts.js"></script>
+
+</body>
+
+
+</html>
