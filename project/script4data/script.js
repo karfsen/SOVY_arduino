@@ -5,10 +5,8 @@ const mysql = require('mysql');
 waitAndDo();
 
 let totalSteps=19128;
-function waitAndDo(times/*,totalSteps*/) {
-    if(times < 1) {
-      return;
-    }
+function waitAndDo() {
+    
     setTimeout(()=> {
 
         const con=mysql.createConnection({
@@ -26,16 +24,16 @@ function waitAndDo(times/*,totalSteps*/) {
             if (err) throw err;      
             console.log("connected");
             totalSteps=totalSteps+steps;
-            let sql="INSERT INTO data(id,thisSessionSteps,totalSteps) "+
+            let sql="INSERT INTO data(id,thisSessionSteps) "+
             "VALUES("+id+","+steps+","+totalSteps+");";
             console.log(sql);
             con.query(sql,(err,res)=>{
                 if (err) throw err;
-                console.log("Data inserted into database:"+id+" "+steps+" "+totalSteps);
+                console.log("Data inserted into database:"+id+" "+steps);
             });
             con.end();
         });
-    waitAndDo(times+1);
+    waitAndDo();
     }, 
     300000);
   }
