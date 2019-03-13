@@ -28,24 +28,28 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="index.html"> <span class="fa fa-home">&nbsp;Home</span><span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html"> <span class="fa fa-home"></span><span>&nbsp;Home</span><span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="dailygoals.html"><span class="fa fa-check">&nbsp;Daily goals</span></a>
+                <a class="nav-link" href="dailygoals.html"><span
+                        class="fa fa-check"></span><span>&nbsp;Daily goals</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="me.html"><span class="fa fa-user">&nbsp;Me</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="statistics.html"><span class="fa fa-chart-line">&nbsp;Statistics</span></a>
+                <a class="nav-link" href="me.html"><span class="fa fa-user"></span><span>&nbsp;Me</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="about.html"><span class="fa fa-users">&nbsp;About us</span></a>
+                <a class="nav-link active" href="statistics.html"><span
+                        class="fa fa-chart-line"></span><span>&nbsp;Statistics</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="about.html"><span class="fa fa-users"></span><span>&nbsp;About us</span></a>
             </li>
         </ul>
         <div class="navbar-brand" id="logName">Name</div>
 
-        <a class="nav-link" href="#" onclick="logout()"><span class="fa fa-sign-out-alt">&nbsp;Logout</span></a>
+        <a class="nav-link" href="#" onclick="logout()"><span
+                class="fa fa-sign-out-alt"></span><span>&nbsp;Logout</span></a>
 
     </div>
 </nav>
@@ -205,7 +209,15 @@
                     </div>
                     <div class="card  m-5 rounded shadow-lg">
                         <div class="card-header">
-                            Overall today steps
+                            My overall steps
+                        </div>
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                    <div class="card  m-5 rounded shadow-lg">
+                        <div class="card-header">
+                            Overall steps for everyone
                         </div>
                         <div class="card-body">
 
@@ -289,6 +301,7 @@
         window.location.replace("login.html");
 
     }
+
     //ziskanie dnesnych krokov usera
     function getTodaySteps() {
         let data = document.getElementById("my_today_steps");
@@ -446,7 +459,6 @@
         //poslanie poziadavky na api
         xhttp.send();
     }
-
 
 
 </script>

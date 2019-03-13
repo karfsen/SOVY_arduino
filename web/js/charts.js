@@ -40,7 +40,8 @@
                             borderWidth: "1",
                             backgroundColor: "rgba(0, 194, 146,0.1)",
                             // data: [70, 20, 47, 35, 43, 65, 45, 35, 50]
-                            data: cycling
+                            data: cycling,
+                            lineTension: 0
                         }
                     ]
                 },

@@ -1,5 +1,49 @@
-body{
-    background: #9fcdff;
+/*body{*/
+/*background: #9fcdff;*/
+/*}*/
+
+body {
+    -webkit-animation: background 15s cubic-bezier(1, 0, 0, 1) infinite;
+    animation: background 15s cubic-bezier(1, 0, 0, 1) infinite;
+
+    font-family: 'Open Sans', sans-serif;
+
+}
+
+@-webkit-keyframes background {
+    0% {
+        background-color: #f5e2bd;
+    }
+    25% {
+        background-color: #c3d6ae;
+    }
+    50% {
+        background-color: #7fb7b5;
+    }
+    75% {
+        background-color: #f7d988;
+    }
+    100% {
+        background-color: #c7bebe;
+    }
+}
+
+@keyframes background {
+    0% {
+        background-color: #f5e2bd;
+    }
+    25% {
+        background-color: #c3d6ae;
+    }
+    50% {
+        background-color: #7fb7b5;
+    }
+    75% {
+        background-color: #f7d988;
+    }
+    100% {
+        background-color: #c7bebe;
+    }
 }
 
 .rounded {
