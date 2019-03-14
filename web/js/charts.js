@@ -12,12 +12,13 @@
             var json_data = JSON.parse(xhttpSteps.responseText);
             let steps = [];
             let times = [];
+            console.log("jd: " + json_data);
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
                 waterIntage.push(obj2.todaysteps);
                 times.push(i + 1);
             }
-            console.log("json:"+json_data);
+            console.log("json:" + json_data);
             console.log(steps);
             console.log(times);
             var ctx = document.getElementById("lineSteps"); // vlozenie grafu do id lineDaily
@@ -56,8 +57,8 @@
             });
 
 
-        }else {
-            document.getElementById("lineSteps").innerHTML="Error getting data!";
+        } else {
+            document.getElementById("lineSteps").innerHTML = "Error getting data!";
         }
     };
 

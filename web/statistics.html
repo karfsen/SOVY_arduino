@@ -297,7 +297,7 @@
                 for (var i = 0; i < obj.length; i++) {
                     var obj2 = obj[i];
                     if (obj2.username == username) {
-                        jsonData = obj2.thisSessionSteps;
+                        jsonData = obj2.sum;
                     }
                     // console.log(obj2.thisSessionSteps);
                 }
@@ -331,7 +331,9 @@
                 let jsonData = 0;
                 for (var i = 0; i < obj.length; i++) {
                     var obj2 = obj[i];
-                    jsonData = obj2.steps;
+                    if(obj2.sumary!=null){
+                        jsonData = obj2.sumary;
+                    }
                     // console.log(obj2.thisSessionSteps);
                 }
                 data.innerHTML = jsonData;
@@ -365,7 +367,7 @@
                 //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
                 for (var i = 0; i < obj.length; i++) {
                     var obj2 = obj[i];
-                    jsonData = obj2.thisSessionSteps;
+                    jsonData = obj2.sum;
                     // console.log(obj2.thisSessionSteps);
                 }
                 data.innerHTML = jsonData;
