@@ -9,19 +9,30 @@
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
             var json_data = JSON.parse(xhttpSteps.responseText);
-            let d = [];
+            let weights = [];
             let times = [];
             let z = 1;
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
+                console.log(obj2);
+
                 if (obj2.weight) {
-                    d.push(obj2.weight);
-                    times.push(z);
+                    weights.push(obj2.weight);
                     z++;
+                    let whole = obj2.time.split(' ');
+                    let d = whole[0].split(".");
+                    let t = whole[1].split(":");
+                    let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                    console.log(d);
+                    console.log(t);
+                    console.log(date.toLocaleTimeString());
+                    times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }
             var ctx = document.getElementById("lineWeight"); // vlozenie grafu do id lineDaily
-            ctx.height = 350;
+            ctx.height = 550;
+            // ctx.width = 1000;
+
 
             var myChart = new Chart(ctx, {
                 type: 'line',
@@ -35,7 +46,7 @@
                             borderWidth: "1",
                             backgroundColor: "rgba(193, 0, 0, 0.5)",
                             pointHighlightStroke: "rgba(26,179,148,1)",
-                            data: d,
+                            data: weights,
                             lineTension: 0
 
                         }
@@ -43,6 +54,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     tooltips: {
                         mode: 'index',
                         intersect: false
@@ -77,7 +89,8 @@
             let times = [];
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
-                console.log(obj2);
+
+                // console.log(obj2);
                 waterIntage.push(obj2.mlOfWater);
                 times.push(i + 1);
             }
