@@ -207,10 +207,39 @@
                     <div class="card m-5 rounded shadow-lg">
                         <div class="card-body">
                             <h4 class="mb-3 text-primary">Drink </h4>
+                            How many you drink (ml)
                             <div class="row">
                                 <div class="col-auto">
-                                    <input type="number" class="" id="drink_number"></input> <span
-                                        class="fa fa-check"></span>
+                                    <input type="number" class="" id="drinkInput"></input>
+                                    <span class="fa fa-save" onclick="saveDrink()"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 mt-4">
+                    <div class="card m-5 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Change password </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <div class="row" id="passwordText">
+
+                                    </div>
+                                    <div class="row">
+                                        Enter old password
+                                    </div>
+                                    <div class="row">
+                                        <input type="password" class="" id="oldPassword"></input>
+                                    </div>
+                                    <div class="row">
+                                        Enter new password
+                                    </div>
+                                    <div class="row">
+
+                                        <input type="password" class="" id="newPassword"></input>
+                                    </div>
+                                    <span class="fa fa-save" onclick="changePassword()"></span>
                                 </div>
                             </div>
                         </div>
@@ -408,17 +437,17 @@
         icon.setAttribute("onClick", "edit(\'" + type + "\')");
     }
 
+
     function saveInfo(info, value) {
         let req = "http://itsovy.sk:1203/setuserinfo";
         var xhttp = new XMLHttpRequest(); // new HttpRequest instance
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                // console.log(this.status);
-                // console.log(this.responseText);
-
+                location.reload();
+                console.log("vsio ok");
             } else {
-                // console.log(this.status);
-                // console.log(this.responseText);
+                console.log("zle");
+                console.log(this.status);
             }
 
         };
@@ -426,7 +455,7 @@
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         let json = JSON.parse(localStorage.getItem('user'));
         json[info] = value;
-        // console.log(JSON.stringify(json));
+        console.log(JSON.stringify(json));
         xhttp.send(JSON.stringify(json));
     }
 
@@ -441,7 +470,7 @@
                 for (var i = obj.length - 1; i >= 0; i--) {
                     var obj2 = obj[i];
                     // console.log(obj2[type]);
-                    if (!(obj2[type] == null)) {
+                    if (!(obj2[type] == null) && jsonData == null) {
                         jsonData = obj2[type];
                     }
 
@@ -477,10 +506,10 @@
                 let height = null;
                 for (var i = obj.length - 1; i >= 0; i--) {
                     var obj2 = obj[i];
-                    if (!(obj2.weight == null)) {
+                    if (!(obj2.weight == null) && weight == null) {
                         weight = obj2.weight;
                     }
-                    if (!(obj2.height == null)) {
+                    if (!(obj2.height == null) && height == null) {
                         height = obj2.height;
                     }
 
@@ -526,7 +555,7 @@
                         let weight = null;
                         for (var i = obj.length - 1; i >= 0; i--) {
                             var obj2 = obj[i];
-                            if (!(obj2.weight == null)) {
+                            if (!(obj2.weight == null) && weight == null) {
                                 weight = obj2.weight;
                             }
 
@@ -557,6 +586,56 @@
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(localStorage.getItem('user'));
     }
+
+    function saveDrink() {
+        let req = "http://itsovy.sk:1203/drink";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        let drink = document.getElementById("drinkInput");
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                location.reload();
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        let json = JSON.parse(localStorage.getItem('user'));
+        json["water"] = drink.value;
+        console.log(JSON.stringify(json));
+        xhttp.send(JSON.stringify(json));
+    }
+
+    function changePassword() {
+        let req = "http://itsovy.sk:1203/changePassword";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        let oldPassword = document.getElementById("oldPassword");
+        let newPassword = document.getElementById("newPassword");
+        let passwordText = document.getElementById("passwordText");
+        if (newPassword.value < 5 || newPassword.value > 10) {
+            passwordText.innerHTML = "Enter password! (5 - 10 characters long)";
+            console.log("zle heslo");
+            return;
+        }
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                passwordText.innerHTML = "Password changed!";
+            } else {
+                passwordText.innerHTML = this.responseText;
+                if (this.status == 0) {
+                    passwordText.innerHTML = "Error changing password try later!";
+                }
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        let json = JSON.parse(localStorage.getItem('user'));
+        json["oldpassword"] = oldPassword.value;
+        json["newpassword"] = newPassword.value;
+        console.log(JSON.stringify(json));
+        xhttp.send(JSON.stringify(json));
+    }
+
 
     // function sav() { // kontrola mena a hesla ich hodnota
     //
