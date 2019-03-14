@@ -4,7 +4,6 @@ const mysql = require('mysql');
 
 waitAndDo();
 
-let totalSteps=19128;
 function waitAndDo() {
     
     setTimeout(()=> {
@@ -17,15 +16,14 @@ function waitAndDo() {
             port: "3307"
         });
 
-        let id=1;
+        let id=3;
         let steps=Math.floor(Math.random() * Math.floor(150));
         console.log(steps);
         con.connect((err)=>{
             if (err) throw err;      
             console.log("connected");
-            totalSteps=totalSteps+steps;
             let sql="INSERT INTO data(id,thisSessionSteps) "+
-            "VALUES("+id+","+steps+","+totalSteps+");";
+            "VALUES("+id+","+steps+");";
             console.log(sql);
             con.query(sql,(err,res)=>{
                 if (err) throw err;

@@ -15,7 +15,7 @@ app.use(cors());
 
 //Tu je registracia užívateľa , je to viacmenej na 100% hotove
 
-app.post('/register',(req,res,callback)=>{
+app.post('/register',(req,res,callbackR)=>{
 console.log("Request on /register");
 let end=0;
 //callback asynchronnej funkcie
@@ -50,7 +50,7 @@ let con=mysql.createConnection({
         else{
         con.query("SELECT id FROM users WHERE username like '"+req.body.username+"';",(err,res)=>{
           if(err) console.log(err);
-          if(res.length==""){
+          if(res.length==0){
             callbackR(401,"Error"); 
           }
           else{
@@ -69,13 +69,12 @@ let con=mysql.createConnection({
         });
       }
     });
-    con.end();
   });
 });
 
 //posielame JSON username password ak je spravny returnne JSON s username a token
 
-app.post('/login',(req,res,callback)=>{
+app.post('/login',(req,res,callbackL)=>{
   console.log("Request on /login");
 
   callbackL=function(status,value){
@@ -132,14 +131,14 @@ app.post('/login',(req,res,callback)=>{
           });
           callbackL(200,JSON.stringify(obj));
         }
+        con.end();
       });
-      con.end();
     }); 
   });
 
 //posielame json v ktorom je username a token , ak je spravny nereturnne nič iba 200 kod a hlašku logged off
 
-  app.post('/logout',(req,res,callback)=>{
+  app.post('/logout',(req,res,callbackout)=>{
     console.log("Request on /logout");
 
     callbackout=function(status,value){
@@ -191,14 +190,75 @@ app.post('/login',(req,res,callback)=>{
             });
             callbackout(200,JSON.stringify("Successfully logged off!"));
           }
+          con.end();
         });
-        con.end();
       }); 
     });
 
+//request na ktory posielame JSON username  token old password new password
+
+app.post('/changepassword',(req,res,callbackchpw)=>{
+  console.log("Request on /changepassword");
+
+  callbackchpw=function(status,value){
+    res.status(status).send(value);
+  };
+
+
+  let con=mysql.createConnection({
+    host: "localhost",
+    user: "pedometer",
+    password: "160518",
+    database: "pedometer",
+    port: "3307"
+});
+
+  let name=req.body.username;
+  let token=req.body.token;
+  let oldpw=req.body.oldpassword;
+  let newpw=req.body.newpassword;
+    //console.log(req.body.meno);
+    //console.log(req.body.pass);
+    //console.log(JSON.stringify(data));
+
+    con.connect((err)=>{
+      
+      if (err) console.log(err);      
+      //console.log("connected");
+      
+      let sql="SELECT * FROM users "+
+      "INNER JOIN tokens on users.id=tokens.id "+
+      "WHERE users.username like '"+name+"' "+
+      "and tokens.token like '"+token+"' "+
+      "and users.password like '"+oldpw+"';";
+      //console.log(sql);
+
+      con.query(sql,(err,res)=>{
+        if(err) console.log(err);
+       
+        if(res.length==0){
+          console.log("User: "+name+" with token: "+token+" is not logged in");
+          callbackchpw(401,"Wrong inputs");
+        }
+        else{
+          console.log("User: "+name+" with token: "+token+" is logged and using");
+          //console.log(res);
+          //console.log(id);
+          let newpwSQL="UPDATE users set password='"+newpw+"' WHERE username like '"+name+"';";
+          //console.log(tokenSQL);
+          con.query(newpwSQL,(err)=>{
+            if(err) console.log(err);
+          });
+          callbackchpw(200,JSON.stringify("Successfully changed password!"));
+        }
+        con.end();
+      });
+    }); 
+  });
+
 //request na ktory posielame JSON NAPR{"username":"xxx","token":"dafds664fd5s67f8sdf"} vrati sa počet dnešných krokov prihlaseneho usera
 
-app.post('/todaysteps',(req,res)=>{
+app.post('/todaysteps',(req,res,callbacktds)=>{
   console.log("Request on /todaysteps");
 
   callbacktds=function(status,value){
@@ -222,33 +282,35 @@ console.log(date);
   let token=req.body.token;
   con.connect((err)=>{
     if (err) console.log(err);
-      let sql="select time,thisSessionSteps from data "+
+      let sql="select (DATE_FORMAT(time, '%d.%m.%Y %h:%i')) as time,thisSessionSteps as steps from data "+
       "INNER JOIN users "+ 
       "INNER JOIN tokens on data.id=users.id=tokens.id "+
       "where users.username like '"+name+"' and "+
       "tokens.token like '"+token+"' and "+
-      "time >= '2019-03-"+date+"%';";
+      "time >= '2019-03-"+date+" 00:00:00';";
       //console.log(sql);
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
         //console.log(res);
 
         if(res.length==0){
-          callbacktds(403,"User doesnt have steps in last day/Wrong token : "+res);
+          callbacktds(403,"User doesn't have steps in last day.");
         }
         else{
           callbacktds(200,res);
         }
+        con.end();
       });
-      con.end();
   });
 });
 
 //request v ktorom neposielame nič , prijmeme JSON v ktorom je meno a počet krokov každeho usera  počas aktuálneho dňa 
 
-app.post('/alltodaysteps',(req,res)=>{
+app.post('/alltodaysteps',(req,res,callbackatds)=>{
   console.log("Request on /alltodaysteps");
 
+  let username=req.body.username;
+  let token=req.body.token;
   callbackatds=function(status,value){
     res.status(status).send(value);
   };
@@ -270,10 +332,10 @@ console.log(date);
 
   con.connect((err)=>{
     if (err) console.log(err);
-      let sql="select username,sum(thisSessionSteps) as todaysteps from data "+
-      "INNER JOIN users on data.id=users.id "+
-      "where time >= '2019-03-"+date+"%' group by username;";
-
+      let sql="select sum(thisSessionSteps) as todaysteps from data "+
+      "INNER JOIN users INNER JOIN tokens on data.id=users.id=tokens.id "+
+      "where username like '"+username+"' and token like '"+token+"' and time >='2019-03-"+date+" 00:00:00';";
+      console.log(sql);
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
         let data=res;
@@ -285,7 +347,7 @@ console.log(date);
 
 //request na ktory neposielame nič , prijmame JSON kde je sumary číslo spočítaných krokov počas dnešného dňa(všetkých userov)
 
-app.post('/getsteps',(req,res)=>{
+app.post('/getsteps',(req,res,callbackGS)=>{
   console.log("Request on /getsteps");
 
   callbackGS=function(status,value){
@@ -310,7 +372,7 @@ console.log(date);
   con.connect((err)=>{
     if (err) console.log(err);
       let sql="select sum(thisSessionSteps) as sumary from data "+
-      "where time >= '2019-03-"+date+"%';";
+      "where time >= '2019-03-"+date+"  00:00:00';";
 
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
@@ -322,9 +384,85 @@ console.log(date);
   });
 });
 
+//api ktore pošle počet dnešnych krokov 1 usera
+app.post('/getsteps',(req,res,callbackGS)=>{
+  console.log("Request on /getsteps");
+
+  callbackGS=function(status,value){
+    res.status(status).send(value);
+  };
+
+  let con=mysql.createConnection({
+    host: "localhost",
+    user: "pedometer",
+    password: "160518",
+    database: "pedometer",
+    port: "3307"
+});
+
+var date = new Date().getDate();
+//console.log(date);
+if(date<10){
+  date="0"+date;
+}
+console.log(date);
+
+  con.connect((err)=>{
+    if (err) console.log(err);
+      let sql="select sum(thisSessionSteps) as sumary from data "+
+      "where time >= '2019-03-"+date+"  00:00:00';";
+
+      con.query(sql,(err,res)=>{
+        if (err) console.log(err);
+        let data=res;
+        //console.log(res);
+        callbackGS(200,data);  
+      });
+      con.end();
+  });
+});
+
+//neposielame nič , príde json celkovych krokov všetkych userov spolu
+
+app.post('/getalltimesteps',(req,res,callbackGAS)=>{
+  console.log("Request on /getsteps");
+
+  callbackGAS=function(status,value){
+    res.status(status).send(value);
+  };
+
+  let con=mysql.createConnection({
+    host: "localhost",
+    user: "pedometer",
+    password: "160518",
+    database: "pedometer",
+    port: "3307"
+});
+
+var date = new Date().getDate();
+//console.log(date);
+if(date<10){
+  date="0"+date;
+}
+console.log(date);
+
+  con.connect((err)=>{
+    if (err) console.log(err);
+      let sql="select sum(thisSessionSteps) as sumary from data;";
+
+      con.query(sql,(err,res)=>{
+        if (err) console.log(err);
+        let data=res;
+        //console.log(res);
+        callbackGAS(200,data);  
+      });
+      con.end();
+  });
+});
+
 //neposielame nič , naspäť príde JSON všetkych userov čo niečo niekedy prešli a ich celkovy počet krokov
 
-app.post('/alltimeuserssteps',(req,res)=>{
+app.post('/alltimeuserssteps',(req,res,callbackATUS)=>{
   console.log("Request on /alltimeuserssteps");
 
   callbackATUS=function(status,value){
@@ -363,7 +501,7 @@ console.log(date);
 
 //neposielame nič , naspäť príde JSON s počtom minút koľko dnes nachodili všetci useri
 
-app.post('/gettodayminutes',(req,res)=>{
+app.post('/gettodayminutes',(req,res,callbackGTDM)=>{
   console.log("Request on /gettodayminutes");
   let pocet=0;
   callbackGTDM=function(status,value){
@@ -387,7 +525,7 @@ console.log(date);
 
   con.connect((err)=>{
     if (err) console.log(err);
-      let sql="select * from data where time >='2019-03-"+date+"%';";
+      let sql="select * from data where time >='2019-03-"+date+" 00:00:00';";
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
         if(res.length==0){  
@@ -405,14 +543,14 @@ console.log(date);
         obj.minutes=pocet*5;
         callbackGTDM(200,JSON.stringify(obj));  
       }
+      con.end();
     });
-    con.end();
   });
 });
 
 //posielame JSON obsahujuci username a token vracia JSON počtu minut jedneho usera za jeden den
 
-app.post('/getusertodayminutes',(req,res)=>{
+app.post('/getusertodayminutes',(req,res,callbackGUTM)=>{
   console.log("Request on /getusertodayminutes");
 
   let pocet=0;
@@ -443,7 +581,7 @@ console.log(date);
       "INNER JOIN tokens on data.id=users.id=tokens.id "+
       "where users.username like '"+name+"' and "+
       "tokens.token like '"+token+"' and "+
-      "time >='2019-03-"+date+"%';";
+      "time >='2019-03-"+date+" 00:00:00';";
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
 
@@ -463,14 +601,14 @@ console.log(date);
           obj.minutes=pocet*5;
           callbackGUTM(200,JSON.stringify(obj)); 
         }
+        con.end();
       });
-      con.end();
   });
 });
 
 //returnne JSON celkoveho počtu minut ktory všetci spolu nachodili
 
-app.post('/getalltimeminutes',(req,res)=>{
+app.post('/getalltimeminutes',(req,res,callbackGATM)=>{
   console.log("Request on /getalltimeminutes");
 
   let pocet=0;
@@ -513,14 +651,14 @@ console.log(date);
           obj.minutes=pocet*5;
           callbackGATM(200,JSON.stringify(obj));  
         }
+        con.end();
       });
-      con.end();
   });
 });
 
 //returnne JSON celkoveho počtu minut ktore user nachodil
 
-app.post('/getuseralltimeminutes',(req,res)=>{
+app.post('/getuseralltimeminutes',(req,res,callbackGUATM)=>{
   console.log("Request on /getuseralltimeminutes");
   let name=req.body.username;
   let token=req.body.token;
@@ -569,15 +707,15 @@ console.log(date);
           obj.username=name;
           obj.minutes=pocet*5;
           callbackGUATM(200,JSON.stringify(obj)); 
-        } 
+        }
+        con.end(); 
       });
-      con.end();
   });
 });
 
 //request ktory pošle userove info.
 
-app.post("/userinfo",(req,res)=>{
+app.post("/userinfo",(req,res,callbackUI)=>{
   console.log("Request on /userinfo");
   
     let con=mysql.createConnection({
@@ -587,15 +725,15 @@ app.post("/userinfo",(req,res)=>{
       database: "pedometer",
       port: "3307"
   });
-  let username=req.username;
-  let token=req.token;
+  let username=req.body.username;
+  let token=req.body.token;
 
   callbackUI=function(status,value){
     res.status(status).send(value);
   };
   con.connect((err)=>{
     if (err) console.log(err);
-      let sql="select * from userinfo "+ 
+      let sql="select (DATE_FORMAT(time, '%d.%m.%Y %h:%i')) as time,username,weight,height,age from userinfo "+ 
       "INNER JOIN users "+
       "INNER JOIN tokens on userinfo.id=users.id=tokens.id "+
       "where users.username like '"+username+"' and "+
@@ -603,10 +741,10 @@ app.post("/userinfo",(req,res)=>{
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
         if(res.length==0){
-          callbackSUI(403,"No data about this user");
+          callbackUI(403,"No data about this user");
         }
         else{
-          callbackSUI(200,res); 
+          callbackUI(200,res); 
         }
       });
       con.end();
@@ -616,9 +754,9 @@ app.post("/userinfo",(req,res)=>{
 
 //request ktory zmeni userovi info.
 
-app.post("/setuserinfo",(req,res)=>{
-  console.log("Request on /userinfo");
-  
+app.post("/setuserinfo",(req,res,callbackSUI)=>{
+  console.log("Request on /setuserinfo");
+  console.log(req.body);
     let con=mysql.createConnection({
       host: "localhost",
       user: "pedometer",
@@ -626,18 +764,18 @@ app.post("/setuserinfo",(req,res)=>{
       database: "pedometer",
       port: "3307"
   });
-  let username=req.username;
-  let token=req.token;
-  let age=req.age;
-  let height=req.height;
-  let weight=req.weight;
+  let username=req.body.username;
+  let token=req.body.token;
+  let age=req.body.age;
+  let height=req.body.height;
+  let weight=req.body.weight;
 
   callbackSUI=function(status,value){
     res.status(status).send(value);
   };
   con.connect((err)=>{
     if (err) console.log(err);
-      let sql="SELECT id,username,token FROM users "+ 
+      let sql="SELECT users.id,username,token FROM users "+ 
       "INNER JOIN tokens on users.id=tokens.id "+
       "where users.username like '"+username+"' and "+
       "tokens.token like '"+token+"';";
@@ -648,16 +786,17 @@ app.post("/setuserinfo",(req,res)=>{
         }
         else{
           let id=res[0].id;
-
-          if(age!="")
+          //console.log(id);
+          if(age!=undefined)
             {
-              if(height!="")
+              if(height!=undefined)
               {
-                if(weight!="")
+                if(weight!=undefined)
                 {
                   let insertSQL="INSERT INTO userinfo(id,weight,height,age) VALUES("+id+","+weight+","+height+","+age+");";
                   con.query(insertSQL,(err)=>{
                     if(err) console.log(err);
+                    else callbackSUI(200,"Succesfully added new data!"); 
                   });
                 }
                 else
@@ -671,7 +810,7 @@ app.post("/setuserinfo",(req,res)=>{
               }
               else
               {
-                if(weight!="")
+                if(weight!=undefined)
                 {
                   let insertSQL="INSERT INTO userinfo(id,weight,age) VALUES("+id+","+weight+","+age+");";
                   con.query(insertSQL,(err)=>{
@@ -692,18 +831,19 @@ app.post("/setuserinfo",(req,res)=>{
 
             else
             {
-              if(height!="")
+              if(height!=undefined)
               {
-                if(weight!="")
+                if(weight!=undefined)
                 {
                   let insertSQL="INSERT INTO userinfo(id,weight,height) VALUES("+id+","+weight+","+height+");";
                   con.query(insertSQL,(err)=>{
                     if(err) console.log(err);
+                    callbackSUI(200,"Succesfully added new data!"); 
                   });
                 }
                 else
                 {
-                  let insertSQL="INSERT INTO userinfo(id,height,age) VALUES("+id+","+height+");";
+                  let insertSQL="INSERT INTO userinfo(id,height) VALUES("+id+","+height+");";
                   con.query(insertSQL,(err)=>{
                     if(err) console.log(err);
                     else callbackSUI(200,"Succesfully added new data!"); 
@@ -712,8 +852,8 @@ app.post("/setuserinfo",(req,res)=>{
               }
               else
               {
-                if(weight!=""){
-                  let insertSQL="INSERT INTO userinfo(id,weight,age) VALUES("+id+","+weight+");";
+                if(weight!=undefined){
+                  let insertSQL="INSERT INTO userinfo(id,weight) VALUES("+id+","+weight+");";
                   con.query(insertSQL,(err)=>{
                     if(err) console.log(err);
                     else callbackSUI(200,"Successfully added new data!");
@@ -726,14 +866,14 @@ app.post("/setuserinfo",(req,res)=>{
               }
             }
         }
+        con.end();
       });
-      con.end();
   });
 });
 
 //Request ktory prida do databazy info o vypitej vode
 
-app.post("/drink",(req,res)=>{
+app.post("/drink",(req,res,callbackDR)=>{
   console.log("Request on /drink");
   
     let con=mysql.createConnection({
@@ -743,40 +883,40 @@ app.post("/drink",(req,res)=>{
       database: "pedometer",
       port: "3307"
   });
-  let username=req.username;
-  let token=req.token;
-  let water=req.water;
+  let username=req.body.username;
+  let token=req.body.token;
+  let water=req.body.water;
 
-  callbackUI=function(status,value){
+  callbackDR=function(status,value){
     res.status(status).send(value);
   };
   con.connect((err)=>{
-    let sql="SELECT id,username,token FROM users "+ 
+    let sql="SELECT users.id,username,token FROM users "+ 
       "INNER JOIN tokens on users.id=tokens.id "+
       "where users.username like '"+username+"' and "+
       "tokens.token like '"+token+"';";
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
         if(res.length==0){
-            callbackSUI(403,"Wrong username or not logged user");
+            callbackDR(403,"Wrong username or not logged user");
         }
         else{
           let id=res[0].id;
-          let insertSQL="INSERT INTO water values("+id+","+water+");";
+          let insertSQL="INSERT INTO water(id,mlOfWater) values("+id+","+water+");";
           con.query(insertSQL,(err)=>{
             if(err) console.log(err);
-            else callbackSUI(200,"Succesfully added new data!");
+            else callbackDR(200,"Succesfully added new data!");
           });
         }
+        con.end();
     });
-    con.end();
   });
 });
 
 //Request ktory pošle nas5 data o tom koľko user kedy vypil(ak zadal)
 
-app.post("/showdrink",(req,res)=>{
-  console.log("Request on /drink");
+app.post("/showdrink",(req,res,callbackSD)=>{
+  console.log("Request on /showdrink");
   
     let con=mysql.createConnection({
       host: "localhost",
@@ -785,11 +925,10 @@ app.post("/showdrink",(req,res)=>{
       database: "pedometer",
       port: "3307"
   });
-  let username=req.username;
-  let token=req.token;
-  let water=req.water;
+  let username=req.body.username;
+  let token=req.body.token;
 
-  callbackUI=function(status,value){
+  callbackSD=function(status,value){
     res.status(status).send(value);
   };
   con.connect((err)=>{
@@ -801,11 +940,11 @@ app.post("/showdrink",(req,res)=>{
       con.query(sql,(err,res)=>{
         if (err) console.log(err);
         if(res.length==0){
-            callbackSUI(403,"Wrong username or not logged user");
+            callbackSD(403,"Wrong username or not logged user");
         }
         else
         {
-            callbackSUI(200,res);
+            callbackSD(200,res);
         }
       });
       con.end();
@@ -814,8 +953,12 @@ app.post("/showdrink",(req,res)=>{
 
 //ToDo- arduino
 
-app.post("/sendsteps",(req,res)=>{
+app.post("/sendsteps",(req,res,callbackSS)=>{
   console.log("Request on /sendsteps");
+  console.log(req);
+  callbackSS=function(status){
+    res.status(status).send();
+  };
 
   let con=mysql.createConnection({
     host: "localhost",
@@ -825,8 +968,8 @@ app.post("/sendsteps",(req,res)=>{
     port: "3307"
 });
 
-let arduinoid=req.arduinoid;
-let sessionSteps=req.sessionSteps;
+let arduinoid=req.body.arduinoid;
+let sessionSteps=req.body.sessionSteps;
 
   con.connect((err)=>{
     if (err) console.log(err);
@@ -835,7 +978,7 @@ let sessionSteps=req.sessionSteps;
       if(err) console.log(err);
       if(res.length==0){
         console.log("user with this arduinoid doesnt exists");
-        res.status(200).send();
+        callbackSS(200);
       }
       else{
         let id=res[0].id;
@@ -846,8 +989,8 @@ let sessionSteps=req.sessionSteps;
           console.log("I have inserted data to database!");
         });
       }
+      con.end();
     });
-    con.end();
   });
 });
 
