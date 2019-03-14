@@ -23,9 +23,6 @@
                     let d = whole[0].split(".");
                     let t = whole[1].split(":");
                     let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
-                    console.log(d);
-                    console.log(t);
-                    console.log(date.toLocaleTimeString());
                     times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }
@@ -92,7 +89,11 @@
 
                 // console.log(obj2);
                 waterIntage.push(obj2.mlOfWater);
-                times.push(i + 1);
+                let whole = obj2.time.split(' ');
+                let d = whole[0].split(".");
+                let t = whole[1].split(":");
+                let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                times.push(date.toDateString() + " " + date.toLocaleTimeString());
             }
 
             var ctx = document.getElementById("lineWater"); // vlozenie grafu do id lineDaily
@@ -157,9 +158,6 @@
                     let d = whole[0].split(".");
                     let t = whole[1].split(":");
                     let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
-                    console.log(d);
-                    console.log(t);
-                    console.log(date.toLocaleTimeString());
                     times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }
