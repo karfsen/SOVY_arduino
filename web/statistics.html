@@ -252,19 +252,14 @@
         let data = document.getElementById("my_today_steps");
 
 
-        let req = "http://itsovy.sk:1203/todaysteps";
+        let req = "http://itsovy.sk:1203/alltodaysteps";
         var xhttp = new XMLHttpRequest(); // new HttpRequest instance
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let obj = JSON.parse(this.responseText);
-                let jsonData = 0;
                 //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
-                for (var i = 0; i < obj.length; i++) {
-                    var obj2 = obj[i];
-                    jsonData += obj2.thisSessionSteps;
-                    // console.log(obj2.thisSessionSteps);
-                }
-                data.innerHTML = jsonData;
+                console.log("ts: " + obj[0].todaysteps);
+                data.innerHTML = obj[0].todaysteps;
 
             } else {
                 //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
@@ -331,7 +326,7 @@
                 let jsonData = 0;
                 for (var i = 0; i < obj.length; i++) {
                     var obj2 = obj[i];
-                    if(obj2.sumary!=null){
+                    if (obj2.sumary != null) {
                         jsonData = obj2.sumary;
                     }
                     // console.log(obj2.thisSessionSteps);
@@ -505,7 +500,7 @@
 
             } else {
                 data.innerHTML = this.responseText;
-                if(this.status==0){
+                if (this.status == 0) {
                     data.innerHTML = "Error getting today overall move minutes";
                 }
             }

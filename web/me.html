@@ -186,7 +186,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-auto">
-                                    Remail to drink (ml)
+                                    Remain to drink (ml)
                                 </div>
                                 <div class="col-auto">
                                     <h1 class="" id="remainToDrink"></h1>
@@ -375,7 +375,11 @@
         //nastavenie kolko treba vypit
         should.innerHTML = n;
         //nastavenie kolko este treba vypit
-        remain.innerHTML = n - alreadyDrinked;
+        if (n - alreadyDrinked > 0) {
+            remain.innerHTML = n - alreadyDrinked;
+        } else {
+            remain.innerHTML = 0;
+        }
         let r = alreadyDrinked / (n / 100);
         progress.style.width = r.toFixed(2) + "%";
     }

@@ -77,6 +77,7 @@
             let times = [];
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
+                console.log(obj2);
                 waterIntage.push(obj2.mlOfWater);
                 times.push(i + 1);
             }

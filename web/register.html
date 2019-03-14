@@ -93,7 +93,7 @@
                     errorDiv.style.display = "block";
                     errorDiv.innerHTML = "Passwords didnt match!"
                 } else {
-                    if (arduinoid < 1 || arduinoid > 20) {
+                    if (arduinoid.length < 1 || arduinoid.length > 20) {
                         errorDiv.style.display = "block";
                         errorDiv.innerHTML = "Enter arduino id! (1 - 20 characters long)"
                     } else {
