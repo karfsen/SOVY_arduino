@@ -96,7 +96,7 @@
             }
 
             var ctx = document.getElementById("lineWater"); // vlozenie grafu do id lineDaily
-            ctx.height = 350;
+            ctx.height = 550;
 
             var myChart = new Chart(ctx, {
                 type: 'line',
@@ -118,6 +118,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     tooltips: {
                         mode: 'index',
                         intersect: false
@@ -145,19 +146,25 @@
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
             var json_data = JSON.parse(xhttpHeight.responseText);
-            let d = [];
+            let heights = [];
             let times = [];
             let z = 1;
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
                 if (obj2.height) {
-                    d.push(obj2.height);
-                    times.push(z);
-                    z++;
+                    heights.push(obj2.height);
+                    let whole = obj2.time.split(' ');
+                    let d = whole[0].split(".");
+                    let t = whole[1].split(":");
+                    let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                    console.log(d);
+                    console.log(t);
+                    console.log(date.toLocaleTimeString());
+                    times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }
             var ctx = document.getElementById("lineHeight"); // vlozenie grafu do id lineDaily
-            ctx.height = 350;
+            ctx.height = 550;
 
             var myChart = new Chart(ctx, {
                 type: 'line',
@@ -171,7 +178,7 @@
                             borderWidth: "1",
                             backgroundColor: "rgba(0,193, 0, 0.5)",
                             pointHighlightStroke: "rgba(26,179,148,1)",
-                            data: d,
+                            data: heights,
                             lineTension: 0
 
                         }
@@ -179,6 +186,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     tooltips: {
                         mode: 'index',
                         intersect: false
