@@ -72,6 +72,13 @@
                                 <div class="col-auto">
                                     <h1 class="" id="weight"></h1>
                                 </div>
+                                <div class="col-auto">
+                                    <input style="display: none" id="weightInput" type="number"></input>
+                                </div>
+                                <div class="col-auto">
+                                    <span id="weightEditIcon" class="fa fa-2x fa-pen"
+                                          onclick="edit('weight')"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -84,6 +91,13 @@
                                 <div class="col-auto">
                                     <h1 class="" id="height"></h1>
                                 </div>
+                                <div class="col-auto">
+                                    <input style="display: none" id="heightInput" type="number"></input>
+                                </div>
+                                <div class="col-auto">
+                                    <span id="heightEditIcon" class="fa fa-2x fa-pen"
+                                          onclick="edit('height')"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,6 +109,13 @@
                             <div class="row">
                                 <div class="col-auto">
                                     <h1 class="" id="age"></h1>
+                                </div>
+                                <div class="col-auto">
+                                    <input style="display: none" id="ageInput" type="number"></input>
+                                </div>
+                                <div class="col-auto">
+                                    <span id="ageEditIcon" class="fa fa-2x fa-pen"
+                                          onclick="edit('age')"></span>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +170,7 @@
                             <h4 class="mb-3 text-primary">Water intake </h4>
                             <div class="row">
                                 <div class="col-auto">
-                                    Your have already drinked
+                                    Your have already drinked (ml)
                                 </div>
                                 <div class="col-auto">
                                     <h1 class="" id="drinked"></h1>
@@ -157,7 +178,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-auto">
-                                    Your have should drink
+                                    Your have should drink (ml)
                                 </div>
                                 <div class="col-auto">
                                     <h1 class="" id="shouldDrink"></h1>
@@ -165,7 +186,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-auto">
-                                    Remail to drink
+                                    Remail to drink (ml)
                                 </div>
                                 <div class="col-auto">
                                     <h1 class="" id="remainToDrink"></h1>
@@ -180,6 +201,33 @@
                 </div>
 
 
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mt-4">
+                    <div class="card m-5 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Drink </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <input type="number" class="" id="drink_number"></input> <span
+                                        class="fa fa-check"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 mt-4">
+                    <div class="card m-5 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Drinking </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <canvas id="lineWater"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div><!-- .animated -->
@@ -200,11 +248,16 @@
 
         }
         //zatial su tu cisla rucne napisane, cakam na api
-        setBMI(100, 180);
-        setWaterIntake(91, 250);
-        setWeight(89);
-        setHeight(180);
-        setAge(21);
+        getLastValue("weight");
+        getLastValue("height");
+        getLastValue("age");
+        getDrinked();
+        setBMI(document.getElementById("weight").innerHTML, document.getElementById("height").innerHTML);
+        setWaterIntake(document.getElementById("weight").innerHTML, document.getElementById("weight").innerHTML);
+        // setWeight(89);
+        // setHeight(180);
+        // setAge(21);
+        // sav();
     };
 
     //funkcia na vypocet BMI z vahy a vysky
@@ -253,11 +306,11 @@
         n *= 300;
 
         //nastavenie kolko uz bolo vypite
-        drinked.innerHTML = alreadyDrinked + "ml";
+        drinked.innerHTML = alreadyDrinked;
         //nastavenie kolko treba vypit
-        should.innerHTML = n + "ml";
+        should.innerHTML = n;
         //nastavenie kolko este treba vypit
-        remain.innerHTML = n - alreadyDrinked + "ml";
+        remain.innerHTML = n - alreadyDrinked;
         let r = alreadyDrinked / (n / 100);
         progress.style.width = r.toFixed(2) + "%";
     }
@@ -292,6 +345,150 @@
 
     }
 
+    function edit(type) {
+        let icon = document.getElementById(type + "EditIcon");
+        let text = document.getElementById(type);
+        let input = document.getElementById(type + "Input");
+        icon.classList.remove('fa-pen');
+        icon.classList.add('fa-save');
+        text.style.display = "none";
+        input.style.display = "block";
+        input.value = text.innerHTML;
+        icon.setAttribute("onClick", "save(\'" + type + "\')");
+        // icon.onclick = save(type);
+
+    }
+
+    function save(type, value) {
+        let icon = document.getElementById(type + "EditIcon");
+        let text = document.getElementById(type);
+        let input = document.getElementById(type + "Input");
+        saveInfo(type, input.value);
+        icon.classList.remove('fa-save');
+        icon.classList.add('fa-pen');
+        text.innerHTML = input.value;
+        input.style.display = "none";
+        text.style.display = "block";
+        icon.setAttribute("onClick", "edit(\'" + type + "\')");
+    }
+
+    function saveInfo(info, value) {
+        let req = "http://itsovy.sk:1203/setuserinfo";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.status);
+                console.log(this.responseText);
+
+            } else {
+                console.log(this.status);
+                console.log(this.responseText);
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        let json = JSON.parse(localStorage.getItem('user'));
+        json[info] = value;
+        console.log(JSON.stringify(json));
+        xhttp.send(JSON.stringify(json));
+    }
+
+    function getLastValue(type) {
+        let text = document.getElementById(type);
+        let req = "http://itsovy.sk:1203/userinfo";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = null;
+                for (var i = obj.length - 1; i >= 0; i--) {
+                    var obj2 = obj[i];
+                    console.log(obj2[type]);
+                    if (!(obj2[type] == null)) {
+                        jsonData = obj2[type];
+                    }
+
+                }
+                if (jsonData == null) {
+                    jsonData = 0;
+                }
+                console.log("data:" + jsonData);
+                text.innerHTML = jsonData;
+                console.log(this.status);
+                console.log(this.responseText);
+
+            } else {
+                text.innerHTML = 0;
+
+                console.log(this.status);
+                console.log(this.responseText);
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(localStorage.getItem('user'));
+    }
+
+    function getDrinked() {
+        let text = document.getElementById("drinked");
+        let req = "http://itsovy.sk:1203/showdrink";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    jsonData += obj2.mlOfWater;
+
+                }
+                text.innerHTML = jsonData;
+
+            } else {
+                text.innerHTML = 0;
+
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(localStorage.getItem('user'));
+    }
+
+    // function sav() { // kontrola mena a hesla ich hodnota
+    //
+    //     let req = "http://itsovy.sk:1203/setuserinfo";
+    //     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+    //     // xhttp.onreadystatechange = function () {
+    //     //     console.log("in");
+    //     //     console.log("status: " + this.status);
+    //     //     if (this.readyState == 4 && this.status == 200) {
+    //     //         let obj = JSON.parse(this.responseText);
+    //     //         // console.log(obj);
+    //     //         let jsonData = 0;
+    //     //         console.log(obj);
+    //     //
+    //     //
+    //     //     } else {
+    //     //         // console.log("errr");
+    //     //         console.log(this.responseText);
+    //     //         if (this.status == 0) {
+    //     //             // data.innerHTML = "Error getting today minutes!";
+    //     //         }
+    //     //     }
+    //     //
+    //     // };
+    //     let json = JSON.parse(localStorage.getItem('user'));
+    //     json["weight"] = 100;
+    //     console.log("--------------------------------------");
+    //     console.log(JSON.stringify(json));
+    //     xhttp.open("POST", encodeURI(req), "/json-handler");
+    //     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    //     //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+    //     xhttp.send(JSON.stringify(json));
+    // }
 
 </script>
 <!-- Bootstrap core JavaScript
@@ -301,7 +498,9 @@
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/Chart.bundle.min.js"></script>
-<script src="js/charts_daily.js"></script>
+<!--<script src="js/charts_daily.js"></script>-->
+<!--<script src="js/charts.js"></script>-->
+
 
 </body>
 

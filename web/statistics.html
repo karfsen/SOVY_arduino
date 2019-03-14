@@ -97,36 +97,7 @@
                             </table>
                         </div>
                     </div>
-                    <!--bootstrap card - karta; today move minutes high score -->
-                    <div class="card  m-5 rounded shadow-lg">
-                        <div class="card-header">
-                            Today move minutes high score
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Minutes</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Mark</td>
-                                    <td>123</td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>21</td>
-                                </tr>
-                                <tr>
-                                    <td>Larry</td>
-                                    <td>2</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
                     <!--bootstrap card - karta; today steps high score -->
                     <div class="card   m-5 rounded shadow-lg">
                         <div class="card-header">
@@ -157,36 +128,7 @@
                             </table>
                         </div>
                     </div>
-                    <!--bootstrap card - karta; today move minutes high score -->
-                    <div class="card  m-5 rounded shadow-lg">
-                        <div class="card-header">
-                            Overall move minutes high score
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Minutes</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Mark</td>
-                                    <td>543</td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>123</td>
-                                </tr>
-                                <tr>
-                                    <td>Larry</td>
-                                    <td>22</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="col-lg-4">
                     <!--bootstrap card - karta; My today steps -->
@@ -211,7 +153,7 @@
                         <div class="card-header">
                             My overall steps
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" id="my_overall_steps">
 
                         </div>
                     </div>
@@ -219,7 +161,7 @@
                         <div class="card-header">
                             Overall steps for everyone
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" id="overall_steps_everyone">
 
                         </div>
                     </div>
@@ -289,6 +231,9 @@
         getUserTodayMinutes();
         getAllUsersOverallMoveMinutes();
         getUsersOverallMoveMinutes();
+        getMyOverallSteps();
+        getOverallStepsForEveryUser();
+        getOverallTodaySteps();
     };
 
     function logout() {
@@ -336,6 +281,110 @@
         xhttp.send(localStorage.getItem('user'));
     }
 
+    //ziskanie celkovych krokov usera
+    function getMyOverallSteps() {
+        let data = document.getElementById("my_overall_steps");
+
+
+        let req = "http://itsovy.sk:1203/alltimeuserssteps";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
+                let username = JSON.parse(localStorage.getItem('user')).username;
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    if (obj2.username == username) {
+                        jsonData = obj2.thisSessionSteps;
+                    }
+                    // console.log(obj2.thisSessionSteps);
+                }
+                data.innerHTML = jsonData;
+
+            } else {
+                //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                data.innerHTML = this.responseText.split("/")[0];
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting all my today steps!";
+                }
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send();
+    }
+
+    //ziskanie celkovych krokov za dnes
+    function getOverallTodaySteps() {
+        let data = document.getElementById("all_today_steps");
+
+
+        let req = "http://itsovy.sk:1203/getsteps";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    jsonData = obj2.steps;
+                    // console.log(obj2.thisSessionSteps);
+                }
+                data.innerHTML = jsonData;
+
+            } else {
+                //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                data.innerHTML = this.responseText.split("/")[0];
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting overall today steps!";
+                }
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send();
+    }
+
+    //ziskanie celkovych krokov usera
+    function getOverallStepsForEveryUser() {
+        let data = document.getElementById("overall_steps_everyone");
+
+
+        let req = "http://itsovy.sk:1203/alltimeuserssteps";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    jsonData = obj2.thisSessionSteps;
+                    // console.log(obj2.thisSessionSteps);
+                }
+                data.innerHTML = jsonData;
+
+            } else {
+                //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                data.innerHTML = this.responseText.split("/")[0];
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting overall steps for everyone!";
+                }
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send();
+    }
+
     //ziskanie krokov pre vsetkych userov za cely cas
     function getAllUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
         let data = document.getElementById("all_users_overall_move_minutes");
@@ -381,7 +430,10 @@
 
             } else {
                 // console.log("errr");
-                let obj = JSON.parse(this.responseText);
+                let obj = null;
+                if (this.responseText) {
+                    obj = JSON.parse(this.responseText);
+                }
                 // console.log(obj);
                 if (obj) {
                     data.innerHTML = obj.minutes;
@@ -451,6 +503,9 @@
 
             } else {
                 data.innerHTML = this.responseText;
+                if(this.status==0){
+                    data.innerHTML = "Error getting today overall move minutes";
+                }
             }
 
         };

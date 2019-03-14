@@ -3,27 +3,23 @@
 
 
     //Nakreslenie grafu pre kroky usera; zatial napojene na fake api lebo api neide
-    var xhttp = new XMLHttpRequest();
+    var xhttpSteps = new XMLHttpRequest();
 
 
-    let times = [];
-    let cycling = [];
-    let walking = [];
-    xhttp.onreadystatechange = function () {
+    xhttpSteps.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            //stiahne sa JSON z fake apy a vyberie sa z neho bicyklovanie. to sa pouzilo na pocet krokov lebo este nie je api
-
-            var json_data = JSON.parse(xhttp.responseText);
-            times = json_data["times"];
-            walking = json_data["day_walking"];
-            cycling = json_data["day_cycling"];
-            // Object.keys(json_data).forEach(function (key) {
-            //     months.push(key.toString());
-            //     stepsPerMonth.push(json_data[key]);
-            //     console.log('Key : ' + key + ', Value : ' + json_data[key])
-            // });
-            var result = [];
-
+            //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
+            var json_data = JSON.parse(xhttpSteps.responseText);
+            let steps = [];
+            let times = [];
+            for (var i = 0; i < json_data.length; i++) {
+                var obj2 = json_data[i];
+                waterIntage.push(obj2.todaysteps);
+                times.push(i + 1);
+            }
+            console.log("json:"+json_data);
+            console.log(steps);
+            console.log(times);
             var ctx = document.getElementById("lineSteps"); // vlozenie grafu do id lineDaily
             ctx.height = 150;
 
@@ -31,17 +27,17 @@
                 type: 'line',
                 //data pre graf
                 data: {
-                    // labels: ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"],
                     labels: times,
                     datasets: [
                         {
                             label: "Steps",
-                            borderColor: "rgba(0, 194, 146, 0.9)",
+                            borderColor: "rgba(123,0,.09)",
                             borderWidth: "1",
-                            backgroundColor: "rgba(0, 194, 146,0.1)",
-                            // data: [70, 20, 47, 35, 43, 65, 45, 35, 50]
-                            data: cycling,
+                            backgroundColor: "rgba(193, 0, 0, 0.5)",
+                            pointHighlightStroke: "rgba(26,179,148,1)",
+                            data: steps,
                             lineTension: 0
+
                         }
                     ]
                 },
@@ -60,32 +56,30 @@
             });
 
 
+        }else {
+            document.getElementById("lineSteps").innerHTML="Error getting data!";
         }
     };
-    xhttp.open("GET", "https://my-json-server.typicode.com/oleksandra1musatkina/api/day", true);
-    xhttp.send();
+
+    xhttpSteps.open("POST", encodeURI("http://itsovy.sk:1203/alltodaysteps"), "/json-handler");
+    xhttpSteps.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttpSteps.send();
 
     //Nakreslenie grafu pre water intake usera; zatial napojene na fake api lebo api neide
-    var xhttpW = new XMLHttpRequest();
+    var xhttpWather = new XMLHttpRequest();
 
 
-    let timesW = [];
-    let cyclingW = [];
-    let walkingW = [];
-    xhttpW.onreadystatechange = function () {
+    xhttpWather.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
-            var json_data = JSON.parse(xhttpW.responseText);
-            times = json_data["times"];
-            walking = json_data["day_walking"];
-            cycling = json_data["day_cycling"];
-            // Object.keys(json_data).forEach(function (key) {
-            //     months.push(key.toString());
-            //     stepsPerMonth.push(json_data[key]);
-            //     console.log('Key : ' + key + ', Value : ' + json_data[key])
-            // });
-            var result = [];
-
+            var json_data = JSON.parse(xhttpWather.responseText);
+            let waterIntage = [];
+            let times = [];
+            for (var i = 0; i < json_data.length; i++) {
+                var obj2 = json_data[i];
+                waterIntage.push(obj2.mlOfWater);
+                times.push(i + 1);
+            }
             var ctx = document.getElementById("lineWater"); // vlozenie grafu do id lineDaily
             ctx.height = 150;
 
@@ -93,17 +87,17 @@
                 type: 'line',
                 //data pre graf
                 data: {
-                    // labels: ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"],
                     labels: times,
                     datasets: [
                         {
-                            label: "Water intake",
+                            label: "Water intake in ml",
                             borderColor: "rgba(123,0,.09)",
                             borderWidth: "1",
-                            backgroundColor: "rgba(193, 0, 0, 0.5)",
+                            backgroundColor: "rgba(0, 0, 193, 0.5)",
                             pointHighlightStroke: "rgba(26,179,148,1)",
-                            // data: [16, 32, 18, 27, 42, 33, 44, 10, 5]
-                            data: walking
+                            data: waterIntage,
+                            lineTension: 0
+
                         }
                     ]
                 },
@@ -125,9 +119,9 @@
         }
     };
 
-
-    xhttpW.open("GET", "https://my-json-server.typicode.com/oleksandra1musatkina/api/day", true);
-    xhttpW.send();
+    xhttpWather.open("POST", encodeURI("http://itsovy.sk:1203/showdrink"), "/json-handler");
+    xhttpWather.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttpWather.send(localStorage.getItem('user'));
 
 
     //nakreslenie grafu na prejdene kroky za rok; na pevno napisane cisla krokov lebo cakam na api
@@ -139,19 +133,19 @@
     xhttp2.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             // Action to be performed when the document is read;
-            console.log(xhttp.responseText);
+            // console.log(xhttp.responseText);
             var json_data = JSON.parse(xhttp2.responseText);
             Object.keys(json_data).forEach(function (key) {
                 months.push(key.toString());
                 stepsPerMonth.push(json_data[key]);
-                console.log('Key : ' + key + ', Value : ' + json_data[key])
+                // console.log('Key : ' + key + ', Value : ' + json_data[key])
             })
             var result = [];
             let arr = ["asd", "as"];
             arr.push("asd")
-            console.log(months);
-            console.log(stepsPerMonth);
-            console.log(arr);
+            // console.log(months);
+            // console.log(stepsPerMonth);
+            // console.log(arr);
             var ctx = document.getElementById("lineYear");
             ctx.height = 150;
             var myChart = new Chart(ctx, {

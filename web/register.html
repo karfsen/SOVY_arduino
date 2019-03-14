@@ -50,21 +50,6 @@
                     <input type="password" class="form-control" name="password2" placeholder="Repeat password"
                            required="required" id="password2">
                 </div>
-                Age
-                <div class="form-group">
-                    <input type="text" class="form-control" name="arduino" placeholder="Age" required="required"
-                           id="age">
-                </div>
-                Weigh
-                <div class="form-group">
-                    <input type="text" class="form-control" name="arduino" placeholder="Weight" required="required"
-                           id="weight">
-                </div>
-                Height
-                <div class="form-group">
-                    <input type="text" class="form-control" name="arduino" placeholder="Height" required="required"
-                           id="height">
-                </div>
                 Arduino id
                 <div class="form-group">
                     <input type="text" class="form-control" name="arduino" placeholder="Arduino id" required="required"
@@ -95,52 +80,56 @@
         let errorDiv = document.getElementById('error');
         errorDiv.innerHTML = " ";
         errorDiv.style.display = "none";
-
-        if (password.length <= 0) {
+        if (password.length < 5 || password.length > 10) {
             errorDiv.style.display = "block";
-            errorDiv.innerHTML = "Enter password!"
+            errorDiv.innerHTML = "Enter password! (5 - 10 characters long)"
         } else {
 
-            if (name.length <= 0) {
+            if (name.length < 4 || name.length > 10) {
                 errorDiv.style.display = "block";
-                errorDiv.innerHTML = "Enter name!"
+                errorDiv.innerHTML = "Enter name! (4 - 10 characters long)"
             } else {
                 if (password != password2) {
                     errorDiv.style.display = "block";
                     errorDiv.innerHTML = "Passwords didnt match!"
                 } else {
+                    if (arduinoid < 1 || arduinoid > 20) {
+                        errorDiv.style.display = "block";
+                        errorDiv.innerHTML = "Enter arduino id! (1 - 20 characters long)"
+                    } else {
+                        let req = "http://itsovy.sk:1203/register"; // poslle na Martina api meno heslo a arduino id
+                        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+                        xhttp.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                let obj = JSON.parse(this.responseText);
+                                console.log(obj);
+                                errorDiv.innerHTML = " ";
+                                errorDiv.style.display = "none";
+                                localStorage.setItem('user', JSON.stringify(obj));
+                                window.location.replace("index.html");
+                            } else {
+                                errorDiv.style.display = "block";
+                                errorDiv.innerHTML = this.responseText;
+                                if (this.status == 0) {
+                                    errorDiv.innerHTML = "Problem with Registration! Try again later.";
+                                }
+                            }
 
-                    let req = "http://itsovy.sk:1203/register"; // poslle na Martina api meno heslo a arduino id
-                    var xhttp = new XMLHttpRequest(); // new HttpRequest instance
-                    xhttp.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
-                            let obj = JSON.parse(this.responseText);
-                            console.log(obj);
-                            errorDiv.innerHTML = " ";
-                            errorDiv.style.display = "none";
-                            localStorage.setItem('user', JSON.stringify(obj));
-                            window.location.replace("index.html");
-                        } else {
-                            errorDiv.style.display = "block";
-                            // errorDiv.innerHTML = "Problem with Registration!"
-                            errorDiv.innerHTML = this.responseText
-                        }
+                        };
 
-                    };
+                        xhttp.open("POST", encodeURI(req), "/json-handler");
+                        xhttp.setRequestHeader("Content-Type", "application/json");
 
-                    xhttp.open("POST", encodeURI(req), "/json-handler");
-                    xhttp.setRequestHeader("Content-Type", "application/json");
-
-                    //posielanie informacii z registracie na server
-                    xhttp.send(JSON.stringify({
-                        "username": name,
-                        "password": password,
-                        "arduinoid": arduinoid
-                    }));
+                        //posielanie informacii z registracie na server
+                        xhttp.send(JSON.stringify({
+                            "username": name,
+                            "password": password,
+                            "arduinoid": arduinoid
+                        }));
+                    }
                 }
             }
         }
-        console.log(name, password);
     }
 
     function chceckIfLogged() {
