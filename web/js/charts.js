@@ -299,4 +299,53 @@
         }
     });
 
+    //nakreslenie grafu pre splnenie goalu minut
+    var xhttpMinutes = new XMLHttpRequest(); // new HttpRequest instance
+    xhttpMinutes.onreadystatechange = function () {
+        let needed = 300;
+        let done = 0;
+        let remaining = 0;
+        if (this.readyState == 4 && this.status == 200) {
+            let obj = JSON.parse(this.responseText);
+            console.log(obj);
+            done = obj.minutes;
+            console.log("done: " + done);
+            remaining = needed - done;
+            if (remaining < 0) {
+                remaining = 0;
+            }
+        }
+        var ctx = document.getElementById("doughutMinutes");
+        ctx.height = 250;
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [done, remaining],
+                    backgroundColor: [
+                        "rgba(0, 194, 146,0.9)",
+                        "rgba(194, 0, 0,0.7)",
+                    ],
+                    hoverBackgroundColor: [
+                        "rgba(0, 194, 146,0.7)",
+                        "rgba(194, 0, 0,0.7)",
+                    ]
+
+                }],
+                labels: [
+                    "Completed minutes",
+                    "Remaining minutes"
+                ]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+    };
+    xhttpMinutes.open("POST", encodeURI("http://itsovy.sk:1203/getusertodayminutes"), "/json-handler");
+    xhttpMinutes.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttpMinutes.send(localStorage.getItem('user'));
+
+
 })(jQuery);
