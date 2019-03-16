@@ -22,7 +22,11 @@ int az0 = 0;
 int steps = 0;
 
 boolean stepDown = false;
- 
+
+unsigned long startMillis;
+unsigned long currentMillis;
+const unsigned long period = 5000;
+
 void setup()
 {
 
@@ -40,6 +44,7 @@ void setup()
   mpu.initialize();
   Serial.println(mpu.testConnection() ? "Connected" : "Connection failed");
 
+
 }
  
 void loop()
@@ -50,11 +55,18 @@ void loop()
   //        Serial.print(ax); 
   //        Serial.println("\ay:");
   //        Serial.print(ay); 
-  
+
+//  unsigned long timeout = millis();
+
+  currentMillis = millis();  
+
   readSteps();
-  sendSteps();
   
-  delay(500);
+  if (currentMillis - startMillis >= period)  
+  {
+    sendSteps();
+    startMillis = currentMillis;  //save the start time 
+  }
 
 }
 
@@ -91,17 +103,17 @@ void readSteps() {
     steps++; 
   }
 
-  if ((amplitude2 >= stepThreshold) && stepDown) {
-    stepDown = false;
-    steps++; 
-  }
+//  if ((amplitude2 >= stepThreshold) && stepDown) {
+//    stepDown = false;
+//    steps++; 
+//  }
   
-    Serial.print("\t");
-    Serial.print("\t");
-    Serial.print("\t");
-    Serial.print("\t");
-    Serial.print("\t");
-    Serial.println("Step count:" + String(steps));
+//    Serial.print("\t");
+//    Serial.print("\t");
+//    Serial.print("\t");
+//    Serial.print("\t");
+//    Serial.print("\t");
+//    Serial.println("Step count:" + String(steps));
  
 }
 
@@ -132,5 +144,5 @@ if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
 else {
   Serial.println("Error in WiFi connection");
   }
-  delay(10000); //Send a request every 5 minutes
+//  delay(10000); //Send a request every 5 minutes
 }
