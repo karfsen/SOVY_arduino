@@ -25,7 +25,7 @@
 
         }
         var ctx = document.getElementById("lineSteps");
-        ctx.height = 150;
+        ctx.height = 250;
 
         var myChart = new Chart(ctx, {
             type: 'line',

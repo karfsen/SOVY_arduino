@@ -80,7 +80,7 @@
                                     <th scope="col">Steps</th>
                                 </tr>
                                 </thead>
-                                <tbody id="stepsHighScoreTable">
+                                <tbody id="todayStepsHighScoreTable">
 
                                 </tbody>
                             </table>
@@ -100,19 +100,7 @@
                                     <th scope="col">Steps</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Mark</td>
-                                    <td>311111</td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>3123</td>
-                                </tr>
-                                <tr>
-                                    <td>Larry</td>
-                                    <td>32</td>
-                                </tr>
+                                <tbody id="allTimeStepsHighScoreTable">
                                 </tbody>
                             </table>
                         </div>
@@ -224,7 +212,8 @@
         getMyOverallSteps();
         getOverallStepsForEveryUser();
         getOverallTodaySteps();
-        getHighScore();
+        getAllTimeHighScore();
+        getTodayHighScore();
     };
 
     function logout() {
@@ -243,7 +232,7 @@
         let data = document.getElementById("my_today_steps");
 
 
-        let req = "http://itsovy.sk:1203/alltodaysteps";
+        let req = "http://itsovy.sk:1203/getsteps";
         var xhttp = new XMLHttpRequest(); // new HttpRequest instance
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -309,7 +298,7 @@
         let data = document.getElementById("all_today_steps");
 
 
-        let req = "http://itsovy.sk:1203/getsteps";
+        let req = "http://itsovy.sk:1203/gettodaysteps";
         var xhttp = new XMLHttpRequest(); // new HttpRequest instance
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -353,7 +342,7 @@
                 //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
                 for (var i = 0; i < obj.length; i++) {
                     var obj2 = obj[i];
-                    jsonData = obj2.sum;
+                    jsonData += obj2.sum;
                     // console.log(obj2.thisSessionSteps);
                 }
                 data.innerHTML = jsonData;
@@ -448,17 +437,12 @@
         let req = "http://itsovy.sk:1203/getusertodayminutes";
         var xhttp = new XMLHttpRequest(); // new HttpRequest instance
         xhttp.onreadystatechange = function () {
-            console.log("in");
-            console.log("status: " + this.status);
             if (this.readyState == 4 && this.status == 200) {
                 let obj = JSON.parse(this.responseText);
-                // console.log(obj);
+                console.log("-------------------------------");
+                console.log(obj);
                 let jsonData = 0;
-                for (var i = 0; i < obj.length; i++) {
-                    var obj2 = obj[i];
-                    jsonData += obj2.thisSessionSteps;
-                    // console.log(obj2.thisSessionSteps);
-                }
+                jsonData = obj.minutes;
                 data.innerHTML = jsonData;
 
             } else {
@@ -503,8 +487,8 @@
         xhttp.send();
     }
 
-    function getHighScore() {
-        var table = document.getElementById("stepsHighScoreTable");
+    function getAllTimeHighScore() {
+        var table = document.getElementById("allTimeStepsHighScoreTable");
         let req = "http://itsovy.sk:1203/alltimeuserssteps";
         var xhttp = new XMLHttpRequest(); // new HttpRequest instance
         xhttp.onreadystatechange = function () {
@@ -524,7 +508,39 @@
                 }
 
             } else {
-                    // nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                // nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send();
+
+    }
+
+    function getTodayHighScore() {
+        var table = document.getElementById("todayStepsHighScoreTable");
+        let req = "http://itsovy.sk:1203/alltodaysteps";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let rowIndex = 0;
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    console.log(obj2);
+                    var row = table.insertRow(rowIndex);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    cell1.innerHTML = obj2.username;
+                    cell2.innerHTML = obj2.todaysteps;
+                    rowIndex += 1;
+                    // console.log(obj2.thisSessionSteps);
+                }
+
+            } else {
+                // nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
             }
 
         };
