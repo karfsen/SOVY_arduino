@@ -496,6 +496,9 @@
                 let obj = JSON.parse(this.responseText);
                 let rowIndex = 0;
                 for (var i = 0; i < obj.length; i++) {
+                    if (i >= 5) {
+                        break;
+                    }
                     var obj2 = obj[i];
                     console.log(obj2);
                     var row = table.insertRow(rowIndex);
@@ -528,6 +531,9 @@
                 let obj = JSON.parse(this.responseText);
                 let rowIndex = 0;
                 for (var i = 0; i < obj.length; i++) {
+                    if (i >= 5) {
+                        break;
+                    }
                     var obj2 = obj[i];
                     console.log(obj2);
                     var row = table.insertRow(rowIndex);
