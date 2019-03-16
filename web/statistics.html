@@ -80,19 +80,8 @@
                                     <th scope="col">Steps</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Mark</td>
-                                    <td>11111</td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>123</td>
-                                </tr>
-                                <tr>
-                                    <td>Larry</td>
-                                    <td>2</td>
-                                </tr>
+                                <tbody id="stepsHighScoreTable">
+
                                 </tbody>
                             </table>
                         </div>
@@ -217,15 +206,15 @@
     //za zvyskom cakame na api
 
     window.onload = function () {
-        if (!localStorage.getItem('user')) {
-            window.location.replace("login.html");
-        } else {
-            let user = JSON.parse(localStorage.getItem('user'));
-            document.getElementById('logName').innerHTML = user.username;
-            console.log(user);
-
-
-        }
+        // if (!localStorage.getItem('user')) {
+        //     window.location.replace("login.html");
+        // } else {
+        //     let user = JSON.parse(localStorage.getItem('user'));
+        //     document.getElementById('logName').innerHTML = user.username;
+        //     console.log(user);
+        //
+        //
+        // }
         getTodaySteps();
         // getAllUsersTodaSteps();
         getTodayMinutes();
@@ -235,6 +224,7 @@
         getMyOverallSteps();
         getOverallStepsForEveryUser();
         getOverallTodaySteps();
+        getHighScore();
     };
 
     function logout() {
@@ -511,6 +501,38 @@
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         //poslanie poziadavky na api
         xhttp.send();
+    }
+
+    function getHighScore() {
+        var table = document.getElementById("stepsHighScoreTable");
+        let req = "http://itsovy.sk:1203/alltimeuserssteps";
+        var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let rowIndex = 0;
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    console.log(obj2);
+                    var row = table.insertRow(rowIndex);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    cell1.innerHTML = obj2.username;
+                    cell2.innerHTML = obj2.sum;
+                    rowIndex += 1;
+                    // console.log(obj2.thisSessionSteps);
+                }
+
+            } else {
+                    // nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+            }
+
+        };
+        xhttp.open("POST", encodeURI(req), "/json-handler");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
+        xhttp.send();
+
     }
 
 

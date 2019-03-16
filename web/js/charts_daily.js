@@ -48,24 +48,20 @@
     xhttp.send();
 
 //nakreslenie grafu pre splnenie goalu prejdenych krokov
-    let req = "http://itsovy.sk:1203/todaysteps";
+    let req = "http://itsovy.sk:1203/alltodaysteps";
     var xhttp4 = new XMLHttpRequest(); // new HttpRequest instance
     xhttp4.onreadystatechange = function () {
-        console.log("in");
-        console.log("status: " + this.status);
-        let needed = 1000;
+        let needed = 15000;
         let done = 0;
+        let remaining = 0;
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
-            // console.log(obj);
-            let jsonData = 0;
-            for (var i = 0; i < obj.length; i++) {
-                var obj2 = obj[i];
-                jsonData += obj2.thisSessionSteps;
-                // console.log(obj2.thisSessionSteps);
-            }
-            done = jsonData;
+            done = obj[0].todaysteps;
 
+            remaining = needed - done;
+            if (remaining < 0) {
+                remaining = 0;
+            }
         }
         var ctx = document.getElementById("doughutSteps");
         ctx.height = 250;
@@ -73,7 +69,7 @@
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: [done, needed - done],
+                    data: [done, remaining],
                     backgroundColor: [
                         "rgba(0, 194, 146,0.9)",
                         "rgba(194, 0, 0,0.7)",
