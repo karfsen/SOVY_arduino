@@ -296,7 +296,8 @@
 
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/me.js"></script>
-
+<!--naplnenie grafov na stranke-->
+<script src="js/charts.js"></script>
 <script type="text/javascript">
     //pri nacitani okna skontrolujeme ci je user prihlaseny. este nastavime bmi water intake, weight, height, age
 
@@ -314,11 +315,14 @@
         getLastValueForBMI();
         // setBMI(document.getElementById("weight").innerHTML, document.getElementById("height").innerHTML);
         setWaterIntake(document.getElementById("weight").innerHTML, document.getElementById("weight").innerHTML);
-        // setWeight(89);
-        // setHeight(180);
-        // setAge(21);
-        // sav();
-
+        setInterval(function () {
+            heightsGraph();
+            weightsGraph();
+            waterIntakeGraph();
+        }, 300000);
+        heightsGraph();
+        weightsGraph();
+        waterIntakeGraph();
 
     };
 
@@ -364,8 +368,6 @@
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/Chart.bundle.min.js"></script>
-<!--<script src="js/charts_daily.js"></script>-->
-<script src="js/charts_me.js"></script>
 
 
 </body>

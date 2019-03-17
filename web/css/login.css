@@ -18,6 +18,10 @@ body {
     border-radius: 2px;
 }
 
+h1 {
+    color: black;
+}
+
 .login-form {
     /*width: 300px;*/
     margin: 0 auto;
@@ -141,4 +145,8 @@ body {
 .back {
     transform: rotateY(180deg);
     background-color: #fff;
+}
+
+h2{
+    color: black;
 }

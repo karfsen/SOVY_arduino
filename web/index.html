@@ -146,9 +146,25 @@
     <!-- /.content -->
 </main>
 <script type="text/javascript" src="js/base.js"></script>
-
+<!--naplnenie grafov na stranke-->
+<script src="js/charts.js"></script>
 <script type="text/javascript">
-    window.onload = checkIfLogged();
+    window.onload = function () {
+        checkIfLogged();
+        setInterval(function () {
+            minutesGoalGraph();
+            dailyGoalsGraf();
+            stepsGoalGraph();
+            waterIntakeGraph();
+            stepsGraph();
+        }, 300000);
+        minutesGoalGraph();
+        dailyGoalsGraf();
+        stepsGoalGraph();
+        waterIntakeGraph();
+        stepsGraph();
+
+    }
 
 </script>
 
@@ -161,8 +177,6 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/Chart.bundle.min.js"></script>
 
-<!--naplnenie grafov na stranke-->
-<script src="js/charts.js"></script>
 
 </body>
 
