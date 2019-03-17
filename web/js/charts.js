@@ -59,7 +59,6 @@
             }
         });
     };
-    console.log("test");
 
     xhttpSteps.open("POST", encodeURI("http://itsovy.sk:1203/todaysteps"), "/json-handler");
     xhttpSteps.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -68,12 +67,12 @@
     //Nakreslenie grafu pre water intake usera; zatial napojene na fake api lebo api neide
     var xhttpWather = new XMLHttpRequest();
     xhttpWather.onreadystatechange = function () {
-
+        let waterIntage = [];
+        let times = [];
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
             var json_data = JSON.parse(xhttpWather.responseText);
-            let waterIntage = [];
-            let times = [];
+
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
 
@@ -86,44 +85,43 @@
                 times.push(date.toDateString() + " " + date.toLocaleTimeString());
             }
 
-            var ctx = document.getElementById("lineWater"); // vlozenie grafu do id lineDaily
-            ctx.height = 250;
-
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                //data pre graf
-                data: {
-                    labels: times,
-                    datasets: [
-                        {
-                            label: "Water intake in ml",
-                            borderColor: "rgba(123,0,.09)",
-                            borderWidth: "1",
-                            backgroundColor: "rgba(0, 0, 193, 0.5)",
-                            pointHighlightStroke: "rgba(26,179,148,1)",
-                            data: waterIntage,
-                            lineTension: 0
-
-                        }
-                    ]
-                },
-                options: {
-                    // responsive: true,
-                    // maintainAspectRatio: false,
-                    tooltips: {
-                        mode: 'index',
-                        intersect: false
-                    },
-                    hover: {
-                        mode: 'nearest',
-                        intersect: true
-                    }
-
-                }
-            });
-
 
         }
+        var ctx = document.getElementById("lineWater"); // vlozenie grafu do id lineDaily
+        ctx.height = 250;
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            //data pre graf
+            data: {
+                labels: times,
+                datasets: [
+                    {
+                        label: "Water intake in ml",
+                        borderColor: "rgba(123,0,.09)",
+                        borderWidth: "1",
+                        backgroundColor: "rgba(0, 0, 193, 0.5)",
+                        pointHighlightStroke: "rgba(26,179,148,1)",
+                        data: waterIntage,
+                        lineTension: 0
+
+                    }
+                ]
+            },
+            options: {
+                // responsive: true,
+                // maintainAspectRatio: false,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                }
+
+            }
+        });
     };
 
     xhttpWather.open("POST", encodeURI("http://itsovy.sk:1203/showdrink"), "/json-handler");
@@ -328,9 +326,7 @@
         let remainingSteps = 0;
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
-            console.log(obj);
             doneMinutes = obj.minutes;
-            console.log("doneMinutes: " + doneMinutes);
             remainingMinutes = neededMinutes - doneMinutes;
             if (remainingMinutes < 0) {
                 remainingMinutes = 0;
@@ -341,14 +337,12 @@
 
                 if (this.readyState == 4 && this.status == 200) {
                     let obj = JSON.parse(this.responseText);
-                    console.log(obj);
                     doneSteps = obj[0].todaysteps;
 
                     remainingSteps = neededSteps - doneSteps;
                     if (remainingSteps < 0) {
                         remainingSteps = 0;
                     }
-                    console.log(doneSteps);
                 }
 
                 let goalsNeedToBeCompleted = 2;
