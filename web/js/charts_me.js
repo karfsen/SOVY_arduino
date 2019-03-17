@@ -14,7 +14,6 @@
             let z = 1;
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
-                console.log(obj2);
 
                 if (obj2.weight) {
                     weights.push(obj2.weight);
@@ -87,7 +86,6 @@
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
 
-                // console.log(obj2);
                 waterIntage.push(obj2.mlOfWater);
                 let whole = obj2.time.split(' ');
                 let d = whole[0].split(".");
