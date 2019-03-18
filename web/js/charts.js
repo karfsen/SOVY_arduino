@@ -1,7 +1,7 @@
 function dailyGoalsGraf() {
     //nakreslenie grafu pre splnenie goalu minut
-    var xhttpGoals = new XMLHttpRequest(); // new HttpRequest instance
-    xhttpGoals.onreadystatechange = function () {
+    var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+    xhttp.onreadystatechange = function () {
         let neededMinutes = 300;
         let doneMinutes = 0;
         let remainingMinutes = 0;
@@ -16,8 +16,8 @@ function dailyGoalsGraf() {
                 remainingMinutes = 0;
             }
             let req = "http://itsovy.sk:1203/getsteps";
-            var xhttpSteps = new XMLHttpRequest(); // new HttpRequest instance
-            xhttpSteps.onreadystatechange = function () {
+            var xhttp2 = new XMLHttpRequest(); // new HttpRequest instance
+            xhttp2.onreadystatechange = function () {
 
                 if (this.readyState == 4 && this.status == 200) {
                     let obj = JSON.parse(this.responseText);
@@ -40,7 +40,7 @@ function dailyGoalsGraf() {
                 let remainingGoals = goalsNeedToBeCompleted - goalsCompleted;
 
                 var ctx = document.getElementById("doughutGoals");
-                ctx.height = 250;
+                // ctx.height = 250;
                 var myChart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
@@ -63,18 +63,18 @@ function dailyGoalsGraf() {
                         ]
                     },
                     options: {
-                        responsive: true
+                        responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0}
                     }
                 });
 
 
             };
-            xhttpSteps.open("POST", encodeURI(req), "/json-handler");
-            xhttpSteps.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhttpSteps.send(localStorage.getItem('user'));
+            xhttp2.open("POST", encodeURI(req), "/json-handler");
+            xhttp2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp2.send(localStorage.getItem('user'));
         } else {
             var ctx = document.getElementById("doughutGoals");
-            ctx.height = 250;
+            // ctx.height = 250;
             var myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -97,22 +97,22 @@ function dailyGoalsGraf() {
                     ]
                 },
                 options: {
-                    responsive: true
+                    responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0}
                 }
             });
         }
     };
 
-    xhttpGoals.open("POST", encodeURI("http://itsovy.sk:1203/getusertodayminutes"), "/json-handler");
-    xhttpGoals.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttpGoals.send(localStorage.getItem('user'));
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/getusertodayminutes"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
 
 }
 
 function minutesGoalGraph() {
     //nakreslenie grafu pre splnenie goalu minut
-    var xhttpMinutes = new XMLHttpRequest(); // new HttpRequest instance
-    xhttpMinutes.onreadystatechange = function () {
+    var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+    xhttp.onreadystatechange = function () {
         let needed = 300;
         let done = 0;
         let remaining = 0;
@@ -125,7 +125,7 @@ function minutesGoalGraph() {
             }
         }
         var ctx = document.getElementById("doughutMinutes");
-        ctx.height = 250;
+        // ctx.height = 250;
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -147,14 +147,14 @@ function minutesGoalGraph() {
                 ]
             },
             options: {
-                responsive: true
+                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0}
             }
         });
 
     };
-    xhttpMinutes.open("POST", encodeURI("http://itsovy.sk:1203/getusertodayminutes"), "/json-handler");
-    xhttpMinutes.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttpMinutes.send(localStorage.getItem('user'));
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/getusertodayminutes"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
 
 
 }
@@ -163,8 +163,8 @@ function stepsGoalGraph() {
 
 //nakreslenie grafu pre splnenie goalu prejdenych krokov
     let req = "http://itsovy.sk:1203/getsteps";
-    var xhttp4 = new XMLHttpRequest(); // new HttpRequest instance
-    xhttp4.onreadystatechange = function () {
+    var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+    xhttp.onreadystatechange = function () {
         let needed = 15000;
         let done = 0;
         let remaining = 0;
@@ -179,7 +179,7 @@ function stepsGoalGraph() {
             }
         }
         var ctx = document.getElementById("doughutSteps");
-        ctx.height = 250;
+        // ctx.height = 250;
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -201,25 +201,25 @@ function stepsGoalGraph() {
                 ]
             },
             options: {
-                responsive: true
+                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0}
             }
         });
 
     };
-    xhttp4.open("POST", encodeURI(req), "/json-handler");
-    xhttp4.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp4.send(localStorage.getItem('user'));
+    xhttp.open("POST", encodeURI(req), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
 }
 
 function waterIntakeGraph() {
     //Nakreslenie grafu pre water intake usera; zatial napojene na fake api lebo api neide
-    var xhttpWather = new XMLHttpRequest();
-    xhttpWather.onreadystatechange = function () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
         let waterIntage = [];
         let times = [];
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
-            var json_data = JSON.parse(xhttpWather.responseText);
+            var json_data = JSON.parse(xhttp.responseText);
 
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
@@ -236,7 +236,7 @@ function waterIntakeGraph() {
 
         }
         var ctx = document.getElementById("lineWater"); // vlozenie grafu do id lineDaily
-        ctx.height = 200;
+        // ctx.height = 200;
 
         var myChart = new Chart(ctx, {
             type: 'line',
@@ -257,8 +257,9 @@ function waterIntakeGraph() {
                 ]
             },
             options: {
+                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                // aspectRatio:true,
                 // responsive: true,
-                // maintainAspectRatio: false,
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -272,22 +273,22 @@ function waterIntakeGraph() {
         });
     };
 
-    xhttpWather.open("POST", encodeURI("http://itsovy.sk:1203/showdrink"), "/json-handler");
-    xhttpWather.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttpWather.send(localStorage.getItem('user'));
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/showdrink"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
 
 }
 
 function stepsGraph() {
     //Nakreslenie grafu pre kroky usera; zatial napojene na fake api lebo api neide
-    var xhttpSteps = new XMLHttpRequest();
+    var xhttp = new XMLHttpRequest();
 
 
-    xhttpSteps.onreadystatechange = function () {
+    xhttp.onreadystatechange = function () {
         let steps = [];
         let times = [];
         if (this.readyState == 4 && this.status == 200) {
-            var json_data = JSON.parse(xhttpSteps.responseText);
+            var json_data = JSON.parse(xhttp.responseText);
 
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
@@ -302,7 +303,7 @@ function stepsGraph() {
 
         }
         var ctx = document.getElementById("lineSteps");
-        ctx.height = 200;
+        // ctx.height = 200;
 
         var myChart = new Chart(ctx, {
             type: 'line',
@@ -323,7 +324,9 @@ function stepsGraph() {
                 ]
             },
             options: {
-                responsive: true,
+                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                // aspectRatio:true,
+                // responsive: true,
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -337,23 +340,23 @@ function stepsGraph() {
         });
     };
 
-    xhttpSteps.open("POST", encodeURI("http://itsovy.sk:1203/todaysteps"), "/json-handler");
-    xhttpSteps.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttpSteps.send(localStorage.getItem('user'));
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/todaysteps"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
 
 
 }
 
 function heightsGraph() {
-    var xhttpHeight = new XMLHttpRequest();
+    var xhttp = new XMLHttpRequest();
 
 
-    xhttpHeight.onreadystatechange = function () {
+    xhttp.onreadystatechange = function () {
         let heights = [];
         let times = [];
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
-            var json_data = JSON.parse(xhttpHeight.responseText);
+            var json_data = JSON.parse(xhttp.responseText);
 
             let z = 1;
             for (var i = 0; i < json_data.length; i++) {
@@ -374,7 +377,7 @@ function heightsGraph() {
             document.getElementById("lineHeight").innerHTML = "Error getting data!";
         }
         var ctx = document.getElementById("lineHeight"); // vlozenie grafu do id lineDaily
-        ctx.height = 250;
+        // ctx.height = 250;
 
         var myChart = new Chart(ctx, {
             type: 'line',
@@ -395,8 +398,9 @@ function heightsGraph() {
                 ]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                // aspectRatio:true,
+                // responsive: true,
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -410,23 +414,23 @@ function heightsGraph() {
         });
     };
 
-    xhttpHeight.open("POST", encodeURI("http://itsovy.sk:1203/userinfo"), "/json-handler");
-    xhttpHeight.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttpHeight.send(localStorage.getItem('user'));
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/userinfo"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
 
 }
 
 
 function weightsGraph() {
-    var xhttpSteps = new XMLHttpRequest();
+    var xhttp = new XMLHttpRequest();
 
 
-    xhttpSteps.onreadystatechange = function () {
+    xhttp.onreadystatechange = function () {
         let weights = [];
         let times = [];
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
-            var json_data = JSON.parse(xhttpSteps.responseText);
+            var json_data = JSON.parse(xhttp.responseText);
 
             let z = 1;
             for (var i = 0; i < json_data.length; i++) {
@@ -449,7 +453,7 @@ function weightsGraph() {
             document.getElementById("lineWeight").innerHTML = "Error getting data!";
         }
         var ctx = document.getElementById("lineWeight"); // vlozenie grafu do id lineDaily
-        ctx.height = 250;
+        // ctx.height = 250;
         // ctx.width = 1000;
 
 
@@ -472,8 +476,8 @@ function weightsGraph() {
                 ]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -487,9 +491,9 @@ function weightsGraph() {
         });
     };
 
-    xhttpSteps.open("POST", encodeURI("http://itsovy.sk:1203/userinfo"), "/json-handler");
-    xhttpSteps.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttpSteps.send(localStorage.getItem('user'));
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/userinfo"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
 
 
 }
