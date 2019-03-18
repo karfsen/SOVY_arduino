@@ -202,56 +202,61 @@ function getLastValueForBMI() {
 }
 
 function getDrinked() {
-    let req = "http://itsovy.sk:1203/showdrink";
-    var xhttp = new XMLHttpRequest(); // new HttpRequest instance
-    xhttp.onreadystatechange = function () {
+
+
+    let req2 = "http://itsovy.sk:1203/userinfo";
+
+    var xhttp2 = new XMLHttpRequest(); // new HttpRequest instance
+    xhttp2.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
-            let jsonData = 0;
-            for (var i = 0; i < obj.length; i++) {
+            let weight = null;
+            for (var i = obj.length - 1; i >= 0; i--) {
                 var obj2 = obj[i];
-                jsonData += obj2.mlOfWater;
+                if (!(obj2.weight == null) && weight == null) {
+                    weight = obj2.weight;
+                }
 
             }
-            let req2 = "http://itsovy.sk:1203/userinfo";
+            if (weight == null) {
+                weight = 0;
+            }
+            let drinked = 0;
 
-            var xhttp2 = new XMLHttpRequest(); // new HttpRequest instance
-            xhttp2.onreadystatechange = function () {
+            let req = "http://itsovy.sk:1203/showdrink";
+            var xhttp = new XMLHttpRequest(); // new HttpRequest instance
+            xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     let obj = JSON.parse(this.responseText);
-                    let weight = null;
-                    for (var i = obj.length - 1; i >= 0; i--) {
+                    for (var i = 0; i < obj.length; i++) {
                         var obj2 = obj[i];
-                        if (!(obj2.weight == null) && weight == null) {
-                            weight = obj2.weight;
-                        }
+                        drinked += obj2.mlOfWater;
 
                     }
-                    if (weight == null) {
-                        weight = 0;
-                    }
-                    setWaterIntake(weight, jsonData)
-
 
                 } else {
-                    setWaterIntake(0, 0);
+
+                    setWaterIntake(weight, 0);
 
                 }
+
             };
-            xhttp2.open("POST", encodeURI(req2), "/json-handler");
-            xhttp2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhttp2.send(localStorage.getItem('user'));
+            xhttp.open("POST", encodeURI(req), "/json-handler");
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.send(localStorage.getItem('user'));
+            setWaterIntake(weight, drinked)
 
 
         } else {
             setWaterIntake(0, 0);
 
         }
-
     };
-    xhttp.open("POST", encodeURI(req), "/json-handler");
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(localStorage.getItem('user'));
+    xhttp2.open("POST", encodeURI(req2), "/json-handler");
+    xhttp2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp2.send(localStorage.getItem('user'));
+
+
 }
 
 function saveDrink() {
