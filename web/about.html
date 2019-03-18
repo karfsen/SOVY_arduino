@@ -20,7 +20,7 @@
 
 <!--bootstrap navigacny panel-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Project walk</a>
+    <a class="navbar-brand" href="#">ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -43,13 +43,16 @@
                         class="fa fa-chart-line"></span><span>&nbsp;Statistics</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="about.html"><span
-                        class="fa fa-users"></span><span>&nbsp;About us</span></a>
+                <a class="nav-link" href="settings.html"><span
+                        class="fa fa-wrench"></span><span>&nbsp;Settings</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="about.html"><span class="fa fa-users"></span><span>&nbsp;About us</span></a>
             </li>
         </ul>
         <div class="navbar-brand" id="logName">Name</div>
 
-        <a class="nav-link" href="#" onclick="logout()"><span
+        <a class="nav-link text-white" href="#" onclick="logout()"><span
                 class="fa fa-sign-out-alt"></span><span>&nbsp;Logout</span></a>
 
     </div>
@@ -126,31 +129,12 @@
     </div>
     <!-- /.content -->
 </main>
+<script type="text/javascript" src="js/base.js"></script>
+
 <script type="text/javascript">
     //pri nacitani okna skontrolujeme ci je user prihlaseny
 
-    window.onload = function () {
-        if (!localStorage.getItem('user')) {
-            window.location.replace("login.html");
-        } else {
-            let user = JSON.parse(localStorage.getItem('user'));
-            document.getElementById('logName').innerHTML = user.username;
-            console.log(user);
-
-
-        }
-    }
-
-    function logout() {
-        localStorage.removeItem('user');
-        // let req = "http://itsovy.sk:1201/logout";
-        // var xhttp = new XMLHttpRequest(); // new HttpRequest instance
-        // xhttp.open("POST", encodeURI(req), "/json-handler");
-        // // xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        // xhttp.send();
-        window.location.replace("login.html");
-
-    }
+    window.onload = checkIfLogged();
 
 
 </script>

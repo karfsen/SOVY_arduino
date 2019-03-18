@@ -1,318 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Steps login</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--<script src="js/bootstrap.min.js"></script>-->
-    <style type="text/css">
-
-    </style>
-    <link href="css/login.css" rel="stylesheet">
-    <link href="css/test.css" rel="stylesheet">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="fonts/fa/css/all.css">
-
+    <link rel="stylesheet" href="css/login.css">
 
 </head>
-
 <body>
-
-<!--<main role="main" class="container">-->
-<!--<br>-->
-<!--<br>-->
-<!--<br>-->
-<!--<br>-->
-<!--&lt;!&ndash;obsah stranky&ndash;&gt;-->
-<!--<div class="content">-->
-<!--&lt;!&ndash; Rotating card &ndash;&gt;-->
-<!--<div class="row">-->
-<!--<div class="col-sm-6 col-lg-4">-->
-<!--<div class="flip-card">-->
-<!--<div class="flip-card-inner">-->
-<!--<div class="flip-card-front">-->
-<!--<div class="modal-dialog modal-login">-->
-<!--<div class="modal-content">-->
-<!--<div class="modal-header">-->
-<!--<div class="avatar">-->
-<!--<img src="images/avatar.png" alt="Avatar">-->
-<!--</div>-->
-<!--<h4 class="modal-title">Member Login</h4>-->
+<main role="main" class="container">
 
 
-<!--&lt;!&ndash;<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>&ndash;&gt;-->
-<!--</div>-->
-<!--<div class="modal-body">-->
-<!--<div id="error"></div>-->
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--obsah stranky-->
+    <div class="d-lg-none">
+        <h1 class="text-center">
+            ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ
+        </h1>
+    </div>
+    <div class="d-none d-lg-block">
+        <h1 class="text-center">▁ ▂ ▄ ▅ ▆ ▇ █ ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ █ ▇ ▆ ▅ ▄ ▂ ▁</h1>
 
-<!--&lt;!&ndash; <form method="post"> &ndash;&gt;-->
-<!--<div class="form-group">-->
-<!--<input type="text" class="form-control" name="username"-->
-<!--placeholder="Username" required="required"-->
-<!--id="name">-->
-<!--</div>-->
-<!--<div class="form-group">-->
-<!--<input type="password" class="form-control" name="password"-->
-<!--placeholder="Password" required="required"-->
-<!--id="password">-->
-<!--</div>-->
-<!--<div class="form-group">-->
-<!--<button type="submit" onclick="check()"-->
-<!--class="btn btn-primary btn-lg btn-block login-btn">Login-->
-<!--</button>-->
-<!--</div>-->
-<!--&lt;!&ndash; </form> &ndash;&gt;-->
-<!--</div>-->
-<!--<div class="modal-footer">-->
-<!--<a href="register.html">Not registered yet? Click here!</a>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash;<img src="img_avatar.png" alt="Avatar" style="width:300px;height:300px;">&ndash;&gt;-->
-<!--</div>-->
-<!--<div class="flip-card-back">-->
-<!--<div class="modal-dialog modal-login">-->
-<!--<div class="modal-content">-->
-<!--<div class="modal-header">-->
-<!--&lt;!&ndash;<div class="avatar">&ndash;&gt;-->
-<!--&lt;!&ndash;<img src="images/avatar.png" alt="Avatar">&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--<h4 class="modal-title">Registration</h4>-->
-<!--&lt;!&ndash;<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>&ndash;&gt;-->
-<!--</div>-->
-<!--<div class="modal-body">-->
-<!--<div id="error"></div>-->
-
-<!--&lt;!&ndash; <form action="/examples/actions/confirmation.php" method="post"> &ndash;&gt;-->
-<!--Username-->
-<!--<div class="form-group">-->
-<!--<input type="text" class="form-control" name="username"-->
-<!--placeholder="Username" required="required"-->
-<!--id="name">-->
-<!--</div>-->
-<!--Password-->
-<!--<div class="form-group">-->
-<!--<input type="password" class="form-control" name="password"-->
-<!--placeholder="Password" required="required"-->
-<!--id="password">-->
-<!--</div>-->
-<!--Repeat password-->
-<!--<div class="form-group">-->
-<!--<input type="password" class="form-control" name="password2"-->
-<!--placeholder="Repeat password"-->
-<!--required="required" id="password2">-->
-<!--</div>-->
-<!--Arduino id-->
-<!--<div class="form-group">-->
-<!--<input type="text" class="form-control" name="arduino"-->
-<!--placeholder="Arduino id" required="required"-->
-<!--id="arduinoid">-->
-<!--</div>-->
-<!--<div class="form-group">-->
-<!--<button type="submit" class="btn btn-primary btn-lg btn-block login-btn"-->
-<!--onclick="check()">Register-->
-<!--</button>-->
-<!--</div>-->
-<!--&lt;!&ndash; </form> &ndash;&gt;-->
-<!--</div>-->
-<!--<div class="modal-footer">-->
-<!--<a href="login.html">Already member? Click here!</a>-->
-<!--</div>-->
-
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash; End Card Flip &ndash;&gt;-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--&lt;!&ndash; /.content &ndash;&gt;-->
-<!--</main>-->
-<!--<div class="text-center">-->
-<!--&lt;!&ndash; Button HTML (to Trigger Modal) &ndash;&gt;-->
-<!--<a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a>-->
-<!--</div>-->
-
-<!-- Modal HTML -->
-<!--<div id="myModal" class="">-->
-<div class="container-fluid">
+    </div>
 
     <div class="content">
-        <div class="row">
-            <div class="col-12 text-center" >
-                <h1>
-                    ▁ ▂ ▄ ▅ ▆ ▇ █ ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ █ ▇ ▆ ▅ ▄ ▂ ▁
-                </h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="row">
-                    <div class="col-lg-6">
+        <div class="animated fadeIn">
+            <div class="row">
 
-                        <div class="card m-5">
-                            <div class="card-body">
-                                <!--<h4 class="mb-3 text-whiter neon">-->
-                                <!--Use our application and we will help you to achieve good helth via water intake-->
-                                <!--calculation-->
-                                <!--and calculation of distance you should walk, for healthy body and mind.-->
-                                <!--</h4>-->
+                <!--mensi stlpec-->
+                <div class="col-lg-4">
 
+                </div><!-- /# column -->
+
+                <div class="col-lg-4">
+                    <div class="flip-container" id="fc">
+                        <div class="flipper">
+                            <div class="front">
+                                <div class="login-form ">
+                                    <form>
+                                        <div class="avatar">
+                                            <img src="images/avatar.png" alt="Avatar">
+                                        </div>
+                                        <h2 class="text-center">Member Login</h2>
+                                        <div id="error"></div>
+                                        <div class="form-row align-items-center">
+                                            <div class="col-12">
+                                                <label class="sr-only" for="name">Username</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><span class="fa fa-user"></span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Username" required="required"
+                                                           id="name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <div class="col-12">
+                                                <label class="sr-only" for="password">Password</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><span class="fa fa-key"></span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="password" class="form-control"
+                                                           placeholder="Password" required="required"
+                                                           id="password">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" onclick="tryLogin()"
+                                                    class="btn btn-primary btn-lg btn-block">Sign
+                                                in
+                                            </button>
+                                        </div>
+                                        <p class="text-center text-white"><a onclick="flip()" href="#">Don't have an
+                                            account?
+                                            Sign up here!</a>
+                                        </p>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="back">
+                                <div class="login-form ">
+                                    <form>
+
+                                        <h2 class="text-center">Registration</h2>
+                                        <div id="registerError"></div>
+                                        <div class="form-row align-items-center">
+                                            <div class="col-12">
+                                                <label class="sr-only" for="name">Username</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><span class="fa fa-user"></span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Username" required="required"
+                                                           id="registerName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <div class="col-12">
+                                                <label class="sr-only" for="password">Password</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><span class="fa fa-key"></span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="password" class="form-control"
+                                                           placeholder="Password" required="required"
+                                                           id="registerPassword">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <div class="col-12">
+                                                <label class="sr-only" for="password">Repeat password</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><span class="fa fa-key"></span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="password" class="form-control"
+                                                           placeholder="Repeat password" required="required"
+                                                           id="registerPassword2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <div class="col-12">
+                                                <label class="sr-only" for="password">Arduino id</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><span
+                                                                class="fa fa-id-badge"></span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Arduino id" required="required"
+                                                           id="arduinoid">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" onclick="register()"
+                                                    class="btn btn-primary btn-lg btn-block">Register
+                                            </button>
+                                        </div>
+                                        <p class="text-center text-white"><a href="#" onclick="flip()">Already member?
+                                            Click here!</a>
+                                        </p>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="modal-dialog modal-login">
-                    <div class="modal-content bas">
-                        <div class="cnt">
-                            <div class="modal-header">
-                                <div class="avatar">
-                                    <img src="images/avatar.png" alt="Avatar">
-                                </div>
-                                <h4 class="modal-title">Member Login</h4>
+                <div class="col-lg-4">
 
 
-                                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-                            </div>
-                            <div class="modal-body">
-                                <div id="error"></div>
+                </div><!-- /# column -->
 
-                                <!-- <form method="post"> -->
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="username" placeholder="Username"
-                                           required="required"
-                                           id="name">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" name="password" placeholder="Password"
-                                           required="required"
-                                           id="password">
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" onclick="check()"
-                                            class="btn btn-primary btn-lg btn-block login-btn">
-                                        Login
-                                    </button>
-                                </div>
-                                <!-- </form> -->
-                            </div>
-                            <div class="modal-footer">
-                                <a href="register.html">Not registered yet? Click here!</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <!--<div class="row">-->
-                <!--<div class="col-lg-4">-->
-                <!--<div class="fa fa-10x fa-wine-bottle"></div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="row">-->
-                <!--<div class="col-lg-4">-->
-                <!--</div>-->
-                <!--<div class="col-lg-4">-->
-                <!--<div class="fa fa-10x fa-hourglass"></div>-->
-
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="row">-->
-                <!--<div class="col-lg-4">-->
-                <!--<div class="fa fa-8x fa-weight"></div>-->
-                <!--</div>-->
-                <!--<div class="col-lg-4">-->
-                <!--</div>-->
-                <!--<div class="col-lg-4">-->
-
-                <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="row">-->
-                <!--<div class="col-lg-4">-->
-                <!--</div>-->
-                <!--<div class="col-lg-4">-->
-                <!--</div>-->
-                <!--<div class="col-lg-4">-->
-                <!--<div class="fa fa-10x fa-calendar-check"></div>-->
-
-                <!--</div>-->
-                <!--</div>-->
 
             </div>
-        </div>
+
+        </div><!-- .animated -->
+
     </div>
-</div>
+    <!-- /.content -->
+</main>
+
+<!--<script src="js/jquery-3.3.1.min.js"></script>-->
+<script src="js/jquery-slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
 
 <script type="text/javascript">
     document.onload = chceckIfLogged(); // ked niekto prihlaseny naraz to prehodi na stranku index
 
-    function check() { // kontrola mena a hesla ich hodnota
-        let name = document.getElementById("name").value;
-        let password = document.getElementById('password').value;
-        let errorDiv = document.getElementById('error');
-        errorDiv.innerHTML = " ";
-        errorDiv.style.display = "none";
 
-        if (password.length <= 0) {
-            errorDiv.style.display = "block";
-            errorDiv.innerHTML = "Enter your password!"
-        } else {
-
-            if (name.length <= 0) {
-                errorDiv.style.display = "block";
-                errorDiv.innerHTML = "Enter your name!"
-            } else {
-
-
-                let req = "http://itsovy.sk:1203/login"; // ked ano tak posle to na server a odpoved sa ulozi sa do local storage ako user  ; 1 na konci vymenime na 3 aby sa pripojit na Martina server
-                var xhttp = new XMLHttpRequest(); // new HttpRequest instance
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        let obj = JSON.parse(this.responseText);
-                        console.log(obj);
-                        errorDiv.innerHTML = " ";
-                        errorDiv.style.display = "none";
-                        //ked prisla odpoved z api tak ukladam do localstorage
-                        localStorage.setItem('user', JSON.stringify(obj));
-                        window.location.replace("index.html");
-                    } else {
-                        errorDiv.style.display = "block";
-                        errorDiv.innerHTML = "Name or password not correct!"
-                    }
-
-                }
-                xhttp.open("POST", encodeURI(req), "/json-handler");
-                xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                //posielanie zadaneho mene a hesla na api
-                xhttp.send(JSON.stringify({
-                    "username": name, // login => username
-                    "password": password
-                }));
-            }
-        }
-        console.log(name, password);
-    }
-
-    function chceckIfLogged() {
-        if (localStorage.getItem('user')) {
-            window.location.replace("index.html");
-        }
-    }
 </script>
 
-<!--</div>-->
-</body>
+<script>
 
+
+</script>
+</body>
 </html>

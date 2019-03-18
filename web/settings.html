@@ -32,7 +32,7 @@
                 <a class="nav-link" href="index.html"> <span class="fa fa-home"></span><span>&nbsp;Home</span><span
                         class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="dailygoals.html"><span
                         class="fa fa-check"></span><span>&nbsp;Daily goals</span></a>
             </li>
@@ -43,7 +43,7 @@
                 <a class="nav-link" href="statistics.html"><span
                         class="fa fa-chart-line"></span><span>&nbsp;Statistics</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="settings.html"><span
                         class="fa fa-wrench"></span><span>&nbsp;Settings</span></a>
             </li>
@@ -67,75 +67,80 @@
     <!--obsah stranky-->
     <div class="content">
         <div class="animated fadeIn">
+
             <div class="row">
 
-                <!--mensi stlpec-->
-                <!--<div class="col-lg-6">-->
-                <!--&lt;!&ndash;bootstrap card - karta; Daily goals completed  &ndash;&gt;-->
-                <!--<div class="card m-3 rounded shadow-lg">-->
-                <!--<div class="card-body">-->
-                <!--<h4 class="mb-3">Daily goals </h4>-->
-                <!--Here you can see how many goals you need to complete and you can set up new.-->
-                <!--</div>-->
-                <!--<div class="card-footer">-->
-                <!--<a href="#" class="btn btn-success"><b>+</b> Add daily goal</a>-->
-
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <div class="col-lg-4">
-                    <!--bootstrap card - karta; Daily goals completed  -->
+                <div class="col-lg-4 ">
                     <div class="card m-3 rounded shadow-lg">
                         <div class="card-body">
-                            <canvas id="doughutGoals"></canvas>
-                            <h4 class="mb-3">Daily goals completed </h4>
+                            <h4 class="mb-3 text-primary">Change password </h4>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <div class="row" id="passwordText">
+
+                                    </div>
+                                    <div class="row">
+                                        Enter old password
+                                    </div>
+                                    <div class="row">
+                                        <input type="password" class="" id="oldPassword"></input>
+                                    </div>
+                                    <div class="row">
+                                        Enter new password
+                                    </div>
+                                    <div class="row">
+
+                                        <input type="password" class="" id="newPassword"></input>
+                                    </div>
+                                    <span class="fa fa-save" onclick="changePassword()"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <!--bootstrap card - karta; Remaining steps -->
+                <div class="col-lg-8">
                     <div class="card m-3 rounded shadow-lg">
                         <div class="card-body">
-                            <!--cavas s id pre grafy chart js-->
-                            <canvas id="doughutSteps"></canvas>
-                            <h4 class="mb-3">Remaining steps </h4>
+                            <h4 class="mb-3 text-primary">Arduino ID </h4>
+                            <div class="row">
+                                <div id="arduinoidError"></div>
+                                <div class="col-auto">
+                                    <h1 class="" id="arduinoid"></h1>
+                                </div>
+                                <div class="col-auto">
+                                    <input style="display: none" id="arduinoidInput" type="text"></input>
+                                </div>
+                                <div class="col-auto">
+                                    <span id="arduinoidEditIcon" class="fa fa-2x fa-pen"
+                                          onclick="edit()"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4">
-                    <!--bootstrap card - karta; Remaining steps -->
-                    <div class="card m-3 rounded shadow-lg">
-                        <div class="card-body">
-                            <canvas id="doughutMinutes"></canvas>
-                            <h4 class="mb-3">Remaining minutes </h4>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
 
         </div><!-- .animated -->
     </div>
     <!-- /.content -->
 </main>
+
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/settings.js"></script>
 <!--naplnenie grafov na stranke-->
 <script src="js/charts.js"></script>
 <script type="text/javascript">
+    //pri nacitani okna skontrolujeme ci je user prihlaseny. este nastavime bmi water intake, weight, height, age
+
     window.onload = function () {
         checkIfLogged();
 
-        setInterval(function () {
-            minutesGoalGraph();
-            stepsGoalGraph();
-            dailyGoalsGraf();
-        }, 300000);
-        minutesGoalGraph();
-        stepsGoalGraph();
-        dailyGoalsGraf();
-    }
+
+        //zatial su tu cisla rucne napisane, cakam na api
+        getArduinoinfo("arduinoid");
+
+    };
+
 
 </script>
 <!-- Bootstrap core JavaScript
@@ -145,6 +150,7 @@
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/Chart.bundle.min.js"></script>
+
 
 </body>
 

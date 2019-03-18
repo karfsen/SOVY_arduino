@@ -137,9 +137,7 @@
         let remainingSteps = 0;
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
-            console.log(obj);
             doneMinutes = obj.minutes;
-            console.log("doneMinutes: " + doneMinutes);
             remainingMinutes = neededMinutes - doneMinutes;
             if (remainingMinutes < 0) {
                 remainingMinutes = 0;
@@ -150,14 +148,12 @@
 
                 if (this.readyState == 4 && this.status == 200) {
                     let obj = JSON.parse(this.responseText);
-                    console.log(obj);
                     doneSteps = obj[0].todaysteps;
 
                     remainingSteps = neededSteps - doneSteps;
                     if (remainingSteps < 0) {
                         remainingSteps = 0;
                     }
-                    console.log(doneSteps);
                 }
 
                 let goalsNeedToBeCompleted = 2;
