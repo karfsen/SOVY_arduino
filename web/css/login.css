@@ -90,7 +90,7 @@ h1 {
 }
 
 .login-form form a {
-    color: #7a7a7a;
+    color: black;
     text-decoration: none;
 }
 
@@ -147,6 +147,6 @@ h1 {
     background-color: #fff;
 }
 
-h2{
+h2 {
     color: black;
 }

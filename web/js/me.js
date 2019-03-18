@@ -271,31 +271,3 @@ function saveDrink() {
     xhttp.send(JSON.stringify(json));
 }
 
-function changePassword() {
-    let req = "http://itsovy.sk:1203/changePassword";
-    var xhttp = new XMLHttpRequest(); // new HttpRequest instance
-    let oldPassword = document.getElementById("oldPassword");
-    let newPassword = document.getElementById("newPassword");
-    let passwordText = document.getElementById("passwordText");
-    if (newPassword.value < 5 || newPassword.value > 10) {
-        passwordText.innerHTML = "Enter password! (5 - 10 characters long)";
-        return;
-    }
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            passwordText.innerHTML = "Password changed!";
-        } else {
-            passwordText.innerHTML = this.responseText;
-            if (this.status == 0) {
-                passwordText.innerHTML = "Error changing password try later!";
-            }
-        }
-
-    };
-    xhttp.open("POST", encodeURI(req), "/json-handler");
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    let json = JSON.parse(localStorage.getItem('user'));
-    json["oldpassword"] = oldPassword.value;
-    json["newpassword"] = newPassword.value;
-    xhttp.send(JSON.stringify(json));
-}

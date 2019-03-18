@@ -21,7 +21,7 @@
 
 <!--bootstrap navigacny panel-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Project walk</a>
+    <a class="navbar-brand" href="#">ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -36,12 +36,16 @@
                 <a class="nav-link" href="dailygoals.html"><span
                         class="fa fa-check"></span><span>&nbsp;Daily goals</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="me.html"><span class="fa fa-user"></span><span>&nbsp;Me</span></a>
+            <li class="nav-item active">
+                <a class="nav-link" href="me.html"><span class="fa fa-user"></span><span>&nbsp;Me</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="statistics.html"><span
                         class="fa fa-chart-line"></span><span>&nbsp;Statistics</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="settings.html"><span
+                        class="fa fa-wrench"></span><span>&nbsp;Settings</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="about.html"><span class="fa fa-users"></span><span>&nbsp;About us</span></a>
@@ -49,11 +53,12 @@
         </ul>
         <div class="navbar-brand" id="logName">Name</div>
 
-        <a class="nav-link" href="#" onclick="logout()"><span
+        <a class="nav-link text-white" href="#" onclick="logout()"><span
                 class="fa fa-sign-out-alt"></span><span>&nbsp;Logout</span></a>
 
     </div>
 </nav>
+
 
 <main role="main" class="container">
     <br>
@@ -161,6 +166,19 @@
                             </div>
 
                         </div>
+
+                    </div>
+                    <div class="card m-3 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Drink </h4>
+                            How many you drink (ml)
+                            <div class="row">
+                                <div class="col-auto">
+                                    <input type="number" class="" id="drinkInput"></input>
+                                    <span class="fa fa-save" onclick="saveDrink()"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mt-4">
@@ -168,7 +186,7 @@
                     <div class="card m-3 rounded shadow-lg">
                         <div class="card-body">
                             <h4 class="mb-3 text-primary">Water intake </h4>
-                            <div class="row">
+                            <div class="row mt-5">
                                 <div class="col-auto">
                                     You have already drinked (ml)
                                 </div>
@@ -202,66 +220,9 @@
 
 
             </div>
-            <div class="row">
-                <div class="col-lg-4 mt-4">
-                    <div class="card m-3 rounded shadow-lg">
-                        <div class="card-body">
-                            <h4 class="mb-3 text-primary">Drink </h4>
-                            How many you drink (ml)
-                            <div class="row">
-                                <div class="col-auto">
-                                    <input type="number" class="" id="drinkInput"></input>
-                                    <span class="fa fa-save" onclick="saveDrink()"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8 mt-4">
-                    <div class="card m-3 rounded shadow-lg">
-                        <div class="card-body">
-                            <h4 class="mb-3 text-primary">Change password </h4>
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="row" id="passwordText">
 
-                                    </div>
-                                    <div class="row">
-                                        Enter old password
-                                    </div>
-                                    <div class="row">
-                                        <input type="password" class="" id="oldPassword"></input>
-                                    </div>
-                                    <div class="row">
-                                        Enter new password
-                                    </div>
-                                    <div class="row">
-
-                                        <input type="password" class="" id="newPassword"></input>
-                                    </div>
-                                    <span class="fa fa-save" onclick="changePassword()"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
-                <div class="col-lg-12 mt-4">
-                    <div class="card m-3 rounded shadow-lg">
-                        <div class="card-body">
-                            <h4 class="mb-3 text-primary">Water intake graph </h4>
-                            <div class="row">
-                                <div class="col-12">
-                                    <canvas id="lineWater"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 mt-4">
+                <div class="col-lg-6 mt-4">
                     <div class="card m-3 rounded shadow-lg">
                         <div class="card-body">
                             <h4 class="mb-3 text-primary">Graph of your weight </h4>
@@ -273,9 +234,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 mt-4">
+                <div class="col-lg-6 mt-4">
                     <div class="card m-3 rounded shadow-lg">
                         <div class="card-body">
                             <h4 class="mb-3 text-primary">Graph of your height </h4>
@@ -286,6 +245,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 mt-4">
+                </div>
+                <div class="col-lg-8 mt-4">
+                    <div class="card m-3 rounded shadow-lg">
+                        <div class="card-body">
+                            <h4 class="mb-3 text-primary">Water intake graph </h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <canvas id="lineWater"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 mt-4">
                 </div>
             </div>
 
@@ -326,39 +303,6 @@
 
     };
 
-
-    // function sav() { // kontrola mena a hesla ich hodnota
-    //
-    //     let req = "http://itsovy.sk:1203/setuserinfo";
-    //     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
-    //     // xhttp.onreadystatechange = function () {
-    //     //     console.log("in");
-    //     //     console.log("status: " + this.status);
-    //     //     if (this.readyState == 4 && this.status == 200) {
-    //     //         let obj = JSON.parse(this.responseText);
-    //     //         // console.log(obj);
-    //     //         let jsonData = 0;
-    //     //         console.log(obj);
-    //     //
-    //     //
-    //     //     } else {
-    //     //         // console.log("errr");
-    //     //         console.log(this.responseText);
-    //     //         if (this.status == 0) {
-    //     //             // data.innerHTML = "Error getting today minutes!";
-    //     //         }
-    //     //     }
-    //     //
-    //     // };
-    //     let json = JSON.parse(localStorage.getItem('user'));
-    //     json["weight"] = 100;
-    //     console.log("--------------------------------------");
-    //     console.log(JSON.stringify(json));
-    //     xhttp.open("POST", encodeURI(req), "/json-handler");
-    //     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    //     //posielanie informacii o userovi na server aby vedel pre ktoreho usera ma posat odpoved
-    //     xhttp.send(JSON.stringify(json));
-    // }
 
 </script>
 <!-- Bootstrap core JavaScript
