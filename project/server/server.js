@@ -46,12 +46,14 @@ let con=mysql.createConnection({
         if (err){
           console.log(err);
           callbackR(403,"This username with this arduino is taken!");
+          callbackEnd(end);
         }
         else{
         con.query("SELECT id FROM users WHERE username like '"+req.body.username+"';",(err,res)=>{
           if(err) console.log(err);
           if(res.length==0){
-            callbackR(401,"Error"); 
+            callbackR(401,"Error");
+            callbackEnd(end); 
           }
           else{
           console.log("NEW USER! name: "+req.body.username+" password:"+req.body.password+" arduino id : "+req.body.arduinoid);
@@ -117,7 +119,7 @@ app.post('/login',(req,res,callbackL)=>{
           console.log("User: "+name+" with password: "+pw+" is in database");
           //console.log(res);
           let id=res[0].id;
-          console.log(id);
+          //console.log(id);
           token=tokgen.generate();
           //console.log(token);
           let obj=new Object();
@@ -271,46 +273,89 @@ app.post('/changepassword',(req,res,callbackchpw)=>{
       port: "3307"
   });
   
-    let name=req.body.username;
-    let token=req.body.token;
-    let arduino=req.body.arduinoid;
-      //console.log(req.body.meno);
-      //console.log(req.body.pass);
-      //console.log(JSON.stringify(data));
+  let name=req.body.username;
+  let token=req.body.token;
+  let arduino=req.body.arduinoid;
+  //console.log(req.body.meno);
+  //console.log(req.body.pass);
+  //console.log(JSON.stringify(data));
   
-      con.connect((err)=>{
+  con.connect((err)=>{
         
-        if (err) console.log(err);      
-        //console.log("connected");
+    if (err) console.log(err);      
+    //console.log("connected");
         
-        let sql="SELECT * FROM users "+
-        "INNER JOIN tokens on users.id=tokens.id "+
-        "WHERE users.username like '"+name+"' "+
-        "and tokens.token like '"+token+"' ";
-        //console.log(sql);
+    let sql="SELECT * FROM users "+
+    "INNER JOIN tokens on users.id=tokens.id "+
+    "WHERE users.username like '"+name+"' "+
+    "and tokens.token like '"+token+"' ";
+    //console.log(sql);
   
-        con.query(sql,(err,res)=>{
-          if(err) console.log(err);
+    con.query(sql,(err,res)=>{
+      if(err) console.log(err);
          
-          if(res.length==0){
-            console.log("User: "+name+" with token: "+token+" is not logged in");
-            callbackcha(401,"Wrong inputs");
+      if(res.length==0){
+        console.log("User: "+name+" with token: "+token+" is not logged in");
+        callbackcha(401,"Wrong inputs");
+      }
+      else{
+        console.log("User: "+name+" with token: "+token+" is logged");
+        //console.log(res);
+        //console.log(id);
+        let newaiSQL="UPDATE users set arduinoid='"+arduino+"' WHERE username like '"+name+"';";
+        //console.log(newaiSQL);
+        con.query(newaiSQL,(err)=>{
+          if(err){
+            console.log(err)
+            callbackcha(403,"Arduino ID is taken");
           }
-          else{
-            console.log("User: "+name+" with token: "+token+" is logged");
-            //console.log(res);
-            //console.log(id);
-            let newpwSQL="UPDATE users set arduinoid='"+arduino+"' WHERE username like '"+name+"';";
-            //console.log(tokenSQL);
-            con.query(newpwSQL,(err)=>{
-              if(err) console.log(err);
-            });
-            callbackcha(200,JSON.stringify("Successfully changed arduinoid!"));
-          }
-          con.end();
+          else callbackcha(200,"Successfully changed arduinoid!");
         });
-      }); 
+      }
+      con.end();
     });
+  }); 
+});
+
+//posielame json username token , príde json username arduinoid
+
+app.post("/arduinoinfo",(req,res)=>{
+    let username=req.body.username;
+    let token=req.body.token;
+
+    console.log("Request on /arduinoinfo");
+    callbackai=function(status,value){
+      res.status(status).send(value);
+    };
+  
+    let con=mysql.createConnection({
+      host: "localhost",
+      user: "pedometer",
+      password: "160518",
+      database: "pedometer",
+      port: "3307"
+  });
+
+  con.connect((err)=>{
+    if (err) console.log(err);
+
+    let sql="SELECT username,arduinoid from users "+
+    "INNER JOIN tokens on users.id=tokens.id "+
+    "WHERE users.username like '"+username+"' and "+
+    "tokens.token like '"+token+"';";
+    //console.log(sql);
+    con.query(sql,(err,res)=>{
+      if(err) console.log(err);
+      if(res.length==0){
+        callbackai(403,"User not logged ");
+      }
+      else{
+        callbackai(200,res);
+      }
+      con.end();
+    });
+  });
+});
 
 //request na ktory posielame JSON NAPR{"username":"xxx","token":"dafds664fd5s67f8sdf"} vrati sa JSON pole objektov o chodeni(data pre graf)
 //funguje
@@ -396,8 +441,8 @@ if(date<10){
         if (err) console.log(err);
         let data=res;
         callbackatds(200,data);  
+        con.end();
       });
-      con.end();
   });
 });
 
@@ -436,8 +481,8 @@ if(date<10){
         if(data[0].sumary==null) data[0].sumary=0;
         //console.log(res);
         callbackGS(200,data);  
+        con.end();
       });
-      con.end();
   });
 });
 
@@ -480,8 +525,8 @@ if(date<10){
         if(data[0].todaysteps==null) data[0].todaysteps=0;
         //console.log(res);
         callbackGS(200,data);  
+        con.end();
       });
-      con.end();
   });
 });
 
@@ -519,8 +564,8 @@ if(date<10){
         //console.log(res);
         if(data[0].sumary==null) data[0].sumary=0;
         callbackGAS(200,data);  
+        con.end();
       });
-      con.end();
   });
 });
 
@@ -560,8 +605,8 @@ if(date<10){
         //console.log(res);
         if(data[0].sum==null) data[0].sum=0;
         callbackATUS(200,data);  
+        con.end();
       });
-      con.end();
   });
 });
 
@@ -603,8 +648,8 @@ if(date<10){
         //console.log(res);
         if(data[0].sum==null) data[0].sum=0;
         callbackATUS(200,data);  
+        con.end();
       });
-      con.end();
   });
 });
 
@@ -910,8 +955,8 @@ app.post("/userinfo",(req,res,callbackUI)=>{
         else{
           callbackUI(200,res); 
         }
+        con.end();
       });
-      con.end();
   });
 });
 
@@ -1115,12 +1160,11 @@ if(date<10){
         if(res.length==0){
             callbackSD(403,res);
         }
-        else
-        {
-            callbackSD(200,res);
+        else{
+          callbackSD(200,res);
         }
-      });
       con.end();
+      });
     });
   });
 
