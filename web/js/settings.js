@@ -1,47 +1,53 @@
 function edit(type) {
-    let icon = document.getElementById(type + "EditIcon");
-    let text = document.getElementById(type);
-    let input = document.getElementById(type + "Input");
+    let icon = document.getElementById("arduinoidEditIcon");
+    let text = document.getElementById("arduinoid");
+    let input = document.getElementById("arduinoidInput");
     icon.classList.remove('fa-pen');
     icon.classList.add('fa-save');
     text.style.display = "none";
     input.style.display = "block";
     input.value = text.innerHTML;
-    icon.setAttribute("onClick", "save(\'" + type + "\')");
+    icon.setAttribute("onClick", "save()");
     // icon.onclick = save(type);
 
 }
 
-function save(type, value) {
-    let icon = document.getElementById(type + "EditIcon");
-    let text = document.getElementById(type);
-    let input = document.getElementById(type + "Input");
-    saveInfo(type, input.value);
+function save() {
+    let icon = document.getElementById("arduinoidEditIcon");
+    let text = document.getElementById("arduinoid");
+    let input = document.getElementById("arduinoidInput");
+    saveInfo(input.value);
     icon.classList.remove('fa-save');
     icon.classList.add('fa-pen');
     text.innerHTML = input.value;
     input.style.display = "none";
     text.style.display = "block";
-    icon.setAttribute("onClick", "edit(\'" + type + "\')");
+    icon.setAttribute("onClick", "edit()");
 }
 
 
-function saveInfo(info, value) {
-    let req = "http://itsovy.sk:1203/setuserinfo";
+function saveInfo(value) {
+    let req = "http://itsovy.sk:1203/changearduino";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            location.reload();
+            // location.reload();
+            document.getElementById("arduinoid").innerHTML = value;
+
         } else {
-            console.log("zle");
-            console.log(this.status);
+            document.getElementById("arduinoid").innerHTML = this.responseText;
+
+            if (this.status == 0) {
+                document.getElementById("arduinoid").innerHTML = "Error saving value! Server problem.";
+
+            }
         }
 
     };
     xhttp.open("POST", encodeURI(req), "/json-handler");
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     let json = JSON.parse(localStorage.getItem('user'));
-    json[info] = value;
+    json["arduinoid"] = value;
     xhttp.send(JSON.stringify(json));
 }
 
@@ -75,32 +81,27 @@ function changePassword() {
     xhttp.send(JSON.stringify(json));
 }
 
-function getLastValue(type) {
-    let text = document.getElementById(type);
-    let req = "http://itsovy.sk:1203/userinfo";
+function getArduinoinfo() {
+    let text = document.getElementById("arduinoid");
+    let req = "http://itsovy.sk:1203/arduinoinfo";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
-            let jsonData = null;
-            for (var i = obj.length - 1; i >= 0; i--) {
-                var obj2 = obj[i];
-                // console.log(obj2[type]);
-                if (!(obj2[type] == null) && jsonData == null) {
-                    jsonData = obj2[type];
-                }
+            let ai = null;
+            ai = obj[0].arduinoid;
+            // console.log(obj2[type]);
 
+            if (ai == null) {
+                ai = "not set";
             }
-            if (jsonData == null) {
-                jsonData = 0;
-            }
-            // console.log("data:" + jsonData);
-            text.innerHTML = jsonData;
+            // console.log("data:" + ai);
+            text.innerHTML = ai;
             // console.log(this.status);
             // console.log(this.responseText);
 
         } else {
-            text.innerHTML = 0;
+            text.innerHTML = "not set";
 
             // console.log(this.status);
             // console.log(this.responseText);

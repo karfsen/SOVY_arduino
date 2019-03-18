@@ -103,6 +103,7 @@
                         <div class="card-body">
                             <h4 class="mb-3 text-primary">Arduino ID </h4>
                             <div class="row">
+                                <div id="arduinoidError"></div>
                                 <div class="col-auto">
                                     <h1 class="" id="arduinoid"></h1>
                                 </div>
@@ -110,8 +111,8 @@
                                     <input style="display: none" id="arduinoidInput" type="text"></input>
                                 </div>
                                 <div class="col-auto">
-                                    <span id="weightEditIcon" class="fa fa-2x fa-pen"
-                                          onclick="edit('weight')"></span>
+                                    <span id="arduinoidEditIcon" class="fa fa-2x fa-pen"
+                                          onclick="edit()"></span>
                                 </div>
                             </div>
                         </div>
@@ -136,10 +137,9 @@
 
 
         //zatial su tu cisla rucne napisane, cakam na api
-        getLastValue("arduinoid");
+        getArduinoinfo("arduinoid");
 
     };
-
 
 
 </script>

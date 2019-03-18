@@ -90,12 +90,15 @@ function register() {
                     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
                     xhttp.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
-                            let obj = JSON.parse(this.responseText);
-                            console.log(obj);
+                            // let obj = JSON.parse(this.responseText);
+                            console.log(this.responseText);
                             errorDiv.innerHTML = " ";
                             errorDiv.style.display = "none";
-                            localStorage.setItem('user', JSON.stringify(obj));
-                            window.location.replace("index.html");
+                            // localStorage.setItem('user', JSON.stringify(obj));
+                            document.getElementById("name").value = name;
+                            document.getElementById('password').value = password;
+                            // window.location.replace("index.html");
+                            tryLogin()
                         } else {
                             errorDiv.style.display = "block";
                             errorDiv.innerHTML = this.responseText;
