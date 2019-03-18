@@ -144,6 +144,7 @@ function getAllUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
             let obj = JSON.parse(this.responseText);
             // console.log(obj);
             data.innerHTML = obj.minutes;
+            // data.innerHTML = obj.minutes/60;
 
         } else {
             data.innerHTML = this.responseText;
@@ -174,6 +175,7 @@ function getUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
             let obj = JSON.parse(this.responseText);
             // console.log(obj);
             data.innerHTML = obj.minutes;
+            // data.innerHTML = obj.minutes/60;
 
         } else {
             // console.log("errr");
@@ -212,6 +214,7 @@ function getUserTodayMinutes() { // kontrola mena a hesla ich hodnota
             let jsonData = 0;
             jsonData = obj.minutes;
             data.innerHTML = jsonData;
+            // data.innerHTML = jsonData/60;
 
         } else {
             // console.log("errr");
@@ -238,6 +241,7 @@ function getTodayMinutes() {
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
             data.innerHTML = obj.minutes;
+            // data.innerHTML = obj.minutes/60;
 
         } else {
             data.innerHTML = this.responseText;

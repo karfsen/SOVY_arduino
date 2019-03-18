@@ -229,7 +229,8 @@ function waterIntakeGraph() {
                 let whole = obj2.time.split(' ');
                 let d = whole[0].split(".");
                 let t = whole[1].split(":");
-                let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                let date = new Date(d[2], d[1]-1, d[0], t[0], [1], 0, 0);
+
                 times.push(date.toDateString() + " " + date.toLocaleTimeString());
             }
 
@@ -296,7 +297,7 @@ function stepsGraph() {
                 let whole = obj2.time.split(' ');
                 let d = whole[0].split(".");
                 let t = whole[1].split(":");
-                let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                let date = new Date(d[2], d[1]-1, d[0], t[0], [1], 0, 0);
                 times.push(date.toDateString() + " " + date.toLocaleTimeString());
             }
 
@@ -366,7 +367,7 @@ function heightsGraph() {
                     let whole = obj2.time.split(' ');
                     let d = whole[0].split(".");
                     let t = whole[1].split(":");
-                    let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                    let date = new Date(d[2], d[1]-1, d[0], t[0], [1], 0, 0);
                     times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }
@@ -442,7 +443,7 @@ function weightsGraph() {
                     let whole = obj2.time.split(' ');
                     let d = whole[0].split(".");
                     let t = whole[1].split(":");
-                    let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                    let date = new Date(d[2], d[1]-1, d[0], t[0], [1], 0, 0);
                     times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }

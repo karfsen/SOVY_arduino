@@ -234,9 +234,11 @@ function getDrinked() {
 
                     }
 
-                } else {
+                    setWaterIntake(weight, drinked);
 
-                    setWaterIntake(weight, 0);
+
+                } else {
+                    // setWaterIntake(weight, drinked);
 
                 }
 
@@ -244,7 +246,7 @@ function getDrinked() {
             xhttp.open("POST", encodeURI(req), "/json-handler");
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.send(localStorage.getItem('user'));
-            setWaterIntake(weight, drinked)
+            
 
 
         } else {
@@ -275,4 +277,3 @@ function saveDrink() {
     json["water"] = drink.value;
     xhttp.send(JSON.stringify(json));
 }
-
