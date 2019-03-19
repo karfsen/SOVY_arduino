@@ -211,27 +211,47 @@ function stepsGoalGraph() {
     xhttp.send(localStorage.getItem('user'));
 }
 
+
 function waterIntakeGraph() {
     //Nakreslenie grafu pre water intake usera; zatial napojene na fake api lebo api neide
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         let waterIntage = [];
         let times = [];
+        for (let i = 0; i < 24; i += 1) {
+            waterIntage[i] = 0;
+            let s = new Date();
+            let h = new Date(s.getFullYear(), s.getMonth(), s.getDay(), i);
+            // console.log(h);
+            // times[i] = h.toDateString() + " " + h.toLocaleTimeString();
+            times[i] = h.toLocaleTimeString();
+        }
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
             var json_data = JSON.parse(xhttp.responseText);
 
+            // for (var i = 0; i < json_data.length; i++) {
+            //     var obj2 = json_data[i];
+            //
+            //     // console.log(obj2);
+            //     waterIntage.push(obj2.mlOfWater);
+            //     let whole = obj2.time.split(' ');
+            //     let d = whole[0].split(".");
+            //     let t = whole[1].split(":");
+            //     let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
+            //
+            //     times.push(date.toDateString() + " " + date.toLocaleTimeString());
+            // }
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
-
+                // steps.push(obj2.steps);
                 // console.log(obj2);
-                waterIntage.push(obj2.mlOfWater);
                 let whole = obj2.time.split(' ');
-                let d = whole[0].split(".");
+                // let d = whole[0].split(".");
                 let t = whole[1].split(":");
-                let date = new Date(d[2], d[1]-1, d[0], t[0], [1], 0, 0);
-
-                times.push(date.toDateString() + " " + date.toLocaleTimeString());
+                waterIntage[t[0]] += obj2.mlOfWater;
+                // let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
+                // times.push(date.toDateString() + " " + date.toLocaleTimeString());
             }
 
 
@@ -288,21 +308,34 @@ function stepsGraph() {
     xhttp.onreadystatechange = function () {
         let steps = [];
         let times = [];
+        for (let i = 0; i < 24; i += 1) {
+            steps[i] = 0;
+            let s = new Date();
+            let h = new Date(s.getFullYear(), s.getMonth(), s.getDate(), i);
+            // console.log(h);
+            // times[i] = h.toDateString() + " " + h.toLocaleTimeString();
+            times[i] = h.toLocaleTimeString();
+        }
         if (this.readyState == 4 && this.status == 200) {
             var json_data = JSON.parse(xhttp.responseText);
 
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
-                steps.push(obj2.steps);
+                // steps.push(obj2.steps);
+                // console.log(obj2);
                 let whole = obj2.time.split(' ');
-                let d = whole[0].split(".");
+                // let d = whole[0].split(".");
                 let t = whole[1].split(":");
-                let date = new Date(d[2], d[1]-1, d[0], t[0], [1], 0, 0);
-                times.push(date.toDateString() + " " + date.toLocaleTimeString());
+                // console.log(parseInt(t[0]));
+                steps[parseInt(t[0])] += obj2.steps;
+                // let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
+                // times.push(date.toDateString() + " " + date.toLocaleTimeString());
             }
 
 
         }
+        // console.log("steps: " + steps);
+        // console.log("times: " + times);
         var ctx = document.getElementById("lineSteps");
         // ctx.height = 200;
 
@@ -348,6 +381,184 @@ function stepsGraph() {
 
 }
 
+function stepsWeekGraph() {
+    //Nakreslenie grafu pre kroky usera; zatial napojene na fake api lebo api neide
+    var xhttp = new XMLHttpRequest();
+
+
+    xhttp.onreadystatechange = function () {
+        let steps = [];
+        let times = [];
+        // var d = new Date("March 17, 2019 01:15:00");
+        let today = new Date();
+        // var day = d.getDay();
+        // let diff = d.getDate() - day + (day == 0 ? -6 : 1);
+        // let m = new Date(d.setDate(diff));
+        for (let i = 0; i < 7; i += 1) {
+            steps[i] = 0;
+
+
+            let h = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (6 - i));
+            // times[i] = h.toDateString() + " " + h.toLocaleTimeString();
+            times[i] = h.toDateString();
+        }
+        if (this.readyState == 4 && this.status == 200) {
+            var json_data = JSON.parse(xhttp.responseText);
+
+            for (var i = 0; i < json_data.length; i++) {
+                var obj2 = json_data[i];
+                // steps.push(obj2.steps);
+                // console.log(obj2);
+                let whole = obj2.time.split(' ');
+                let d = whole[0].split(".");
+                // console.log("d: " + today);
+                let t = whole[1].split(":");
+                // console.log(6 - (today.getDate() - d[0]));
+                steps[6 - (today.getDate() - d[0])] += obj2.steps;
+                // let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
+                // times.push(date.toDateString() + " " + date.toLocaleTimeString());
+            }
+
+
+        }
+        // console.log("steps: " + steps);
+        // console.log("times: " + times);
+        var ctx = document.getElementById("lineWeekSteps");
+        // ctx.height = 200;
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            //data pre graf
+            data: {
+                labels: times,
+                datasets: [
+                    {
+                        label: "Steps",
+                        borderColor: "rgba(123,0,.09)",
+                        borderWidth: "1",
+                        backgroundColor: "rgba(193, 0, 0, 0.5)",
+                        pointHighlightStroke: "rgba(26,179,148,1)",
+                        data: steps,
+                        lineTension: 0
+
+                    }
+                ]
+            },
+            options: {
+                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                // aspectRatio:true,
+                // responsive: true,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                }
+
+            }
+        });
+    };
+
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/weeksteps"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
+
+
+}
+
+function stepsMonthGraph() {
+    //Nakreslenie grafu pre kroky usera; zatial napojene na fake api lebo api neide
+    var xhttp = new XMLHttpRequest();
+
+
+    xhttp.onreadystatechange = function () {
+        let steps = [];
+        let times = [];
+        // var d = new Date("March 17, 2019 01:15:00");
+        let today = new Date();
+        let monthDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        // var day = d.getDay();
+        // let diff = d.getDate() - day + (day == 0 ? -6 : 1);
+        // let m = new Date(d.setDate(diff));
+        for (let i = 0; i < monthDate.getDate(); i += 1) {
+            steps[i] = 0;
+
+
+            // let h = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (6 - i));
+            // times[i] = h.toDateString() + " " + h.toLocaleTimeString();
+            // times[i] = h.toDateString();
+            times[i] = i + 1;
+        }
+        if (this.readyState == 4 && this.status == 200) {
+            var json_data = JSON.parse(xhttp.responseText);
+
+            for (var i = 0; i < json_data.length; i++) {
+                var obj2 = json_data[i];
+                // steps.push(obj2.steps);
+                // console.log(obj2);
+                let whole = obj2.time.split(' ');
+                // console.log(whole);
+                let d = whole[0].split(".");
+                // console.log(d);
+                let t = whole[1].split(":");
+                // console.log(6 - (today.getDate() - d[0]));
+                steps[d[0]] += obj2.steps;
+                // let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
+                // times.push(date.toDateString() + " " + date.toLocaleTimeString());
+            }
+
+
+        }
+        // console.log("steps: " + steps);
+        // console.log("times: " + times);
+        var ctx = document.getElementById("lineMonthSteps");
+        // ctx.height = 200;
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            //data pre graf
+            data: {
+                labels: times,
+                datasets: [
+                    {
+                        label: "Steps",
+                        borderColor: "rgba(123,0,.09)",
+                        borderWidth: "1",
+                        backgroundColor: "rgba(193, 0, 0, 0.5)",
+                        pointHighlightStroke: "rgba(26,179,148,1)",
+                        data: steps,
+                        lineTension: 0
+
+                    }
+                ]
+            },
+            options: {
+                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                // aspectRatio:true,
+                // responsive: true,
+                // tooltips: {
+                //     mode: 'index',
+                //     intersect: false
+                // },
+                showTooltips: false,
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                }
+
+            }
+        });
+    };
+
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/monthsteps"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
+
+
+}
+
 function heightsGraph() {
     var xhttp = new XMLHttpRequest();
 
@@ -367,7 +578,7 @@ function heightsGraph() {
                     let whole = obj2.time.split(' ');
                     let d = whole[0].split(".");
                     let t = whole[1].split(":");
-                    let date = new Date(d[2], d[1]-1, d[0], t[0], [1], 0, 0);
+                    let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
                     times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }
@@ -443,7 +654,7 @@ function weightsGraph() {
                     let whole = obj2.time.split(' ');
                     let d = whole[0].split(".");
                     let t = whole[1].split(":");
-                    let date = new Date(d[2], d[1]-1, d[0], t[0], [1], 0, 0);
+                    let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
                     times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }

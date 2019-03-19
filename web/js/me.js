@@ -233,12 +233,11 @@ function getDrinked() {
                         drinked += obj2.mlOfWater;
 
                     }
-
                     setWaterIntake(weight, drinked);
 
 
                 } else {
-                    // setWaterIntake(weight, drinked);
+                    setWaterIntake(weight, drinked);
 
                 }
 
@@ -246,10 +245,9 @@ function getDrinked() {
             xhttp.open("POST", encodeURI(req), "/json-handler");
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.send(localStorage.getItem('user'));
-            
-
 
         } else {
+            console.log("asdasd");
             setWaterIntake(0, 0);
 
         }
