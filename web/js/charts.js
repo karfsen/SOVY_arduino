@@ -41,6 +41,15 @@ function dailyGoalsGraf() {
 
                 var ctx = document.getElementById("doughutGoals");
                 // ctx.height = 250;
+                var parent = ctx.parentElement;
+
+                ctx.remove();
+                var canv = document.createElement('canvas');
+                canv.id = 'doughutGoals';
+                parent.appendChild(canv);
+                ctx = document.getElementById("doughutGoals");
+                ctx.height = 250;
+
                 var myChart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
@@ -75,6 +84,15 @@ function dailyGoalsGraf() {
         } else {
             var ctx = document.getElementById("doughutGoals");
             // ctx.height = 250;
+            var parent = ctx.parentElement;
+
+            ctx.remove();
+            var canv = document.createElement('canvas');
+            canv.id = 'doughutGoals';
+            parent.appendChild(canv);
+            ctx = document.getElementById("doughutGoals");
+            ctx.height = 250;
+
             var myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -126,6 +144,15 @@ function minutesGoalGraph() {
         }
         var ctx = document.getElementById("doughutMinutes");
         // ctx.height = 250;
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'doughutMinutes';
+        parent.appendChild(canv);
+        ctx = document.getElementById("doughutMinutes");
+        ctx.height = 250;
+
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -180,6 +207,15 @@ function stepsGoalGraph() {
         }
         var ctx = document.getElementById("doughutSteps");
         // ctx.height = 250;
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'doughutSteps';
+        parent.appendChild(canv);
+        ctx = document.getElementById("doughutSteps");
+        ctx.height = 250;
+
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -196,8 +232,8 @@ function stepsGoalGraph() {
 
                 }],
                 labels: [
-                    "Steps done",
-                    "Steps remaining"
+                    "Completed steps",
+                    "Remaining steps"
                 ]
             },
             options: {
@@ -245,11 +281,12 @@ function waterIntakeGraph() {
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
                 // steps.push(obj2.steps);
-                // console.log(obj2);
+                console.log(obj2);
                 let whole = obj2.time.split(' ');
                 // let d = whole[0].split(".");
                 let t = whole[1].split(":");
-                waterIntage[t[0]] += obj2.mlOfWater;
+
+                waterIntage[parseInt(t[0])] += obj2.mlOfWater;
                 // let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
                 // times.push(date.toDateString() + " " + date.toLocaleTimeString());
             }
@@ -258,9 +295,16 @@ function waterIntakeGraph() {
         }
         var ctx = document.getElementById("lineWater"); // vlozenie grafu do id lineDaily
         // ctx.height = 200;
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineWater';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineWater");
 
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             //data pre graf
             data: {
                 labels: times,
@@ -278,7 +322,12 @@ function waterIntakeGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
+                // tooltips: {enabled: false},
+                // hover: {mode: null},
                 // aspectRatio:true,
                 // responsive: true,
                 tooltips: {
@@ -288,6 +337,16 @@ function waterIntakeGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
@@ -334,13 +393,18 @@ function stepsGraph() {
 
 
         }
-        // console.log("steps: " + steps);
-        // console.log("times: " + times);
+        console.log("steps: " + steps);
+        console.log("times: " + times);
         var ctx = document.getElementById("lineSteps");
-        // ctx.height = 200;
+        var parent = ctx.parentElement;
 
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineSteps';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineSteps");
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             //data pre graf
             data: {
                 labels: times,
@@ -358,7 +422,12 @@ function stepsGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
+                // tooltips: {enabled: false},
+                // hover: {mode: null},
                 // aspectRatio:true,
                 // responsive: true,
                 tooltips: {
@@ -368,10 +437,21 @@ function stepsGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
         });
+
     };
 
     xhttp.open("POST", encodeURI("http://itsovy.sk:1203/todaysteps"), "/json-handler");
@@ -424,6 +504,13 @@ function stepsWeekGraph() {
         // console.log("steps: " + steps);
         // console.log("times: " + times);
         var ctx = document.getElementById("lineWeekSteps");
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineWeekSteps';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineWeekSteps");
         // ctx.height = 200;
 
         var myChart = new Chart(ctx, {
@@ -445,7 +532,12 @@ function stepsWeekGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
+                // tooltips: {enabled: false},
+                // hover: {mode: null},
                 // aspectRatio:true,
                 // responsive: true,
                 tooltips: {
@@ -455,6 +547,16 @@ function stepsWeekGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
@@ -515,7 +617,13 @@ function stepsMonthGraph() {
         // console.log("times: " + times);
         var ctx = document.getElementById("lineMonthSteps");
         // ctx.height = 200;
+        var parent = ctx.parentElement;
 
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineMonthSteps';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineMonthSteps");
         var myChart = new Chart(ctx, {
             type: 'bar',
             //data pre graf
@@ -535,17 +643,31 @@ function stepsMonthGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
+                // tooltips: {enabled: false},
+                // hover: {mode: null},
                 // aspectRatio:true,
                 // responsive: true,
-                // tooltips: {
-                //     mode: 'index',
-                //     intersect: false
-                // },
-                showTooltips: false,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
@@ -590,9 +712,15 @@ function heightsGraph() {
         }
         var ctx = document.getElementById("lineHeight"); // vlozenie grafu do id lineDaily
         // ctx.height = 250;
+        var parent = ctx.parentElement;
 
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineHeight';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineHeight");
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             //data pre graf
             data: {
                 labels: times,
@@ -610,7 +738,12 @@ function heightsGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
+                // tooltips: {enabled: false},
+                // hover: {mode: null},
                 // aspectRatio:true,
                 // responsive: true,
                 tooltips: {
@@ -620,6 +753,16 @@ function heightsGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
@@ -667,10 +810,16 @@ function weightsGraph() {
         var ctx = document.getElementById("lineWeight"); // vlozenie grafu do id lineDaily
         // ctx.height = 250;
         // ctx.width = 1000;
+        var parent = ctx.parentElement;
 
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineWeight';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineWeight");
 
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             //data pre graf
             data: {
                 labels: times,
@@ -688,8 +837,14 @@ function weightsGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
-
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
+                // tooltips: {enabled: false},
+                // hover: {mode: null},
+                // aspectRatio:true,
+                // responsive: true,
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -697,6 +852,16 @@ function weightsGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
