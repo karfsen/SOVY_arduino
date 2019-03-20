@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
 
     <title>Project walk</title>
 
@@ -14,6 +13,7 @@
 
     <link href="css/theme.css" rel="stylesheet">
     <link rel="stylesheet" href="fonts/fa/css/all.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/steps.png">
 
 </head>
 <body>
@@ -129,7 +129,7 @@
                         <div class="col-6">
                             <div class="card  m-3 rounded shadow-lg">
                                 <div class="card-header">
-                                    My overall steps
+                                    My all-time steps
                                 </div>
                                 <div class="card-body" id="my_overall_steps">
 
@@ -153,7 +153,7 @@
                         <div class="col-6">
                             <div class="card  m-3 rounded shadow-lg">
                                 <div class="card-header">
-                                    All user overall steps
+                                    All user all-time steps
                                 </div>
                                 <div class="card-body" id="overall_steps_everyone">
 
@@ -179,7 +179,7 @@
                             <!--bootstrap card - karta; My overall move minutes -->
                             <div class="card  m-3 rounded shadow-lg">
                                 <div class="card-header">
-                                    My overall move minutes
+                                    My all-time move minutes
                                 </div>
                                 <div class="card-body" id="user_overall_move_minutes">
 
@@ -204,7 +204,7 @@
                             <!--bootstrap card - karta; My overall move minutes -->
                             <div class="card  m-3 rounded shadow-lg">
                                 <div class="card-header">
-                                    All users overall move minutes
+                                    All users all-time move minutes
                                 </div>
                                 <div class="card-body" id="all_users_overall_move_minutes">
 
@@ -226,23 +226,12 @@
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/statistics.js"></script>
 <script type="text/javascript">
-    //pri nacitani okna skontrolujeme ci je user prihlaseny. este nastavime today steps pre usera,
-    // today minutes pre usera, today minutes pre vsetkych, celkove minuty pre vsetkych, celkove minuty pre usera
-    //za zvyskom cakame na api
+
 
     window.onload = function () {
-        // if (!localStorage.getItem('user')) {
-        //     window.location.replace("login.html");
-        // } else {
-        //     let user = JSON.parse(localStorage.getItem('user'));
-        //     document.getElementById('logName').innerHTML = user.username;
-        //     console.log(user);
-        //
-        //
-        // }
+
         checkIfLogged();
         getTodaySteps();
-        // getAllUsersTodaSteps();
         getTodayMinutes();
         getUserTodayMinutes();
         getAllUsersOverallMoveMinutes();

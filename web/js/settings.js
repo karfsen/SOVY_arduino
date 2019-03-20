@@ -8,7 +8,6 @@ function edit(type) {
     input.style.display = "block";
     input.value = text.innerHTML;
     icon.setAttribute("onClick", "save()");
-    // icon.onclick = save(type);
 
 }
 
@@ -31,7 +30,6 @@ function saveInfo(value) {
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            // location.reload();
             document.getElementById("arduinoid").innerHTML = value;
 
         } else {
@@ -90,21 +88,15 @@ function getArduinoinfo() {
             let obj = JSON.parse(this.responseText);
             let ai = null;
             ai = obj[0].arduinoid;
-            // console.log(obj2[type]);
 
             if (ai == null) {
                 ai = "not set";
             }
-            // console.log("data:" + ai);
             text.innerHTML = ai;
-            // console.log(this.status);
-            // console.log(this.responseText);
 
         } else {
             text.innerHTML = "not set";
 
-            // console.log(this.status);
-            // console.log(this.responseText);
         }
 
     };
