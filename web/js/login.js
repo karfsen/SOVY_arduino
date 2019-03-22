@@ -1,5 +1,4 @@
 function tryLogin() {
-    console.log("check");
     let name = document.getElementById("name").value;
     let password = document.getElementById('password').value;
     let errorDiv = document.getElementById('error');
@@ -22,7 +21,6 @@ function tryLogin() {
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     let obj = JSON.parse(this.responseText);
-                    console.log(obj);
                     errorDiv.innerHTML = " ";
                     errorDiv.style.display = "none";
                     //ked prisla odpoved z api tak ukladam do localstorage
@@ -43,14 +41,11 @@ function tryLogin() {
             }));
         }
     }
-    // alert("asd");
 
-    console.log(name, password);
 }
 
 
 function chceckIfLogged() {
-    console.log("hghgh");
     if (localStorage.getItem('user')) {
         window.location.replace("index.html");
     }
@@ -91,7 +86,6 @@ function register() {
                     xhttp.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                             // let obj = JSON.parse(this.responseText);
-                            console.log(this.responseText);
                             errorDiv.innerHTML = " ";
                             errorDiv.style.display = "none";
                             // localStorage.setItem('user', JSON.stringify(obj));

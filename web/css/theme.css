@@ -27,6 +27,9 @@ body {
         background-color: #c7bebe;
     }
 }
+.log-cursor{
+    cursor: default;
+}
 
 @keyframes background {
     0% {

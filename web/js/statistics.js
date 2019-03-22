@@ -44,7 +44,6 @@ function getMyOverallSteps() {
                 if (obj2.username == username) {
                     jsonData = obj2.sum;
                 }
-                // console.log(obj2.thisSessionSteps);
             }
             data.innerHTML = jsonData;
 
@@ -79,7 +78,6 @@ function getOverallTodaySteps() {
                 if (obj2.sumary != null) {
                     jsonData = obj2.sumary;
                 }
-                // console.log(obj2.thisSessionSteps);
             }
             data.innerHTML = jsonData;
 
@@ -113,7 +111,6 @@ function getOverallStepsForEveryUser() {
             for (var i = 0; i < obj.length; i++) {
                 var obj2 = obj[i];
                 jsonData += obj2.sum;
-                // console.log(obj2.thisSessionSteps);
             }
             data.innerHTML = jsonData;
 
@@ -142,7 +139,6 @@ function getAllUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
-            // console.log(obj);
             data.innerHTML = obj.minutes;
 
         } else {
@@ -168,20 +164,15 @@ function getUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
     let req = "http://itsovy.sk:1203/getuseralltimeminutes";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        // console.log("in");
-        // console.log("status: " + this.status);
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
-            // console.log(obj);
             data.innerHTML = obj.minutes;
 
         } else {
-            // console.log("errr");
             let obj = null;
             if (this.responseText) {
                 obj = JSON.parse(this.responseText);
             }
-            // console.log(obj);
             if (obj) {
                 data.innerHTML = obj.minutes;
             } else {
@@ -214,7 +205,6 @@ function getUserTodayMinutes() { // kontrola mena a hesla ich hodnota
             data.innerHTML = jsonData;
 
         } else {
-            // console.log("errr");
             data.innerHTML = this.responseText;
             if (this.status == 0) {
                 data.innerHTML = "Error getting today minutes!";
@@ -272,7 +262,6 @@ function getAllTimeHighScore() {
                 cell1.innerHTML = obj2.username;
                 cell2.innerHTML = obj2.sum;
                 rowIndex += 1;
-                // console.log(obj2.thisSessionSteps);
             }
 
         } else {
@@ -306,7 +295,6 @@ function getTodayHighScore() {
                 cell1.innerHTML = obj2.username;
                 cell2.innerHTML = obj2.todaysteps;
                 rowIndex += 1;
-                // console.log(obj2.thisSessionSteps);
             }
 
         } else {

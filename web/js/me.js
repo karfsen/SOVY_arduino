@@ -1,16 +1,12 @@
 //funkcia na vypocet BMI z vahy a vysky
 function calculateBMI(height, weight) {
     let BMI = weight / ((height / 100) * (height / 100));
-    // console.log("calculate");
-    // console.log(height / 100);
-    // console.log((height/100) * (height/100));
     return BMI;
 }
 
 //nastavenie BMI do stranky
 function setBMI(height, weight) {
     let data = document.getElementById("bmi");
-    // console.log("hh: " + height);
     let bmi = calculateBMI(height, weight);
     data.innerHTML = bmi.toFixed(2);
     //nastavenie farby cisla pre BMI podla hodnoty BMI
@@ -89,7 +85,6 @@ function edit(type) {
     input.style.display = "block";
     input.value = text.innerHTML;
     icon.setAttribute("onClick", "save(\'" + type + "\')");
-    // icon.onclick = save(type);
 
 }
 
@@ -113,9 +108,6 @@ function saveInfo(info, value) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             location.reload();
-        } else {
-            console.log("zle");
-            console.log(this.status);
         }
 
     };
@@ -136,7 +128,6 @@ function getLastValue(type) {
             let jsonData = null;
             for (var i = obj.length - 1; i >= 0; i--) {
                 var obj2 = obj[i];
-                // console.log(obj2[type]);
                 if (!(obj2[type] == null) && jsonData == null) {
                     jsonData = obj2[type];
                 }
@@ -145,16 +136,11 @@ function getLastValue(type) {
             if (jsonData == null) {
                 jsonData = 0;
             }
-            // console.log("data:" + jsonData);
             text.innerHTML = jsonData;
-            // console.log(this.status);
-            // console.log(this.responseText);
 
         } else {
             text.innerHTML = 0;
 
-            // console.log(this.status);
-            // console.log(this.responseText);
         }
 
     };
@@ -187,8 +173,6 @@ function getLastValueForBMI() {
             if (height == null) {
                 height = 0;
             }
-            // console.log("h: " + height);
-            // console.log("w: " + weight);
             setBMI(height, weight);
         } else {
             setBMI(0, 0);
@@ -233,10 +217,11 @@ function getDrinked() {
                         drinked += obj2.mlOfWater;
 
                     }
+                    setWaterIntake(weight, drinked);
+
 
                 } else {
-
-                    setWaterIntake(weight, 0);
+                    setWaterIntake(weight, drinked);
 
                 }
 
@@ -244,8 +229,6 @@ function getDrinked() {
             xhttp.open("POST", encodeURI(req), "/json-handler");
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.send(localStorage.getItem('user'));
-            setWaterIntake(weight, drinked)
-
 
         } else {
             setWaterIntake(0, 0);
@@ -275,4 +258,3 @@ function saveDrink() {
     json["water"] = drink.value;
     xhttp.send(JSON.stringify(json));
 }
-

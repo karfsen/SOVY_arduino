@@ -63,10 +63,10 @@ let con=mysql.createConnection({
             else{
                 //console.log("VLOZIL SOM ID USERA DO TABULY TOKENS a USERINFO");
                 end=1;
-                callbackEnd(end);
               }
             });
             callbackR(200,"New user: "+req.body.username+" Successfully registered!"); 
+            callbackEnd(end);
           }
         });
       }
@@ -406,6 +406,101 @@ if(date<10){
   });
 });
 
+app.post('/weeksteps',(req,res,callbacktds)=>{
+  console.log("Request on /weeksteps");
+
+  callbackws=function(status,value){
+    res.status(status).send(value);
+  };
+
+  let con=mysql.createConnection({
+    host: "localhost",
+    user: "pedometer",
+    password: "160518",
+    database: "pedometer",
+    port: "3307"
+});
+
+var date = new Date().getDate()-7;
+if(date<10){
+  date="0"+date;
+}
+
+//console.log(date);
+  let name=req.body.username;
+  let token=req.body.token;
+  con.connect((err)=>{
+    if (err) console.log(err);
+      let sql="select (DATE_FORMAT(time, '%d.%m.%Y %H:%i')) as time,thisSessionSteps as steps from data "+
+      "INNER JOIN users on data.id=users.id "+ 
+      "INNER JOIN tokens on users.id=tokens.id "+
+      "where users.username like '"+name+"' and "+
+      "tokens.token like '"+token+"' and "+
+      "time >= '2019-03-"+date+" 00:00:00';";
+      //console.log(sql);
+      con.query(sql,(err,res)=>{
+        if (err) console.log(err);
+        //console.log(res);
+
+        if(res.length==0){
+          callbackws(403,"User doesn't have steps in last day.");
+        }
+        else{
+          callbackws(200,res);
+        }
+        con.end();
+      });
+  });
+});
+
+app.post('/monthsteps',(req,res,callbacktds)=>{
+  console.log("Request on /monthsteps");
+
+  callbackms=function(status,value){
+    res.status(status).send(value);
+  };
+
+  let con=mysql.createConnection({
+    host: "localhost",
+    user: "pedometer",
+    password: "160518",
+    database: "pedometer",
+    port: "3307"
+});
+
+var month = new Date().getMonth()-1;
+var date=new Date().getDate();
+if(date<10){
+  date="0"+date;
+}
+
+//console.log(date);
+  let name=req.body.username;
+  let token=req.body.token;
+  con.connect((err)=>{
+    if (err) console.log(err);
+      let sql="select (DATE_FORMAT(time, '%d.%m.%Y %H:%i')) as time,thisSessionSteps as steps from data "+
+      "INNER JOIN users on data.id=users.id "+ 
+      "INNER JOIN tokens on users.id=tokens.id "+
+      "where users.username like '"+name+"' and "+
+      "tokens.token like '"+token+"' and "+
+      "time >= '2019-"+month+"-"+date+" 00:00:00';";
+      //console.log(sql);
+      con.query(sql,(err,res)=>{
+        if (err) console.log(err);
+        //console.log(res);
+
+        if(res.length==0){
+          callbackms(403,"User doesn't have steps in last day.");
+        }
+        else{
+          callbackms(200,res);
+        }
+        con.end();
+      });
+  });
+});
+
 //request v ktorom neposielame nič , prijmeme JSON pole každeho usera  jeho dnešnych krkokov
 //funguje
 
@@ -684,7 +779,7 @@ if(date<10){
         if (err) console.log(err);
         if(res.length==0){  
           let obj=new Object();
-          obj.minutes=pocet*5;
+          obj.minutes=pocet;
         callbackGTDM(200,obj);
         }
         else{
@@ -694,7 +789,7 @@ if(date<10){
           }
         }
         let obj=new Object();
-        obj.minutes=pocet*5;
+        obj.minutes=pocet;
         callbackGTDM(200,JSON.stringify(obj));  
       }
       con.end();
@@ -734,7 +829,7 @@ if(date<10){
         if (err) console.log(err);
         if(res.length==0){  
           let obj=new Object();
-          obj.minutes=pocet*5;
+          obj.minutes=pocet;
         callbackGTDM(200,obj);
         }
         else{
@@ -744,7 +839,7 @@ if(date<10){
           }
         }
         let obj=new Object();
-        obj.minutes=pocet*5;
+        obj.minutes=pocet;
         callbackGTDM(200,JSON.stringify(obj));  
       }
       con.end();
@@ -793,7 +888,7 @@ if(date<10){
         if(res.length==0){
           let obj=new Object();
           obj.username=name;
-          obj.minutes=pocet*5;
+          obj.minutes=pocet;
           callbackGUTM(200,obj); 
         }
         else{
@@ -804,7 +899,7 @@ if(date<10){
           }
           let obj=new Object();
           obj.username=name;
-          obj.minutes=pocet*5;
+          obj.minutes=pocet;
           callbackGUTM(200,JSON.stringify(obj)); 
         }
         con.end();
@@ -845,7 +940,7 @@ if(date<10){
         if (err) console.log(err);
         if(res.length==0){
           let obj=new Object();
-          obj.minutes=pocet*5;
+          obj.minutes=pocet;
           callbackGATM(403,obj);
         }
         else{
@@ -855,7 +950,7 @@ if(date<10){
             }
           }
           let obj=new Object();
-          obj.minutes=pocet*5;
+          obj.minutes=pocet;
           callbackGATM(200,JSON.stringify(obj));  
         }
         con.end();
@@ -901,7 +996,7 @@ if(date<10){
         if(res.length==0){
           let obj=new Object();
           obj.username=name;
-          obj.minutes=pocet*5;
+          obj.minutes=pocet;
           callbackGUATM(200,obj);
         }
         else{
@@ -912,7 +1007,7 @@ if(date<10){
           }
           let obj=new Object();
           obj.username=name;
-          obj.minutes=pocet*5;
+          obj.minutes=pocet;
           callbackGUATM(200,JSON.stringify(obj)); 
         }
         con.end(); 

@@ -5,7 +5,7 @@ function checkIfLogged() {
     } else {
         let user = JSON.parse(localStorage.getItem('user'));
         document.getElementById('logName').innerHTML = user.username;
-        console.log(user);
+        // console.log(JSON.stringify(user));
 
 
     }

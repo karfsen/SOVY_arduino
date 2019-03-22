@@ -40,7 +40,15 @@ function dailyGoalsGraf() {
                 let remainingGoals = goalsNeedToBeCompleted - goalsCompleted;
 
                 var ctx = document.getElementById("doughutGoals");
-                // ctx.height = 250;
+                var parent = ctx.parentElement;
+
+                ctx.remove();
+                var canv = document.createElement('canvas');
+                canv.id = 'doughutGoals';
+                parent.appendChild(canv);
+                ctx = document.getElementById("doughutGoals");
+                ctx.height = 250;
+
                 var myChart = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
@@ -74,7 +82,15 @@ function dailyGoalsGraf() {
             xhttp2.send(localStorage.getItem('user'));
         } else {
             var ctx = document.getElementById("doughutGoals");
-            // ctx.height = 250;
+            var parent = ctx.parentElement;
+
+            ctx.remove();
+            var canv = document.createElement('canvas');
+            canv.id = 'doughutGoals';
+            parent.appendChild(canv);
+            ctx = document.getElementById("doughutGoals");
+            ctx.height = 250;
+
             var myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -125,7 +141,15 @@ function minutesGoalGraph() {
             }
         }
         var ctx = document.getElementById("doughutMinutes");
-        // ctx.height = 250;
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'doughutMinutes';
+        parent.appendChild(canv);
+        ctx = document.getElementById("doughutMinutes");
+        ctx.height = 250;
+
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -170,7 +194,6 @@ function stepsGoalGraph() {
         let remaining = 0;
         if (this.readyState == 4 && this.status == 200) {
             let obj = JSON.parse(this.responseText);
-            // console.log(obj);
             done = obj[0].todaysteps;
 
             remaining = needed - done;
@@ -179,7 +202,15 @@ function stepsGoalGraph() {
             }
         }
         var ctx = document.getElementById("doughutSteps");
-        // ctx.height = 250;
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'doughutSteps';
+        parent.appendChild(canv);
+        ctx = document.getElementById("doughutSteps");
+        ctx.height = 250;
+
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -196,8 +227,8 @@ function stepsGoalGraph() {
 
                 }],
                 labels: [
-                    "Steps done",
-                    "Steps remaining"
+                    "Completed steps",
+                    "Remaining steps"
                 ]
             },
             options: {
@@ -211,35 +242,44 @@ function stepsGoalGraph() {
     xhttp.send(localStorage.getItem('user'));
 }
 
+
 function waterIntakeGraph() {
     //Nakreslenie grafu pre water intake usera; zatial napojene na fake api lebo api neide
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         let waterIntage = [];
         let times = [];
+        for (let i = 0; i < 24; i += 1) {
+            waterIntage[i] = 0;
+            let s = new Date();
+            let h = new Date(s.getFullYear(), s.getMonth(), s.getDay(), i);
+            times[i] = h.toLocaleTimeString();
+        }
         if (this.readyState == 4 && this.status == 200) {
             //stiahne sa JSON z fake apy a vyberie sa z neho chodenie. to sa pouzilo na water inteke lebo este nie je api
             var json_data = JSON.parse(xhttp.responseText);
 
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
-
-                // console.log(obj2);
-                waterIntage.push(obj2.mlOfWater);
                 let whole = obj2.time.split(' ');
-                let d = whole[0].split(".");
                 let t = whole[1].split(":");
-                let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
-                times.push(date.toDateString() + " " + date.toLocaleTimeString());
+
+                waterIntage[parseInt(t[0])] += obj2.mlOfWater;
             }
 
 
         }
         var ctx = document.getElementById("lineWater"); // vlozenie grafu do id lineDaily
-        // ctx.height = 200;
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineWater';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineWater");
 
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             //data pre graf
             data: {
                 labels: times,
@@ -257,9 +297,10 @@ function waterIntakeGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
-                // aspectRatio:true,
-                // responsive: true,
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -267,6 +308,16 @@ function waterIntakeGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
@@ -287,26 +338,34 @@ function stepsGraph() {
     xhttp.onreadystatechange = function () {
         let steps = [];
         let times = [];
+        for (let i = 0; i < 24; i += 1) {
+            steps[i] = 0;
+            let s = new Date();
+            let h = new Date(s.getFullYear(), s.getMonth(), s.getDate(), i);
+            times[i] = h.toLocaleTimeString();
+        }
         if (this.readyState == 4 && this.status == 200) {
             var json_data = JSON.parse(xhttp.responseText);
 
             for (var i = 0; i < json_data.length; i++) {
                 var obj2 = json_data[i];
-                steps.push(obj2.steps);
                 let whole = obj2.time.split(' ');
-                let d = whole[0].split(".");
                 let t = whole[1].split(":");
-                let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
-                times.push(date.toDateString() + " " + date.toLocaleTimeString());
+                steps[parseInt(t[0])] += obj2.steps;
             }
 
 
         }
         var ctx = document.getElementById("lineSteps");
-        // ctx.height = 200;
+        var parent = ctx.parentElement;
 
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineSteps';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineSteps");
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             //data pre graf
             data: {
                 labels: times,
@@ -324,9 +383,10 @@ function stepsGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
-                // aspectRatio:true,
-                // responsive: true,
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -334,13 +394,203 @@ function stepsGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+
+            }
+        });
+
+    };
+
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/todaysteps"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
+
+
+}
+
+function stepsWeekGraph() {
+    //Nakreslenie grafu pre kroky usera; zatial napojene na fake api lebo api neide
+    var xhttp = new XMLHttpRequest();
+
+
+    xhttp.onreadystatechange = function () {
+        let steps = [];
+        let times = [];
+        let today = new Date();
+        for (let i = 0; i < 7; i += 1) {
+            steps[i] = 0;
+
+
+            let h = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (6 - i));
+            times[i] = h.toDateString();
+        }
+        if (this.readyState == 4 && this.status == 200) {
+            var json_data = JSON.parse(xhttp.responseText);
+
+            for (var i = 0; i < json_data.length; i++) {
+                var obj2 = json_data[i];
+                let whole = obj2.time.split(' ');
+                let d = whole[0].split(".");
+                let t = whole[1].split(":");
+                steps[6 - (today.getDate() - d[0])] += obj2.steps;
+            }
+
+
+        }
+        var ctx = document.getElementById("lineWeekSteps");
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineWeekSteps';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineWeekSteps");
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: times,
+                datasets: [
+                    {
+                        label: "Steps",
+                        borderColor: "rgba(123,0,.09)",
+                        borderWidth: "1",
+                        backgroundColor: "rgba(193, 0, 0, 0.5)",
+                        pointHighlightStroke: "rgba(26,179,148,1)",
+                        data: steps,
+                        lineTension: 0
+
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
         });
     };
 
-    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/todaysteps"), "/json-handler");
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/weeksteps"), "/json-handler");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(localStorage.getItem('user'));
+
+
+}
+
+function stepsMonthGraph() {
+    //Nakreslenie grafu pre kroky usera; zatial napojene na fake api lebo api neide
+    var xhttp = new XMLHttpRequest();
+
+
+    xhttp.onreadystatechange = function () {
+        let steps = [];
+        let times = [];
+        let today = new Date();
+        let monthDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        for (let i = 0; i < monthDate.getDate(); i += 1) {
+            steps[i] = 0;
+
+
+            times[i] = i + 1;
+        }
+        if (this.readyState == 4 && this.status == 200) {
+            var json_data = JSON.parse(xhttp.responseText);
+
+            for (var i = 0; i < json_data.length; i++) {
+                var obj2 = json_data[i];
+                let whole = obj2.time.split(' ');
+                let d = whole[0].split(".");
+                let t = whole[1].split(":");
+                steps[d[0]] += obj2.steps;
+            }
+
+
+        }
+        var ctx = document.getElementById("lineMonthSteps");
+        var parent = ctx.parentElement;
+
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineMonthSteps';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineMonthSteps");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: times,
+                datasets: [
+                    {
+                        label: "Steps",
+                        borderColor: "rgba(123,0,.09)",
+                        borderWidth: "1",
+                        backgroundColor: "rgba(193, 0, 0, 0.5)",
+                        pointHighlightStroke: "rgba(26,179,148,1)",
+                        data: steps,
+                        lineTension: 0
+
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+
+            }
+        });
+    };
+
+    xhttp.open("POST", encodeURI("http://itsovy.sk:1203/monthsteps"), "/json-handler");
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send(localStorage.getItem('user'));
 
@@ -366,7 +616,7 @@ function heightsGraph() {
                     let whole = obj2.time.split(' ');
                     let d = whole[0].split(".");
                     let t = whole[1].split(":");
-                    let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                    let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
                     times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }
@@ -377,10 +627,15 @@ function heightsGraph() {
             document.getElementById("lineHeight").innerHTML = "Error getting data!";
         }
         var ctx = document.getElementById("lineHeight"); // vlozenie grafu do id lineDaily
-        // ctx.height = 250;
+        var parent = ctx.parentElement;
 
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineHeight';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineHeight");
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             //data pre graf
             data: {
                 labels: times,
@@ -398,9 +653,10 @@ function heightsGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
-                // aspectRatio:true,
-                // responsive: true,
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -408,6 +664,16 @@ function heightsGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }
@@ -442,7 +708,7 @@ function weightsGraph() {
                     let whole = obj2.time.split(' ');
                     let d = whole[0].split(".");
                     let t = whole[1].split(":");
-                    let date = new Date(d[2], d[1], d[0], t[0], [1], 0, 0);
+                    let date = new Date(d[2], d[1] - 1, d[0], t[0], t[1], 0, 0);
                     times.push(date.toDateString() + " " + date.toLocaleTimeString());
                 }
             }
@@ -453,12 +719,16 @@ function weightsGraph() {
             document.getElementById("lineWeight").innerHTML = "Error getting data!";
         }
         var ctx = document.getElementById("lineWeight"); // vlozenie grafu do id lineDaily
-        // ctx.height = 250;
-        // ctx.width = 1000;
+        var parent = ctx.parentElement;
 
+        ctx.remove();
+        var canv = document.createElement('canvas');
+        canv.id = 'lineWeight';
+        parent.appendChild(canv);
+        ctx = document.getElementById("lineWeight");
 
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             //data pre graf
             data: {
                 labels: times,
@@ -476,8 +746,10 @@ function weightsGraph() {
                 ]
             },
             options: {
-                responsive: true, responsiveAnimationDuration: 0, animation: {duration: 0},
-
+                responsive: true,
+                responsiveAnimationDuration: 0, animation: {duration: 0},
+                animation: false,
+                showTooltips: false,
                 tooltips: {
                     mode: 'index',
                     intersect: false
@@ -485,6 +757,16 @@ function weightsGraph() {
                 hover: {
                     mode: 'nearest',
                     intersect: true
+                },
+                legend: {
+                    onClick: (e) => e.stopPropagation()
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
 
             }

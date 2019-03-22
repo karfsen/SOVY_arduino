@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
 
     <title>Project walk</title>
 
@@ -15,13 +14,14 @@
     <!-- Custom styles for this template -->
     <link href="css/theme.css" rel="stylesheet">
     <link rel="stylesheet" href="fonts/fa/css/all.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/steps.png">
 
 </head>
 <body>
 
 <!--bootstrap navigacny panel-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ</a>
+    <span class="navbar-brand log-cursor">ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -58,6 +58,7 @@
 
     </div>
 </nav>
+
 
 
 <main role="main" class="container">
@@ -287,11 +288,7 @@
         getLastValue("height");
         getLastValue("age");
         getDrinked();
-        // console.log("w: " + document.getElementById("weight").innerHTML);
-        // console.log("h: " + document.getElementById("height").innerHTML);
         getLastValueForBMI();
-        // setBMI(document.getElementById("weight").innerHTML, document.getElementById("height").innerHTML);
-        // setWaterIntake(document.getElementById("weight").innerHTML, document.getElementById("weight").innerHTML);
         setInterval(function () {
             heightsGraph();
             weightsGraph();

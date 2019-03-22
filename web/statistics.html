@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
 
     <title>Project walk</title>
 
@@ -14,13 +13,14 @@
 
     <link href="css/theme.css" rel="stylesheet">
     <link rel="stylesheet" href="fonts/fa/css/all.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/steps.png">
 
 </head>
 <body>
 
 <!--bootstrap navigacny panel-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ</a>
+    <span class="navbar-brand log-cursor">ᗯOᖇᒪᗪ ⁝ᔕTEᑭ⁝ᔕ</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -57,6 +57,7 @@
 
     </div>
 </nav>
+
 
 <main role="main" class="container">
     <br>
@@ -111,81 +112,110 @@
                     </div>
 
                 </div>
-                <div class="col-lg-3">
-                    <!--bootstrap card - karta; My today steps -->
-                    <div class="card  m-3 rounded shadow-lg">
-                        <div class="card-header">
-                            My today steps
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6">
+
+                            <!--bootstrap card - karta; My today steps -->
+                            <div class="card  m-3 rounded shadow-lg">
+                                <div class="card-header">
+                                    My today steps
+                                </div>
+                                <div class="card-body" id="my_today_steps">
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body" id="my_today_steps">
+                        <div class="col-6">
+                            <div class="card  m-3 rounded shadow-lg">
+                                <div class="card-header">
+                                    My all-time steps
+                                </div>
+                                <div class="card-body" id="my_overall_steps">
+
+                                </div>
+                            </div>
 
                         </div>
                     </div>
-                    <!--bootstrap card - karta; All today steps -->
-                    <div class="card  m-3 rounded shadow-lg">
-                        <div class="card-header">
-                            All today steps
+                    <div class="row">
+                        <div class="col-6">
+                            <!--bootstrap card - karta; All today steps -->
+                            <div class="card  m-3 rounded shadow-lg">
+                                <div class="card-header">
+                                    Overall today steps
+                                </div>
+                                <div class="card-body" id="all_today_steps">
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body" id="all_today_steps">
+                        <div class="col-6">
+                            <div class="card  m-3 rounded shadow-lg">
+                                <div class="card-header">
+                                    All user all-time steps
+                                </div>
+                                <div class="card-body" id="overall_steps_everyone">
+
+                                </div>
+                            </div>
+
 
                         </div>
                     </div>
-                    <div class="card  m-3 rounded shadow-lg">
-                        <div class="card-header">
-                            My overall steps
-                        </div>
-                        <div class="card-body" id="my_overall_steps">
+                    <div class="row">
+                        <div class="col-6">
+                            <!--bootstrap card - karta; My today move minutes -->
 
+                            <div class="card  m-3 rounded shadow-lg">
+                                <div class="card-header">
+                                    My move minutes
+                                </div>
+                                <div class="card-body" id="my_today_minutes">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!--bootstrap card - karta; My overall move minutes -->
+                            <div class="card  m-3 rounded shadow-lg">
+                                <div class="card-header">
+                                    My all-time move minutes
+                                </div>
+                                <div class="card-body" id="user_overall_move_minutes">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card  m-3 rounded shadow-lg">
-                        <div class="card-header">
-                            Overall steps for everyone
-                        </div>
-                        <div class="card-body" id="overall_steps_everyone">
+                    <div class="row">
+                        <div class="col-6">
+                            <!--bootstrap card - karta; My today steps -->
 
+                            <div class="card  m-3 rounded shadow-lg">
+                                <div class="card-header">
+                                    Overall today move minutes
+                                </div>
+                                <div class="card-body" id="overall_today_move_minutes">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!--bootstrap card - karta; My overall move minutes -->
+                            <div class="card  m-3 rounded shadow-lg">
+                                <div class="card-header">
+                                    All users all-time move minutes
+                                </div>
+                                <div class="card-body" id="all_users_overall_move_minutes">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+
                 </div>
-                <div class="col-lg-3">
-                    <!--bootstrap card - karta; My today move minutes -->
 
-                    <div class="card  m-3 rounded shadow-lg">
-                        <div class="card-header">
-                            My move minutes
-                        </div>
-                        <div class="card-body" id="my_today_minutes">
-                        </div>
-                    </div>
-                    <!--bootstrap card - karta; My today steps -->
-
-                    <div class="card  m-3 rounded shadow-lg">
-                        <div class="card-header">
-                            Overall today move minutes
-                        </div>
-                        <div class="card-body" id="overall_today_move_minutes">
-
-                        </div>
-                    </div>
-                    <!--bootstrap card - karta; My overall move minutes -->
-                    <div class="card  m-3 rounded shadow-lg">
-                        <div class="card-header">
-                            My overall move minutes
-                        </div>
-                        <div class="card-body" id="user_overall_move_minutes">
-
-                        </div>
-                    </div>
-                    <!--bootstrap card - karta; My overall move minutes -->
-                    <div class="card  m-3 rounded shadow-lg">
-                        <div class="card-header">
-                            All users overall move minutes
-                        </div>
-                        <div class="card-body" id="all_users_overall_move_minutes">
-
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
@@ -196,23 +226,12 @@
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/statistics.js"></script>
 <script type="text/javascript">
-    //pri nacitani okna skontrolujeme ci je user prihlaseny. este nastavime today steps pre usera,
-    // today minutes pre usera, today minutes pre vsetkych, celkove minuty pre vsetkych, celkove minuty pre usera
-    //za zvyskom cakame na api
+
 
     window.onload = function () {
-        // if (!localStorage.getItem('user')) {
-        //     window.location.replace("login.html");
-        // } else {
-        //     let user = JSON.parse(localStorage.getItem('user'));
-        //     document.getElementById('logName').innerHTML = user.username;
-        //     console.log(user);
-        //
-        //
-        // }
+
         checkIfLogged();
         getTodaySteps();
-        // getAllUsersTodaSteps();
         getTodayMinutes();
         getUserTodayMinutes();
         getAllUsersOverallMoveMinutes();
