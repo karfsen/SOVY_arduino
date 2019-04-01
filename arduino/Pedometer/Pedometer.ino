@@ -5,8 +5,12 @@
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include <SimpleList.h>
+#include <LiquidCrystal_I2C.h>
+//#include <Adafruit_LiquidCrystal.h>
 
 #define stepThreshold 40
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 const uint8_t scl = 14; //D5
 const uint8_t sda = 12; //D6
@@ -86,7 +90,29 @@ if(WiFi.status() == WL_CONNECTED){
   Serial.println(mpu.testConnection() ? "Connected" : "Connection failed");
 
   calibrating();
+
+    Wire.begin(D2,D1);
+    lcd.begin(16,2);
+    lcd.init();
   
+    lcd.backlight();
+  
+    lcd.setCursor(5, 0);
+    lcd.print("Hello;");
+  
+    lcd.setCursor(6, 1);
+    lcd.print(":-)");
+  
+    delay(3000);
+  
+    lcd.clear();
+  
+    lcd.setCursor(0, 0);
+    lcd.print("Arduinoid:esp1;");
+    lcd.setCursor(0, 1);
+    lcd.print("Your steps: ");
+    lcd.print(value,DEC);
+    
 }
 
 void loop() {
