@@ -19,6 +19,16 @@ int ax0 = 0;
 int ay0 = 0;
 int az0 = 0;
 
+int gx0 = 0;
+int gy0 = 0;
+int gz0 = 0;
+
+int calcx,calcy;
+
+double ax_calc,ay_calc,az_calc;
+
+double gx_calc,gy_calc,gz_calc;
+
 int steps = 0;
 
 boolean stepDown = false;
@@ -62,8 +72,6 @@ if(WiFi.status() == WL_CONNECTED){
 
     delay(500);
 
-//      mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-
   }
 
   Serial.println("");
@@ -103,9 +111,11 @@ void readSteps() {
   int stepHold1 = 130;
 
   float amplitude;
-
+  int speeed = 0;
+  
   amplitude = sqrt((abs((ax - ax0) + (ay - ay0))));
 
+  
 
   Serial.println();
   Serial.println(amplitude);
@@ -150,4 +160,25 @@ void sendSteps() {
   else {
     Serial.println("Error in WiFi connection");
   }
+}
+
+void calibrating(){
+
+Serial.println("Calibrating Accelerometer......");
+  for(calcx=1;calcx<=2000;calcx++)
+  {
+     recordAccelRegisters();
+     ax_calc += ax;                      
+     ay_calc += ay;      
+     az_calc += az;
+  }
+  Serial.println("Calibrating Gyroscope......");
+  for(calcy=1;calcy<=2000;calcy++)
+  {
+    recordGyroRegisters();
+    gx_calc += gx;                      
+    gy_calc += gy;      
+    gz_calc += gz;
+  }
+  Serial.println("Calibration Done..!!!");                                                         
 }
