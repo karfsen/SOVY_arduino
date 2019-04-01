@@ -12,6 +12,7 @@ const uint8_t scl = 14; //D5
 const uint8_t sda = 12; //D6
 
 MPU6050 mpu;
+
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
 
@@ -26,7 +27,6 @@ int gz0 = 0;
 int calcx,calcy;
 
 double ax_calc,ay_calc,az_calc;
-
 double gx_calc,gy_calc,gz_calc;
 
 int steps = 0;
@@ -39,6 +39,9 @@ const unsigned long period = 60000;
 
 SimpleList<int> *myList = new SimpleList<int>();
 int theSize = myList->size();
+
+int speeed = 25;
+float currentspeed;
 
 void setup()
 {
@@ -81,6 +84,8 @@ if(WiFi.status() == WL_CONNECTED){
   Serial.println("Initialize MPU");
   mpu.initialize();
   Serial.println(mpu.testConnection() ? "Connected" : "Connection failed");
+
+  calibrating();
   
 }
 
@@ -92,8 +97,15 @@ void loop() {
 
   currentMillis = millis();  
 
-  readSteps();
+  currentspeed = sqrt((gx - gx0) + (gy - gy0));
 
+  Serial.println();
+  Serial.println(currentspeed);
+
+  if(currentspeed > speeed){
+  readSteps();
+  }
+  
   if (currentMillis - startMillis >= period)
   {
 
@@ -111,14 +123,22 @@ void readSteps() {
   int stepHold1 = 130;
 
   float amplitude;
-  int speeed = 0;
   
-  amplitude = sqrt((abs((ax - ax0) + (ay - ay0))));
+//  int speeed = 25;
+//  float currentspeed;
+  
+  amplitude = sqrt((ax - ax0) + (ay - ay0));
 
-  
+//  currentspeed = sqrt((gx - gx0) + (gy - gy0));
 
   Serial.println();
   Serial.println(amplitude);
+//  Serial.println();
+//  Serial.println(currentspeed);
+
+//    if(currentspeed > speeed){
+//      
+//    }
 
     if((amplitude < stepHold1 && amplitude > stepHold) &&stepDown) {
       stepDown = true;
@@ -167,7 +187,6 @@ void calibrating(){
 Serial.println("Calibrating Accelerometer......");
   for(calcx=1;calcx<=2000;calcx++)
   {
-     recordAccelRegisters();
      ax_calc += ax;                      
      ay_calc += ay;      
      az_calc += az;
@@ -175,7 +194,6 @@ Serial.println("Calibrating Accelerometer......");
   Serial.println("Calibrating Gyroscope......");
   for(calcy=1;calcy<=2000;calcy++)
   {
-    recordGyroRegisters();
     gx_calc += gx;                      
     gy_calc += gy;      
     gz_calc += gz;
