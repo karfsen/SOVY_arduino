@@ -49,9 +49,8 @@ float currentspeed;
 
 void setup()
 {
-//"MilosHot", "1234567890"
   Serial.begin(115200);
-  WiFi.begin("MilosHot", "1234567890"); 
+  WiFi.begin("***", "***"); 
 
   Wire.begin(sda, scl);
   Serial.begin(115200);
@@ -150,21 +149,11 @@ void readSteps() {
 
   float amplitude;
   
-//  int speeed = 25;
-//  float currentspeed;
   
   amplitude = sqrt((ax - ax0) + (ay - ay0));
 
-//  currentspeed = sqrt((gx - gx0) + (gy - gy0));
-
   Serial.println();
   Serial.println(amplitude);
-//  Serial.println();
-//  Serial.println(currentspeed);
-
-//    if(currentspeed > speeed){
-//      
-//    }
 
     if((amplitude < stepHold1 && amplitude > stepHold) &&stepDown) {
       stepDown = true;
@@ -208,21 +197,21 @@ void sendSteps() {
   }
 }
 
-void calibrating(){
-
-Serial.println("Calibrating Accelerometer......");
-  for(calcx=1;calcx<=2000;calcx++)
-  {
-     ax_calc += ax;                      
-     ay_calc += ay;      
-     az_calc += az;
-  }
-  Serial.println("Calibrating Gyroscope......");
-  for(calcy=1;calcy<=2000;calcy++)
-  {
-    gx_calc += gx;                      
-    gy_calc += gy;      
-    gz_calc += gz;
-  }
-  Serial.println("Calibration Done..!!!");                                                         
-}
+//void calibrating(){
+//
+//Serial.println("Calibrating Accelerometer......");
+//  for(calcx=1;calcx<=2000;calcx++)
+//  {
+//     ax_calc += ax;                      
+//     ay_calc += ay;      
+//     az_calc += az;
+//  }
+//  Serial.println("Calibrating Gyroscope......");
+//  for(calcy=1;calcy<=2000;calcy++)
+//  {
+//    gx_calc += gx;                      
+//    gy_calc += gy;      
+//    gz_calc += gz;
+//  }
+//  Serial.println("Calibration Done..!!!");                                                         
+//}
