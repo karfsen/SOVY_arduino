@@ -39,7 +39,7 @@ boolean stepDown = false;
 
 unsigned long startMillis;
 unsigned long currentMillis;
-const unsigned long period = 60000;
+const unsigned long period = 10000;
 
 SimpleList<int> *myList = new SimpleList<int>();
 int theSize = myList->size();
@@ -88,7 +88,7 @@ if(WiFi.status() == WL_CONNECTED){
   mpu.initialize();
   Serial.println(mpu.testConnection() ? "Connected" : "Connection failed");
 
-  calibrating();
+//  calibrating();
 
     Wire.begin(D2,D1);
     lcd.begin(16,2);
@@ -105,13 +105,6 @@ if(WiFi.status() == WL_CONNECTED){
     delay(3000);
   
     lcd.clear();
-  
-    lcd.setCursor(0, 0);
-    lcd.print("Arduinoid:esp1;");
-    lcd.setCursor(0, 1);
-    lcd.print("Your steps: ");
-    lcd.print(value,DEC);
-    
 }
 
 void loop() {
@@ -130,6 +123,12 @@ void loop() {
   if(currentspeed > speeed){
   readSteps();
   }
+
+  lcd.setCursor(0, 0);
+  lcd.print("Arduinoid:esp1;");
+  lcd.setCursor(0, 1);
+  lcd.print("Your steps: ");
+  lcd.print(steps);
   
   if (currentMillis - startMillis >= period)
   {
