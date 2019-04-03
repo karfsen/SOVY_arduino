@@ -10,12 +10,20 @@
 
 #define stepThreshold 40
 
+int buffersize=1000;
+int acel_deadzone=8;
+int giro_deadzone=1;
+
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 const uint8_t scl = 14; //D5
 const uint8_t sda = 12; //D6
 
 MPU6050 mpu;
+MPU6050 accelgyro;
+
+int mean_ax,mean_ay,mean_az,mean_gx,mean_gy,mean_gz,state=0;
+int ax_offset,ay_offset,az_offset,gx_offset,gy_offset,gz_offset;
 
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
@@ -24,9 +32,9 @@ int ax0 = 0;
 int ay0 = 0;
 int az0 = 0;
 
-int gx0 = 0;
-int gy0 = 0;
-int gz0 = 0;
+float gx0 = 0;
+float gy0 = 0;
+float gz0 = 0;
 
 int calcx,calcy;
 
@@ -50,7 +58,7 @@ float currentspeed;
 void setup()
 {
   Serial.begin(115200);
-  WiFi.begin("***", "***"); 
+  WiFi.begin("GL-EDU", "gl.edu.123!"); 
 
   Wire.begin(sda, scl);
   Serial.begin(115200);
@@ -60,7 +68,7 @@ void setup()
       int myObject;
       myObject = myList->get(myObject);
       steps = myObject;
-      sendSteps();
+//      sendSteps();
       steps = 0;
       delay(3000);
     }
@@ -71,7 +79,7 @@ if(WiFi.status() == WL_CONNECTED){
       int myObject;
       myObject = myList->get(myObject);
       steps = myObject;
-      sendSteps();
+//      sendSteps();
       steps = 0;
       delay(3000);
     }
@@ -90,50 +98,65 @@ if(WiFi.status() == WL_CONNECTED){
 
 //  calibrating();
 
-    Wire.begin(D2,D1);
-    lcd.begin(16,2);
-    lcd.init();
+//    Wire.begin(D2,D1);
+//    lcd.begin(16,2);
+//    lcd.init();
   
-    lcd.backlight();
+//    lcd.backlight();
   
-    lcd.setCursor(5, 0);
-    lcd.print("Hello;");
+//    lcd.setCursor(5, 0);
+//    lcd.print("Hello;");
+//  
+//    lcd.setCursor(6, 1);
+//    lcd.print(":-)");
+//  
+//    delay(3000);
   
-    lcd.setCursor(6, 1);
-    lcd.print(":-)");
-  
-    delay(3000);
-  
-    lcd.clear();
+//    lcd.clear();
+
+  accelgyro.setXAccelOffset(0);
+  accelgyro.setYAccelOffset(0);
+  accelgyro.setZAccelOffset(0);
+  accelgyro.setXGyroOffset(0);
+  accelgyro.setYGyroOffset(0);
+  accelgyro.setZGyroOffset(0);
+
 }
 
 void loop() {
-
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
   delay(900);
 
+  if (state==1) {
+    Serial.println("\nCalculating offsets...");
+    calibration();
+    state++;
+    delay(1000);
+  }
+
   currentMillis = millis();  
 
-  currentspeed = sqrt((gx - gx0) + (gy - gy0));
-
+  currentspeed = sqrt(abs((gx - gx0) + (gy - gy0) + (gz - gz0)));
+  
   Serial.println();
-  Serial.println(currentspeed);
-
+  Serial.print("Speed ");
+  Serial.print(currentspeed);
+  
   if(currentspeed > speeed){
   readSteps();
   }
 
-  lcd.setCursor(0, 0);
-  lcd.print("Arduinoid:esp1;");
-  lcd.setCursor(0, 1);
-  lcd.print("Your steps: ");
-  lcd.print(steps);
+//  lcd.setCursor(0, 0);
+//  lcd.print("Arduinoid:esp1;");
+//  lcd.setCursor(0, 1);
+//  lcd.print("Your steps: ");
+//  lcd.print(steps);
   
   if (currentMillis - startMillis >= period)
   {
 
-    sendSteps();
+//    sendSteps();
     steps = 0;
     startMillis = currentMillis;  
     
@@ -151,8 +174,8 @@ void readSteps() {
   
   amplitude = sqrt((ax - ax0) + (ay - ay0));
 
-  Serial.println();
-  Serial.println(amplitude);
+//  Serial.println();
+//  Serial.println(amplitude);
 
     if((amplitude < stepHold1 && amplitude > stepHold) &&stepDown) {
       stepDown = true;
@@ -163,7 +186,7 @@ void readSteps() {
     steps++;
   }
 
-  Serial.println("Step count:" + String(steps));
+//  Serial.println("Step count:" + String(steps));
 
 }
 
@@ -214,3 +237,75 @@ void sendSteps() {
 //  }
 //  Serial.println("Calibration Done..!!!");                                                         
 //}
+
+void calibration(){
+  ax_offset=-mean_ax/8;
+  ay_offset=-mean_ay/8;
+  az_offset=(16384-mean_az)/8;
+
+  gx_offset=-mean_gx/4;
+  gy_offset=-mean_gy/4;
+  gz_offset=-mean_gz/4;
+  while (1){
+    int ready=0;
+    accelgyro.setXAccelOffset(ax_offset);
+    accelgyro.setYAccelOffset(ay_offset);
+    accelgyro.setZAccelOffset(az_offset);
+
+    accelgyro.setXGyroOffset(gx_offset);
+    accelgyro.setYGyroOffset(gy_offset);
+    accelgyro.setZGyroOffset(gz_offset);
+
+    meansensors();
+    Serial.println("...");
+
+    if (abs(mean_ax)<=acel_deadzone) ready++;
+    else ax_offset=ax_offset-mean_ax/acel_deadzone;
+
+    if (abs(mean_ay)<=acel_deadzone) ready++;
+    else ay_offset=ay_offset-mean_ay/acel_deadzone;
+
+    if (abs(16384-mean_az)<=acel_deadzone) ready++;
+    else az_offset=az_offset+(16384-mean_az)/acel_deadzone;
+
+    if (abs(mean_gx)<=giro_deadzone) ready++;
+    else gx_offset=gx_offset-mean_gx/(giro_deadzone+1);
+
+    if (abs(mean_gy)<=giro_deadzone) ready++;
+    else gy_offset=gy_offset-mean_gy/(giro_deadzone+1);
+
+    if (abs(mean_gz)<=giro_deadzone) ready++;
+    else gz_offset=gz_offset-mean_gz/(giro_deadzone+1);
+
+    if (ready==6) break;
+  }
+}
+
+void meansensors(){
+  long i=0,buff_ax=0,buff_ay=0,buff_az=0,buff_gx=0,buff_gy=0,buff_gz=0;
+
+  while (i<(buffersize+101)){
+    // read raw accel/gyro measurements from device
+    accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+    
+    if (i>100 && i<=(buffersize+100)){ //First 100 measures are discarded
+      buff_ax=buff_ax+ax;
+      buff_ay=buff_ay+ay;
+      buff_az=buff_az+az;
+      buff_gx=buff_gx+gx;
+      buff_gy=buff_gy+gy;
+      buff_gz=buff_gz+gz;
+    }
+    if (i==(buffersize+100)){
+      mean_ax=buff_ax/buffersize;
+      mean_ay=buff_ay/buffersize;
+      mean_az=buff_az/buffersize;
+      mean_gx=buff_gx/buffersize;
+      mean_gy=buff_gy/buffersize;
+      mean_gz=buff_gz/buffersize;
+    }
+    i++;
+    delay(2); //Needed so we don't get repeated measures
+  }
+}
+
