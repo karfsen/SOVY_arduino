@@ -28,14 +28,6 @@ int ax_offset,ay_offset,az_offset,gx_offset,gy_offset,gz_offset;
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
 
-int ax0 = 0;
-int ay0 = 0;
-int az0 = 0;
-
-float gx0 = 0;
-float gy0 = 0;
-float gz0 = 0;
-
 int calcx,calcy;
 
 double ax_calc,ay_calc,az_calc;
@@ -54,6 +46,9 @@ int theSize = myList->size();
 
 int speeed = 25;
 float currentspeed;
+
+float avector;
+float gvector;
 
 void setup()
 {
@@ -74,15 +69,6 @@ void setup()
     }
     delay(1200);
     Serial.println("Waiting for connection");
-
-if(WiFi.status() == WL_CONNECTED){
-      int myObject;
-      myObject = myList->get(myObject);
-      steps = myObject;
-//      sendSteps();
-      steps = 0;
-      delay(3000);
-    }
 
     delay(500);
 
@@ -126,22 +112,46 @@ if(WiFi.status() == WL_CONNECTED){
 void loop() {
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-  delay(900);
+  avector = sqrt((ax * ax) + (ay * ay) + (az * az));
 
-  if (state==1) {
-    Serial.println("\nCalculating offsets...");
-    calibration();
-    state++;
-    delay(1000);
-  }
+  gvector = sqrt((gx * gx) + (gy * gy) + (gz * gz ));
+
+  static double afilta = 1.0;
+  avector = 0.995 * afilta + 0.005 * avector;
+
+  static double gfilta = 1.0;
+  gvector = 0.995 * gfilta + 0.005 * gvector;
+
+  Serial.println();
+  Serial.print("avector ");
+  Serial.print((int)avector);
+
+  Serial.print(" ");
+  Serial.print("gvector ");
+  Serial.print((int)gvector);
+
+//  delay(100);
+
+//  if (state==0){
+//    Serial.println("\nReading sensors for first time...");
+//    meansensors();
+//    state++;
+//    delay(1000);
+
+//  if (state==1) {
+//    Serial.println("\nCalculating offsets...");
+//    calibration();
+//    state++;
+//    delay(1000);
+//  }
 
   currentMillis = millis();  
 
-  currentspeed = sqrt(abs((gx - gx0) + (gy - gy0) + (gz - gz0)));
+  currentspeed = sqrt(abs(gx  + gy + gz));
   
-  Serial.println();
-  Serial.print("Speed ");
-  Serial.print(currentspeed);
+//  Serial.println();
+//  Serial.print("Speed ");
+//  Serial.print(currentspeed);
   
   if(currentspeed > speeed){
   readSteps();
@@ -171,8 +181,7 @@ void readSteps() {
 
   float amplitude;
   
-  
-  amplitude = sqrt((ax - ax0) + (ay - ay0));
+//  amplitude = sqrt(abs((ax + ay)));
 
 //  Serial.println();
 //  Serial.println(amplitude);
