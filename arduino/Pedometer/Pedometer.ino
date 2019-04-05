@@ -28,8 +28,8 @@ unsigned long startMillis;
 unsigned long currentMillis;
 const unsigned long period = 10000;
 
-double gvector2 = 25;
-double avector2 = 80;
+double gvector2 = 30;
+double avector2 = 125;
 
 double avector;
 double gvector;
@@ -37,7 +37,7 @@ double gvector;
 void setup(){
   
     Serial.begin(115200);
-    WiFi.begin("GL-EDU", "gl.edu.123!"); 
+    WiFi.begin("GL-EDU", "gl.edu.123!");
 
     Wire.begin(sda, scl);
   
@@ -68,11 +68,11 @@ void setup(){
   }
 
 void loop() {
+
+    currentMillis = millis();
   
     readSteps();
     
-    currentMillis = millis();  
-  
   //  lcd.setCursor(0, 0);
   //  lcd.print("Arduinoid:esp1;");
   //  lcd.setCursor(0, 1);
@@ -83,7 +83,15 @@ void loop() {
     {
   
   //    sendSteps();
-      steps = 0;
+  
+  //    lcd.clear();
+  //    lcd.setCursor(0, 0);
+  //    lcd.print("Since begin");
+  //  
+  //    lcd.setCursor(5, 1);
+  //    lcd.print(steps);
+  
+  //    steps = 0;
       startMillis = currentMillis;  
       
     }
@@ -107,7 +115,7 @@ void readSteps() {
   
     gvector = (int) gvector;
     avector = (int) avector;
-  
+    
     Serial.println();
     Serial.print("avector ");
     Serial.print(avector);
@@ -118,12 +126,18 @@ void readSteps() {
     
     if(gvector > gvector2){
       if(avector > avector2){
-    steps++;
+        
+        steps++;
+        gvector = 0;
+        avector = 70;
+        
+        Serial.print(" ");
+        Serial.println("Step count:" + String(steps));
       }
     }
     
-    Serial.print(" ");
-    Serial.print("Step count:" + String(steps));
+//    Serial.print(" ");
+//    Serial.print("Step count:" + String(steps));
 
 }
 
