@@ -28,7 +28,8 @@ unsigned long startMillis;
 unsigned long currentMillis;
 const unsigned long period = 10000;
 
-int gvector2 = 25;
+double gvector2 = 25;
+double avector2 = 80;
 
 double avector;
 double gvector;
@@ -69,14 +70,8 @@ void setup(){
 void loop() {
   
     readSteps();
-  
-    delay(100);
-  
-    currentMillis = millis();  
     
-  //  if(gvector > gvector2){
-  //  readSteps();
-  //  }
+    currentMillis = millis();  
   
   //  lcd.setCursor(0, 0);
   //  lcd.print("Arduinoid:esp1;");
@@ -98,27 +93,37 @@ void loop() {
 
 void readSteps() {
 
-  mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-
-  avector = sqrt((ax * ax) + (ay * ay) + (az * az));
-
-  gvector = sqrt((gx * gx) + (gy * gy) + (gz * gz ));
-
-  static double afilta = 1.0;
-  avector = 0.995 * afilta + 0.005 * avector;
-
-  static double gfilta = 1.0;
-  gvector = 0.995 * gfilta + 0.005 * gvector;
-
-  Serial.println();
-  Serial.print("avector ");
-  Serial.print((int)avector);
-
-  Serial.print(" ");
-  Serial.print("gvector ");
-  Serial.print((int)gvector);
-
-  //  Serial.println("Step count:" + String(steps));
+    mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+  
+    avector = sqrt((ax * ax) + (ay * ay) + (az * az));
+  
+    gvector = sqrt((gx * gx) + (gy * gy) + (gz * gz ));
+  
+    static double afilta = 1.0;
+    avector = 0.995 * afilta + 0.005 * avector;
+  
+    static double gfilta = 1.0;
+    gvector = 0.995 * gfilta + 0.005 * gvector;
+  
+    gvector = (int) gvector;
+    avector = (int) avector;
+  
+    Serial.println();
+    Serial.print("avector ");
+    Serial.print(avector);
+    
+    Serial.print(" ");
+    Serial.print("gvector ");
+    Serial.print(gvector);
+    
+    if(gvector > gvector2){
+      if(avector > avector2){
+    steps++;
+      }
+    }
+    
+    Serial.print(" ");
+    Serial.print("Step count:" + String(steps));
 
 }
 
