@@ -3,10 +3,9 @@
 #include <MPU6050.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
-#include <ArduinoJson.h>
-#include <SimpleList.h>
+#include "ArduinoJson.h"
 #include <LiquidCrystal_I2C.h>
-//#include <Adafruit_LiquidCrystal.h>
+//#include "SimpleList.h"
 
 #define stepThreshold 40
 
@@ -14,8 +13,8 @@ MPU6050 mpu;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-const uint8_t scl = 14; //D5
-const uint8_t sda = 12; //D6
+const uint8_t scl = D1;
+const uint8_t sda = D2;
 
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
@@ -49,52 +48,61 @@ void setup(){
     mpu.initialize();
     Serial.println(mpu.testConnection() ? "Connected" : "Connection failed");
 
-  //    Wire.begin(D2,D1);
-  //    lcd.begin(16,2);
-  //    lcd.init();
-    
-  //    lcd.backlight();
-    
-  //    lcd.setCursor(5, 0);
-  //    lcd.print("Hello;");
-  //  
-  //    lcd.setCursor(6, 1);
-  //    lcd.print(":-)");
-  //  
-  //    delay(3000);
-    
-  //    lcd.clear();
+//    Wire.begin(D2,D1);
+//    lcd.begin(16,2);
+//    lcd.init();
+//    
+//    lcd.backlight();
+//    
+//    lcd.setCursor(5, 0);
+//    lcd.print("Hello;");
+//    
+//    lcd.setCursor(6, 1);
+//    lcd.print(":-)");
+//
+//    delay(3000);
+//    
+//    lcd.clear();
   
   }
 
 void loop() {
 
+    while(!mpu.testConnection()){
+    Serial.println("Initialize MPU");
+    mpu.initialize();
+    Serial.println(mpu.testConnection() ? "Connected" : "Connection failed");
+    }
+
+    if(mpu.testConnection()){
+      
     currentMillis = millis();
   
     readSteps();
     
-  //  lcd.setCursor(0, 0);
-  //  lcd.print("Arduinoid:esp1;");
-  //  lcd.setCursor(0, 1);
-  //  lcd.print("Your steps: ");
-  //  lcd.print(steps);
+//    lcd.setCursor(0, 0);
+//    lcd.print("Arduinoid:esp1;");
+//    lcd.setCursor(0, 1);
+//    lcd.print("Your steps: ");
+//    lcd.print(steps);
     
     if (currentMillis - startMillis >= period)
     {
   
-  //    sendSteps();
+//    sendSteps();
   
-  //    lcd.clear();
-  //    lcd.setCursor(0, 0);
-  //    lcd.print("Since begin");
-  //  
-  //    lcd.setCursor(5, 1);
-  //    lcd.print(steps);
+//    lcd.clear();
+//    lcd.setCursor(0, 0);
+//    lcd.print("Since begin");
+//
+//    lcd.setCursor(5, 1);
+//    lcd.print(steps);
   
   //    steps = 0;
       startMillis = currentMillis;  
       
     }
+  }
 }
 
 ////////////////////////////FUNCTIONS////////////////////////////
@@ -116,25 +124,33 @@ void readSteps() {
     gvector = (int) gvector;
     avector = (int) avector;
     
-    Serial.println();
-    Serial.print("avector ");
-    Serial.print(avector);
+//    Serial.println();
+//    Serial.print("avector ");
+//    Serial.print(avector);
+//    
+//    Serial.print(" ");
+//    Serial.print("gvector ");
+//    Serial.print(gvector);
+
+//    Serial.print(" ");
+//    Serial.println("gx ");
+//    Serial.print(gx);
+//
+//    Serial.print(" ");
+//    Serial.println("ax ");
+//    Serial.print(ax);
     
-    Serial.print(" ");
-    Serial.print("gvector ");
-    Serial.print(gvector);
-    
-    if(gvector > gvector2){
-      if(avector > avector2){
+//    if(gvector > gvector2){
+//      if(avector > avector2){
+//        
+//        steps++;
+//        gvector = 0;
+//        avector = 70;
         
-        steps++;
-        gvector = 0;
-        avector = 70;
-        
-        Serial.print(" ");
-        Serial.println("Step count:" + String(steps));
-      }
-    }
+//        Serial.print(" ");
+//        Serial.println("Step count:" + String(steps));
+//      }
+//    }
     
 //    Serial.print(" ");
 //    Serial.print("Step count:" + String(steps));
