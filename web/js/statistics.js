@@ -6,16 +6,18 @@ function getTodaySteps() {
     let req = "http://itsovy.sk:1203/getsteps";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
-            data.innerHTML = obj[0].todaysteps;
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
+                data.innerHTML = obj[0].todaysteps;
 
-        } else {
-            //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
-            data.innerHTML = this.responseText.split("/")[0];
-            if (this.status == 0) {
-                data.innerHTML = "Error getting today steps!";
+            } else {
+                //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                data.innerHTML = this.responseText.split("/")[0];
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting today steps!";
+                }
             }
         }
 
@@ -34,24 +36,26 @@ function getMyOverallSteps() {
     let req = "http://itsovy.sk:1203/alltimeuserssteps";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            let jsonData = 0;
-            //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
-            let username = JSON.parse(localStorage.getItem('user')).username;
-            for (var i = 0; i < obj.length; i++) {
-                var obj2 = obj[i];
-                if (obj2.username == username) {
-                    jsonData = obj2.sum;
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
+                let username = JSON.parse(localStorage.getItem('user')).username;
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    if (obj2.username == username) {
+                        jsonData = obj2.sum;
+                    }
                 }
-            }
-            data.innerHTML = jsonData;
+                data.innerHTML = jsonData;
 
-        } else {
-            //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
-            data.innerHTML = this.responseText.split("/")[0];
-            if (this.status == 0) {
-                data.innerHTML = "Error getting all my today steps!";
+            } else {
+                //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                data.innerHTML = this.responseText.split("/")[0];
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting all my today steps!";
+                }
             }
         }
 
@@ -70,22 +74,24 @@ function getOverallTodaySteps() {
     let req = "http://itsovy.sk:1203/gettodaysteps";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            let jsonData = 0;
-            for (var i = 0; i < obj.length; i++) {
-                var obj2 = obj[i];
-                if (obj2.sumary != null) {
-                    jsonData = obj2.sumary;
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    if (obj2.sumary != null) {
+                        jsonData = obj2.sumary;
+                    }
                 }
-            }
-            data.innerHTML = jsonData;
+                data.innerHTML = jsonData;
 
-        } else {
-            //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
-            data.innerHTML = this.responseText.split("/")[0];
-            if (this.status == 0) {
-                data.innerHTML = "Error getting overall today steps!";
+            } else {
+                //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                data.innerHTML = this.responseText.split("/")[0];
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting overall today steps!";
+                }
             }
         }
 
@@ -104,21 +110,23 @@ function getOverallStepsForEveryUser() {
     let req = "http://itsovy.sk:1203/alltimeuserssteps";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            let jsonData = 0;
-            //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
-            for (var i = 0; i < obj.length; i++) {
-                var obj2 = obj[i];
-                jsonData += obj2.sum;
-            }
-            data.innerHTML = jsonData;
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                //zo stiahnuteho JSONu vyberam iba kroky a pocitam ich dokopy
+                for (var i = 0; i < obj.length; i++) {
+                    var obj2 = obj[i];
+                    jsonData += obj2.sum;
+                }
+                data.innerHTML = jsonData;
 
-        } else {
-            //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
-            data.innerHTML = this.responseText.split("/")[0];
-            if (this.status == 0) {
-                data.innerHTML = "Error getting overall steps for everyone!";
+            } else {
+                //nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                data.innerHTML = this.responseText.split("/")[0];
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting overall steps for everyone!";
+                }
             }
         }
 
@@ -137,14 +145,16 @@ function getAllUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
     let req = "http://itsovy.sk:1203/getalltimeminutes";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            data.innerHTML = obj.minutes;
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                data.innerHTML = obj.minutes;
 
-        } else {
-            data.innerHTML = this.responseText;
-            if (this.status == 0) {
-                data.innerHTML = "Error getting all users overall minutes!";
+            } else {
+                data.innerHTML = this.responseText;
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting all users overall minutes!";
+                }
             }
         }
 
@@ -164,22 +174,24 @@ function getUsersOverallMoveMinutes() { // kontrola mena a hesla ich hodnota
     let req = "http://itsovy.sk:1203/getuseralltimeminutes";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            data.innerHTML = obj.minutes;
-
-        } else {
-            let obj = null;
-            if (this.responseText) {
-                obj = JSON.parse(this.responseText);
-            }
-            if (obj) {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
                 data.innerHTML = obj.minutes;
+
             } else {
-                data.innerHTML = this.responseText;
-            }
-            if (this.status == 0) {
-                data.innerHTML = "Error getting all users overall minutes!";
+                let obj = null;
+                if (this.responseText) {
+                    obj = JSON.parse(this.responseText);
+                }
+                if (obj) {
+                    data.innerHTML = obj.minutes;
+                } else {
+                    data.innerHTML = this.responseText;
+                }
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting all users overall minutes!";
+                }
             }
         }
 
@@ -198,16 +210,18 @@ function getUserTodayMinutes() { // kontrola mena a hesla ich hodnota
     let req = "http://itsovy.sk:1203/getusertodayminutes";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            let jsonData = 0;
-            jsonData = obj.minutes;
-            data.innerHTML = jsonData;
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                let jsonData = 0;
+                jsonData = obj.minutes;
+                data.innerHTML = jsonData;
 
-        } else {
-            data.innerHTML = this.responseText;
-            if (this.status == 0) {
-                data.innerHTML = "Error getting today minutes!";
+            } else {
+                data.innerHTML = this.responseText;
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting today minutes!";
+                }
             }
         }
 
@@ -225,14 +239,16 @@ function getTodayMinutes() {
     let req = "http://itsovy.sk:1203/gettodayminutes";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            data.innerHTML = obj.minutes;
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                data.innerHTML = obj.minutes;
 
-        } else {
-            data.innerHTML = this.responseText;
-            if (this.status == 0) {
-                data.innerHTML = "Error getting today overall move minutes";
+            } else {
+                data.innerHTML = this.responseText;
+                if (this.status == 0) {
+                    data.innerHTML = "Error getting today overall move minutes";
+                }
             }
         }
 
@@ -243,29 +259,43 @@ function getTodayMinutes() {
     xhttp.send();
 }
 
+let allTimeHighScore;
+
 function getAllTimeHighScore() {
     var table = document.getElementById("allTimeStepsHighScoreTable");
     let req = "http://itsovy.sk:1203/alltimeuserssteps";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            let rowIndex = 0;
-            for (var i = 0; i < obj.length; i++) {
-                if (i >= 5) {
-                    break;
-                }
-                var obj2 = obj[i];
-                var row = table.insertRow(rowIndex);
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                cell1.innerHTML = obj2.username;
-                cell2.innerHTML = obj2.sum;
-                rowIndex += 1;
-            }
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                // console.log(obj);
+                if (JSON.stringify(obj) != JSON.stringify(allTimeHighScore)) {
+                    var new_tbody = document.createElement('tbody');
+                    new_tbody.id = "allTimeStepsHighScoreTable";
 
-        } else {
-            // nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+
+                    allTimeHighScore = obj;
+                    let rowIndex = 0;
+                    for (var i = 0; i < obj.length; i++) {
+                        if (i >= 5) {
+                            break;
+                        }
+                        var obj2 = obj[i];
+                        var row = new_tbody.insertRow(rowIndex);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        cell1.innerHTML = obj2.username;
+                        cell2.innerHTML = obj2.sum;
+                        rowIndex += 1;
+                    }
+
+                    table.parentNode.replaceChild(new_tbody, table)
+                }
+
+            } else {
+                // nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+            }
         }
 
     };
@@ -276,29 +306,41 @@ function getAllTimeHighScore() {
 
 }
 
+let todayHighScore;
+
+
 function getTodayHighScore() {
     var table = document.getElementById("todayStepsHighScoreTable");
     let req = "http://itsovy.sk:1203/alltodaysteps";
     var xhttp = new XMLHttpRequest(); // new HttpRequest instance
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let obj = JSON.parse(this.responseText);
-            let rowIndex = 0;
-            for (var i = 0; i < obj.length; i++) {
-                if (i >= 5) {
-                    break;
-                }
-                var obj2 = obj[i];
-                var row = table.insertRow(rowIndex);
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                cell1.innerHTML = obj2.username;
-                cell2.innerHTML = obj2.todaysteps;
-                rowIndex += 1;
-            }
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                let obj = JSON.parse(this.responseText);
+                if (JSON.stringify(obj) != JSON.stringify(todayHighScore)) {
+                    var new_tbody = document.createElement('tbody');
+                    new_tbody.id = "todayStepsHighScoreTable";
+                    todayHighScore = obj;
+                    let rowIndex = 0;
+                    for (var i = 0; i < obj.length; i++) {
+                        if (i >= 5) {
+                            break;
+                        }
+                        var obj2 = obj[i];
+                        var row = new_tbody.insertRow(rowIndex);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        cell1.innerHTML = obj2.username;
+                        cell2.innerHTML = obj2.todaysteps;
+                        rowIndex += 1;
+                    }
+                    table.parentNode.replaceChild(new_tbody, table)
 
-        } else {
-            // nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+                }
+
+            } else {
+                // nastavovanie spravy o chybe ked user nepresiel ziadne kroky. Treba dat prec vsetko za /
+            }
         }
 
     };
